@@ -1,0 +1,1574 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zeyu Wang</title>
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background:#000; color:#fff;
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  overflow-x:hidden; cursor:pointer;
+}
+body { cursor:auto; }
+a, button, .project-card, .soc, .tool-logo-item,
+.gallery-mute-btn, .back-btn, .project-page-back,
+.cv-btn, .hero-cta, .nav-logo, .nav-links a { cursor:pointer; }
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1.2rem 3rem;
+  background:rgba(0,0,0,0.1);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  transform:translateY(0);
+  transition:transform 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s ease;
+}
+nav.hidden { transform:translateY(-100%); }
+.nav-logo { font-size:1.3rem; font-weight:700; color:#fff; text-decoration:none; transition:color .2s; position:relative; display:inline-block; }
+.nav-logo:hover { color:#e63030; }
+.nav-logo .logo-default,
+.nav-logo .logo-hover {
+  display:block;
+  transition:opacity .2s;
+}
+.nav-logo .logo-hover {
+  position:absolute;
+  top:0; left:0;
+  opacity:0;
+  white-space:nowrap;
+}
+.nav-logo:hover .logo-default { opacity:0; }
+.nav-logo:hover .logo-hover { opacity:1; }
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a { font-size:1.3rem; font-weight:700; color:rgba(255,255,255,0.55); text-decoration:none; transition:color .2s; }
+.nav-links a::after { content:'.'; }
+.nav-links a:hover, .nav-links a.active { color:#e63030; }
+#hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  justify-content:center; padding:8rem 3rem 5rem;
+  position:relative; overflow:hidden;
+}
+.hero-video-wrap { position:absolute; inset:0; z-index:0; overflow:hidden; }
+.hero-video-wrap iframe {
+  position:absolute; top:50%; left:50%;
+  width:177.78vh; min-width:100%; height:100%; min-height:56.25vw;
+  transform:translate(-50%,-50%);
+  border:none; pointer-events:none; opacity:1;
+}
+.hero-video-wrap video { width:100%; height:100%; object-fit:cover; opacity:0.45; }
+.video-placeholder {
+  width:100%; height:100%; min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+}
+.video-placeholder span {
+  font-size:0.65rem; letter-spacing:0.25em;
+  text-transform:uppercase; color:rgba(255,255,255,0.15);
+}
+.hero-overlay { display:none; }
+.hero-body {
+  position:relative; z-index:2;
+  width:100%; display:flex;
+  justify-content:center; align-items:flex-end;
+  padding-bottom:5rem;
+  position:absolute; bottom:0; left:0; right:0;
+}
+.hero-text {
+  font-size:clamp(1.9rem, 4.2vw, 4.2rem); font-weight:400;
+  line-height:1.22; letter-spacing:-0.01em;
+  color:rgba(255,255,255,0.18); max-width:920px;
+  opacity:0; animation:fadeIn 1.2s .1s forwards;
+}
+.hero-text .lit { color:rgba(255,255,255,.9); transition:color .4s; }
+.hero-sub {
+  margin-top:2.5rem; font-size:0.75rem; font-weight:400;
+  letter-spacing:0.28em; text-transform:uppercase; color:rgba(255,255,255,.4);
+  opacity:0; animation:fadeIn .8s 1.6s forwards;
+}
+.hero-cta {
+  margin-top:3rem; display:inline-block;
+  border:2px solid rgba(255,255,255,.9); padding:.85rem 2.5rem;
+  font-size:.88rem; font-weight:400; letter-spacing:.05em;
+  color:rgba(255,255,255,.9); background:#000;
+  text-decoration:none; cursor:pointer; text-transform:none;
+  transition:background .25s, color .25s, border-color .25s;
+  opacity:0; animation:fadeIn .8s 1.9s forwards;
+}
+.hero-cta::after { content:'.'; }
+.hero-cta:hover {
+  background:#e63030; color:#fff; border-color:#e63030;
+}
+#about { padding:2rem 0 4rem; max-width:1250px; margin:0 auto; }
+section { padding:8rem 3rem; }
+.s-title {
+  font-size:clamp(2.2rem, 5vw, 4.5rem); font-weight:700;
+  letter-spacing:-0.02em; text-align:center; margin-bottom:5rem;
+}
+.s-title::after { content:'.'; color:rgba(255,255,255,.22); }
+.projects-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:1.5rem; max-width:1300px; margin:0 auto;
+}
+.project-card {
+  position:relative; overflow:hidden;
+  aspect-ratio:16/9; background:#0c0c0c; cursor:pointer;
+}
+.project-card img {
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:grayscale(100%);
+  transition:filter .5s ease, transform .6s cubic-bezier(.4,0,.2,1);
+}
+.project-card:hover img {
+  filter:grayscale(0%);
+  transform:scale(1.04);
+}
+.project-info {
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  background:rgba(0,0,0,0);
+  transition:background .4s ease;
+}
+.project-card:hover .project-info { background:rgba(0,0,0,0.35); }
+.project-cat { display:none; }
+.project-name {
+  font-size:1.4rem; font-weight:700;
+  color:#fff; text-align:center;
+  opacity:0; transform:translateY(8px);
+  transition:opacity .4s ease, transform .4s ease;
+}
+.project-year {
+  font-size:.8rem; font-weight:400;
+  color:rgba(255,255,255,.7); text-align:center; margin-top:.4rem;
+  opacity:0; transform:translateY(8px);
+  transition:opacity .4s ease .05s, transform .4s ease .05s;
+}
+.project-loc { display:none; }
+.project-card:hover .project-name,
+.project-card:hover .project-year {
+  opacity:1; transform:translateY(0);
+}
+.about-bio {
+  display:grid; grid-template-columns:1fr 360px;
+  gap:6rem; align-items:start; margin-bottom:7rem;
+}
+.bio-left h2 { font-size:clamp(2rem,3.2vw,3rem); font-weight:700; margin-bottom:.5rem; }
+.bio-title { font-size:.78rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:2.5rem; }
+.bio-text { font-size:1.02rem; font-weight:400; line-height:1.88; color:rgba(255,255,255,.7); margin-bottom:1.2rem; max-width:540px; }
+.cv-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem; }
+.cv-btn {
+  display:inline-block;
+  border:2px solid rgba(255,255,255,.9); padding:.85rem 2.5rem;
+  font-size:.88rem; font-weight:400; letter-spacing:.05em;
+  color:rgba(255,255,255,.9); background:#000;
+  text-decoration:none; cursor:pointer; text-transform:none;
+  transition:background .25s, color .25s, border-color .25s;
+}
+.cv-btn:hover { background:#e63030; color:#fff; border-color:#e63030; }
+.bio-right { position:relative; }
+.bio-photo {
+  width:100%; aspect-ratio:3/4; object-fit:cover; display:block;
+  filter:grayscale(100%);
+  transition:filter .5s ease;
+}
+.bio-photo:hover { filter:grayscale(0%); }
+.bio-sig-img {
+  position:absolute; bottom:-1.5rem; right:0;
+  width:320px; object-fit:contain;
+  filter:brightness(0) invert(1); opacity:.5;
+}
+.about-section-title {
+  font-size:1.3rem; font-weight:700;
+  margin-bottom:2rem; padding-bottom:1rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.edu-list { margin-bottom:6rem; }
+.edu-item {
+  display:grid; grid-template-columns:180px 130px 1fr;
+  gap:2rem; padding:1.8rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  align-items:center;
+}
+.edu-logo-wrap {
+  display:flex; align-items:center; justify-content:center;
+}
+.edu-logo {
+  width:120px; height:auto; max-height:100px;
+  object-fit:contain;
+  filter:brightness(0) invert(1); opacity:.7;
+  transition:opacity .25s;
+}
+.edu-logo:hover { opacity:1; }
+.edu-logo-placeholder { width:90px; height:72px; }
+.edu-period { font-size:.7rem; color:rgba(255,255,255,.4); }
+.edu-degree { font-size:.98rem; font-weight:700; margin-bottom:.25rem; }
+.edu-school { font-size:.8rem; color:rgba(255,255,255,.55); margin-bottom:.15rem; }
+.edu-detail { font-size:.72rem; color:rgba(255,255,255,.35); }
+.work-list { margin-bottom:4rem; }
+.work-item {
+  display:grid; grid-template-columns:180px 1fr auto;
+  gap:3rem; padding:1.4rem 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  align-items:start;
+}
+.work-period { font-size:.7rem; color:rgba(255,255,255,.38); padding-top:.2rem; line-height:1.5; }
+.work-role { font-size:.96rem; font-weight:700; margin-bottom:.2rem; }
+.work-company { font-size:.78rem; color:rgba(255,255,255,.5); margin-bottom:.1rem; }
+.work-loc { font-size:.7rem; color:rgba(255,255,255,.3); }
+.work-tag {
+  font-size:.55rem; letter-spacing:.18em; text-transform:uppercase;
+  padding:.22rem .7rem; border:1px solid rgba(255,255,255,.12);
+  color:rgba(255,255,255,.3); white-space:nowrap; align-self:center;
+}
+.work-tag.art { border-color:rgba(255,255,255,.3); color:rgba(255,255,255,.55); }
+.work-tag.other { border-color:rgba(255,255,255,.1); color:rgba(255,255,255,.3); }
+#skills { border-top:1px solid rgba(255,255,255,.07); }
+.skills-inner { max-width:900px; margin:0 auto; }
+.skills-desc {
+  font-size:.98rem; line-height:1.9; color:rgba(255,255,255,.6);
+  text-align:center; margin:0 auto 5rem; max-width:660px;
+}
+.tools-block { display:flex; flex-direction:column; gap:4rem; align-items:center; }
+.tools-group { display:flex; flex-direction:column; align-items:center; gap:1.5rem; width:100%; }
+.tools-label { font-size:.6rem; letter-spacing:.25em; text-transform:uppercase; color:rgba(255,255,255,.25); text-align:center; }
+.tools-row { display:flex; flex-wrap:wrap; justify-content:center; gap:2.5rem 3.5rem; align-items:flex-end; }
+.tool-logo-item {
+  display:flex; flex-direction:column; align-items:center; gap:.65rem;
+  opacity:.5; transition:opacity .3s, transform .3s; text-decoration:none; cursor:pointer;
+}
+.tool-logo-item:hover { opacity:1; transform:translateY(-3px); }
+.tool-logo-img { height:50px; width:50px; object-fit:contain; filter:brightness(0) invert(1); }
+.tool-logo-img.wide { width:110px; height:38px; }
+.tool-logo-img.adobe { filter:none; border-radius:8px; height:46px; width:46px; }
+.tool-logo-img.color { filter:none; }
+.tool-logo-name { font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:rgba(255,255,255,.4); }
+.tool-pill {
+  font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.15); padding:.48rem 1.2rem;
+  color:rgba(255,255,255,.6); transition:all .25s; cursor:default;
+}
+.tool-pill:hover { border-color:rgba(255,255,255,.7); color:#fff; }
+#works { border-top:1px solid rgba(255,255,255,.07); }
+#contact { text-align:center; border-top:1px solid rgba(255,255,255,.07); }
+.contact-list { display:flex; flex-direction:column; gap:1rem; align-items:center; margin-bottom:3rem; }
+.contact-phone {
+  display:flex; align-items:center; gap:.6rem;
+  font-size:1.08rem; color:rgba(255,255,255,.6); letter-spacing:.04em;
+}
+.contact-flag { font-size:1.3rem; line-height:1; }
+.contact-line { font-size:1.08rem; color:rgba(255,255,255,.6); letter-spacing:.04em; transition:color .2s; }
+.contact-line a { color:inherit; text-decoration:none; }
+.contact-line:hover, .contact-line a:hover { color:#fff; }
+.social-row { display:flex; gap:1.4rem; justify-content:center; }
+.soc {
+  width:42px; height:42px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.18);
+  display:flex; align-items:center; justify-content:center;
+  text-decoration:none; transition:all .25s;
+}
+.soc:hover { border-color:#fff; background:rgba(255,255,255,.06); }
+.soc svg { width:17px; height:17px; fill:rgba(255,255,255,.55); }
+.soc:hover svg { fill:#fff; }
+footer {
+  padding:2rem 3rem; border-top:1px solid rgba(255,255,255,.07);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.footer-copy { font-size:.62rem; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.2); }
+/* ABOUT SLIDER */
+#about-page {
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  background:#000;
+  overflow:hidden;
+  opacity:0;
+  transition:opacity 0.6s ease;
+}
+#about-page.active {
+  opacity:1;
+}
+.about-slider {
+  display:flex;
+  flex-direction:column;
+  height:100vh;
+  transition:transform 0.85s cubic-bezier(0.77,0,0.18,1);
+  will-change:transform;
+}
+.about-slide {
+  min-height:100vh;
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  padding:5rem 3rem 3rem;
+}
+.about-slide-inner {
+  width:100%;
+  max-width:1250px;
+  margin:0 auto;
+}
+/* Slide content fade animation */
+.about-slide .slide-content {
+  opacity:0;
+  transform:translateY(22px);
+  transition:opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.about-slide.slide-visible .slide-content {
+  opacity:1;
+  transform:translateY(0);
+}
+.about-bio {
+  display:grid;
+  grid-template-columns:1fr 360px;
+  gap:6rem;
+  align-items:start;
+  max-width:1250px;
+  width:100%;
+}
+/* Skills slide: tighter spacing to fit in one screen */
+.about-slide .skills-inner { max-width:860px; margin:0 auto; }
+.about-slide .skills-desc {
+  font-size:.88rem; line-height:1.7;
+  margin:0 auto 2rem; max-width:600px;
+}
+.about-slide .tools-block { gap:2rem; }
+.about-slide .tools-group { gap:.9rem; }
+.about-slide .tools-row { gap:1.6rem 2.5rem; }
+.about-slide .tool-logo-img { height:38px; width:38px; }
+.about-slide .tool-logo-img.wide { width:88px; height:30px; }
+.about-slide .tool-logo-img.adobe { height:36px; width:36px; }
+.about-slide .tool-logo-img.color { height:36px; width:72px; }
+.about-slide .tool-logo-name { font-size:.52rem; }
+.about-slide .s-title { margin-bottom:2rem; }
+.about-dots {
+  position:fixed;
+  right:2.5rem;
+  top:50%;
+  transform:translateY(-50%);
+  display:none;
+  flex-direction:column;
+  gap:.8rem;
+  z-index:200;
+}
+#about-page.active .about-dots { display:flex; }
+.about-dot {
+  width:6px; height:6px;
+  border-radius:50%;
+  background:rgba(255,255,255,.25);
+  cursor:pointer;
+  transition:background .3s, transform .3s;
+}
+.about-dot.active {
+  background:#fff;
+  transform:scale(1.4);
+}
+
+/* PAGE SWITCHING */
+.page { display:block; }
+.page.hidden { display:none; }
+.back-btn {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.75rem; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.5); text-decoration:none;
+  border:none; background:none; cursor:pointer;
+  margin-bottom:4rem; transition:color .2s; padding:0;
+}
+.back-btn:hover { color:#fff; }
+.back-btn::before { content:'←'; font-size:1rem; }
+/* PROJECT PAGE */
+#project-page,
+#project-page-duna2,
+#project-page-invisible,
+#project-page-altera,
+#project-page-appdesign {
+  display:none;
+  min-height:100vh;
+  background:#000;
+}
+.project-page-header {
+  padding:2rem 2.5rem 3rem;
+  max-width:1400px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 320px;
+  grid-template-rows:auto 1fr;
+  column-gap:5rem;
+}
+.project-page-topnav {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:6rem 2.5rem 1rem; max-width:1400px; margin:0 auto;
+}
+.project-page-topnav-btn {
+  display:inline-block;
+  border:2px solid rgba(255,255,255,.9); padding:.6rem 1.6rem;
+  font-size:.75rem; font-weight:400; letter-spacing:.05em;
+  color:rgba(255,255,255,.9); background:#000;
+  cursor:pointer; text-transform:none;
+  font-family:Helvetica, Arial, sans-serif;
+  transition:background .25s, color .25s, border-color .25s;
+}
+.project-page-topnav-btn:hover { background:#e63030; color:#fff; border-color:#e63030; }
+.project-page-bottomnav {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:2rem 2.5rem 4rem; max-width:1400px; margin:0 auto;
+}
+.project-page-back {
+  display:none;
+}
+.app-project-section {
+  max-width:1400px;
+  margin:0 auto;
+  padding:2.4rem 2.5rem 3rem;
+}
+.app-project-section.app-project-gap-top {
+  padding-top:11rem;
+}
+.app-project-title {
+  font-size:clamp(1.6rem,3vw,2.8rem);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  margin-bottom:.4rem;
+}
+.app-project-meta {
+  font-size:.72rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  margin-bottom:1.5rem;
+}
+.app-project-desc {
+  font-size:.95rem;
+  line-height:1.8;
+  color:rgba(255,255,255,.65);
+  max-width:none;
+  margin:0;
+}
+.app-project-divider {
+  width:100%;
+  height:1px;
+  background:rgba(255,255,255,.08);
+  margin:3rem 0;
+}
+.project-page-header-left {
+  grid-column:1;
+  grid-row:2;
+  display:flex; flex-direction:column;
+}
+.project-page-poster-wrap {
+  grid-column:2;
+  grid-row:2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.project-page-poster-wrap img {
+  width:100%;
+  height:auto;
+  display:block;
+  opacity:0.06;
+  transition:opacity .4s;
+}
+.project-page-poster-wrap img:hover { opacity:1; }
+.project-page-title {
+  font-size:clamp(1.6rem,3vw,2.8rem); font-weight:700;
+  letter-spacing:-0.02em; margin-bottom:.4rem;
+}
+.project-page-meta {
+  font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  color:rgba(255,255,255,.4); margin-bottom:1.5rem;
+}
+.project-page-desc {
+  font-size:.95rem; line-height:1.8;
+  color:rgba(255,255,255,.65);
+}
+.ig-link {
+  color:rgba(255,255,255,.9);
+  text-decoration:none;
+  border-bottom:1px solid rgba(255,255,255,.3);
+  transition:color .2s, border-color .2s;
+}
+.ig-link:hover { color:#e63030; border-color:#e63030; }
+.project-page-divider {
+  width:100%; height:1px;
+  background:rgba(255,255,255,.08); margin:3rem 0 0;
+}
+.project-videos {
+  padding:0 2.5rem 2rem;
+  max-width:1400px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  gap:1.5rem;
+}
+.project-video-wrap {
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  background:#0a0a0a;
+}
+.project-video-wrap iframe {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+}
+.project-gallery {
+  columns:2; column-gap:4px; padding:4px;
+}
+.project-gallery.appdesign-single-col {
+  columns:1;
+}
+.project-gallery img {
+  width:100%; display:block; margin-bottom:4px;
+  break-inside:avoid; transition:opacity .3s;
+}
+
+.gallery-video-wrap {
+  position:relative;
+  width:100%;
+  display:block;
+  margin-bottom:4px;
+  break-inside:avoid;
+}
+.gallery-video-wrap iframe {
+  width:100%;
+  aspect-ratio:16/9;
+  display:block;
+  border:none;
+  pointer-events:none;
+}
+.gallery-mute-btn {
+  position:absolute;
+  bottom:.8rem; right:.8rem;
+  background:#000;
+  border:2px solid rgba(255,255,255,.9);
+  color:rgba(255,255,255,.9);
+  font-family:Helvetica, Arial, sans-serif;
+  font-size:.75rem;
+  font-weight:400;
+  letter-spacing:.05em;
+  padding:.5rem 1.2rem;
+  cursor:pointer;
+  z-index:10;
+  pointer-events:all;
+  opacity:0;
+  transition:opacity .25s, background .25s, border-color .25s, color .25s;
+}
+.gallery-video-wrap:hover .gallery-mute-btn { opacity:1; }
+.gallery-mute-btn:hover { background:#e63030; border-color:#e63030; color:#fff; }
+
+.reveal {
+  opacity:0; transform:translateY(26px);
+  transition:opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1);
+}
+.reveal.visible { opacity:1; transform:none; }
+@keyframes fadeIn { to { opacity:1; } }
+@media(max-width:900px){
+  /* Hide custom cursor on touch devices */
+  #cur { display:none; }
+  body { cursor:auto; }
+  a, button, .project-card, .soc, .tool-logo-item { cursor:pointer; }
+
+  /* Nav smaller on mobile */
+  .nav-logo { font-size:.85rem; }
+  .nav-links { gap:1rem; }
+  .nav-links a { font-size:.85rem; }
+  nav { padding:1.2rem 1.5rem; }
+  section { padding:5rem 1.5rem; }
+  #hero { padding:7rem 1.5rem 4rem; }
+  .projects-grid { grid-template-columns:1fr; }
+  .about-bio { grid-template-columns:1fr; gap:3rem; }
+  .bio-right { max-width:260px; }
+  .edu-item { grid-template-columns:1fr; gap:.4rem; }
+  .edu-logo { display:none; }
+  .work-item { grid-template-columns:1fr; gap:.4rem; }
+  .work-tag { display:none; }
+  .app-project-section {
+    padding:2rem 1.5rem 3rem;
+  }
+  .app-project-section.app-project-gap-top {
+    padding-top:4rem;
+  }
+  .app-project-desc {
+    margin:0;
+  }
+  footer { flex-direction:column; gap:.8rem; text-align:center; }
+
+  /* Video fits mobile screen without cropping */
+  #hero {
+    min-height:100vh;
+    padding:0;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+  }
+  .hero-video-wrap {
+    position:absolute;
+    inset:0;
+  }
+  .hero-video-wrap iframe {
+    width:100%;
+    height:100%;
+    min-width:unset;
+    min-height:unset;
+    top:0; left:0;
+    transform:none;
+    position:absolute;
+    object-fit:cover;
+  }
+  .hero-body {
+    position:absolute;
+    bottom:3rem;
+    left:0; right:0;
+    display:flex;
+    justify-content:center;
+    padding:0 1.5rem;
+  }
+  .hero-cta {
+    margin-top:0;
+    opacity:1;
+    animation:none;
+  }
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+
+<nav>
+  <a href="#" onclick="showPage('main', null);return false;" class="nav-logo"><span class="logo-default">Zeyu Wang</span><span class="logo-hover">home.</span></a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('main','projects');return false;">projects</a></li>
+    <li><a href="#" onclick="showPage('main','works');return false;">works</a></li>
+    <li><a href="#" onclick="showPage('about', null);return false;">about</a></li>
+    <li><a href="#" onclick="showPage('main','contact');return false;">contact</a></li>
+  </ul>
+</nav>
+
+<div id="main-page" class="page">
+
+<section id="hero">
+    <div class="hero-video-wrap">
+      <iframe src="https://player.vimeo.com/video/1175312383?autoplay=1&muted=1&loop=1&background=1&quality=auto&playsinline=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-body">
+    <button onclick="showPage('about', null)" class="hero-cta">about me</button>
+  </div>
+</section>
+
+<section id="projects">
+  <h2 class="s-title reveal">projects</h2>
+  <div class="projects-grid">
+    <div class="project-card reveal" onclick="openProject('altera')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="Altera">
+      <div class="project-info">
+        <div class="project-name">Altera</div>
+        <div class="project-year">2025–2026</div>
+      </div>
+    </div>
+    <div class="project-card reveal" onclick="openProject('duna')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/LD3SvQYV/Duna-4-Y-Edited-193.jpg" alt="4 Years Duna">
+      <div class="project-info">
+        <div class="project-name">4 Years Duna</div>
+        <div class="project-year">2026</div>
+      </div>
+    </div>
+    <div class="project-card reveal" onclick="openProject('duna2')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
+      <div class="project-info">
+        <div class="project-name">Duna pres. Oscar Mulero &amp; Sybil</div>
+        <div class="project-year">2025</div>
+      </div>
+    </div>
+    <div class="project-card reveal" onclick="openProject('invisible')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="In-visible Gaze">
+      <div class="project-info">
+        <div class="project-name">In-visible Gaze</div>
+        <div class="project-year">2025</div>
+      </div>
+    </div>
+    <div class="project-card reveal" onclick="openProject('appdesign')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/3yK0zvCZ/app-cover.png" alt="App Design">
+      <div class="project-info">
+        <div class="project-name">App Design</div>
+        <div class="project-year">2020</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal">
+      <!-- <img loading="lazy" src="YOUR_URL" alt="Lycosìa"> -->
+      <div class="project-placeholder"></div>
+      <div class="project-info">
+        <div class="project-name">Lycosìa</div>
+        <div class="project-year">2024</div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <!-- <img loading="lazy" src="YOUR_URL" alt="Lucus Angitiae"> -->
+      <div class="project-placeholder"></div>
+      <div class="project-info">
+        <div class="project-name">Lucus Angitiae</div>
+        <div class="project-year">2024</div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+</div><!-- end #main-page -->
+
+<!-- ABOUT PAGE (separate view) -->
+<div id="about-page">
+
+<div class="about-slider" id="about-slider">
+
+  <!-- SLIDE 1: Bio -->
+  <div class="about-slide" id="about-slide-0">
+    <div class="slide-content">
+    <div class="about-bio">
+      <div class="bio-left">
+        <h2>Zeyu Wang</h2>
+        <p class="bio-title">Multimedia artist &amp; Visual interaction designer</p>
+        <p class="bio-text">Zeyu Wang (born in Taiyuan, China, 1997) is a multimedia artist and visual interaction designer based in Milan, Italy.</p>
+        <p class="bio-text">His practice explores the intersection of technology and perception through generative art, machine learning, and interactive visual systems. By integrating algorithmic processes and real-time audiovisual environments, Wang investigates the boundaries and possibilities of contemporary image-making, rethinking how humans and machines perceive, interpret, and transform one another.</p>
+        <p class="bio-text">Currently based in Milan, he collaborates on interdisciplinary projects across visual art, new media, and performance.</p>
+        <div class="cv-btns">
+          <a href="https://drive.google.com/uc?export=download&id=1KaIY3UPL-YPDEbZ0xM765S5suNHKcvX9" target="_blank" class="cv-btn">download my cv. (en)</a>
+          <a href="https://drive.google.com/uc?export=download&id=1kgsLl1uoAVHNoyNdyohBAd-AyLX1iZF7" target="_blank" class="cv-btn">download my cv. (中文)</a>
+        </div>
+      </div>
+      <div class="bio-right">
+        <img class="bio-photo" src="https://i.ibb.co/KnSkbq5/new-headphoto.png" alt="Zeyu Wang">
+        <img class="bio-sig-img" src="https://i.ibb.co/Kx70Pt11/firma.png" alt="Zeyu Wang signature">
+      </div>
+    </div>
+    </div><!-- end slide-content -->
+  </div>
+
+  <!-- SLIDE 2: Education -->
+  <div class="about-slide" id="about-slide-1">
+    <div class="about-slide-inner">
+    <div class="slide-content">
+      <h2 class="s-title">education</h2>
+      <div class="edu-list" style="max-width:900px; margin:0 auto;">
+        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+          <div class="edu-period">Oct. 2021 – Mar. 2025</div>
+          <div class="edu-logo-wrap">
+            <a href="https://www.accademiadibrera.milano.it" target="_blank" rel="noopener">
+              <img class="edu-logo" src="https://i.ibb.co/kgjb8j98/BRERA-LOGO.png" alt="Brera">
+            </a>
+          </div>
+          <div>
+            <div class="edu-degree">MA — Multimedia Arts of Net Art</div>
+            <div class="edu-school">Brera Academy of Fine Arts, Milan, Italy</div>
+            <div class="edu-detail">Final Grade: 110 / 110</div>
+          </div>
+        </div>
+        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+          <div class="edu-period">Sep. 2016 – Jun. 2020</div>
+          <div class="edu-logo-wrap">
+            <a href="https://www.njupt.edu.cn" target="_blank" rel="noopener">
+              <img class="edu-logo" src="https://i.ibb.co/chjdn0xZ/NJUPT-LOGO.png" alt="NJUPT">
+            </a>
+          </div>
+          <div>
+            <div class="edu-degree">BA — New Media Art</div>
+            <div class="edu-school">Nanjing University of Posts and Telecommunications, Nanjing, China</div>
+            <div class="edu-detail">GPA: 3.84 / 4.0</div>
+          </div>
+        </div>
+        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+          <div class="edu-period">Jul. 2017 – Feb. 2018</div>
+          <div class="edu-logo-wrap">
+            <a href="https://www.shu.edu.tw" target="_blank" rel="noopener">
+              <img class="edu-logo" src="https://i.ibb.co/b5j78nbD/SHU-Logo.png" alt="Shih Hsin University">
+            </a>
+          </div>
+          <div>
+            <div class="edu-degree">Exchange Program — New Media Art</div>
+            <div class="edu-school">Shih Hsin University, Taipei</div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end slide-content -->
+    </div><!-- end about-slide-inner -->
+  </div>
+
+  <!-- SLIDE 3: Skills -->
+  <div class="about-slide" id="about-slide-2">
+    <div class="about-slide-inner">
+    <div class="slide-content">
+      <h2 class="s-title">skills</h2>
+      <div class="skills-inner">
+        <p class="skills-desc">I work across a range of creative and technical tools for interactive and visual art production. My practice combines real-time generative design, 3D modeling, and audiovisual composition. I am also experienced with Arduino for physical interaction, and proficient in the Adobe Suite for image editing, motion graphics, and video production.</p>
+        <div class="tools-block">
+          <div class="tools-group">
+            <span class="tools-label">Real-time &amp; Generative</span>
+            <div class="tools-row">
+              <a class="tool-logo-item" href="https://derivative.ca" target="_blank" rel="noopener">
+                <img class="tool-logo-img wide" src="https://i.ibb.co/PZzyrTsS/Touch-Designer-Derivative-logo-white.png" alt="TouchDesigner">
+                <span class="tool-logo-name">TouchDesigner</span>
+              </a>
+              <a class="tool-logo-item" href="https://resolume.com" target="_blank" rel="noopener">
+                <img class="tool-logo-img wide" src="https://i.ibb.co/Z6wsbJvR/resolumelogowhite.png" alt="Resolume Arena">
+                <span class="tool-logo-name">Resolume Arena</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.arduino.cc" target="_blank" rel="noopener">
+                <img class="tool-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino">
+                <span class="tool-logo-name">Arduino</span>
+              </a>
+            </div>
+          </div>
+          <div class="tools-group">
+            <span class="tools-label">3D &amp; Interactive</span>
+            <div class="tools-row">
+              <a class="tool-logo-item" href="https://www.blender.org" target="_blank" rel="noopener">
+                <img class="tool-logo-img color" src="https://i.ibb.co/q3C985jq/blender-logo.png" alt="Blender">
+                <span class="tool-logo-name">Blender</span>
+              </a>
+              <a class="tool-logo-item" href="https://unity.com" target="_blank" rel="noopener">
+                <img class="tool-logo-img wide" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" alt="Unity 3D">
+                <span class="tool-logo-name">Unity 3D</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.maxon.net/zbrush" target="_blank" rel="noopener">
+                <img class="tool-logo-img" src="https://i.ibb.co/1tWnm5gc/zbrush-svgrepo-com.png" alt="ZBrush">
+                <span class="tool-logo-name">ZBrush</span>
+              </a>
+            </div>
+          </div>
+          <div class="tools-group">
+            <span class="tools-label">Adobe Suite</span>
+            <div class="tools-row">
+              <a class="tool-logo-item" href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noopener">
+                <img class="tool-logo-img adobe" src="https://i.ibb.co/RrbjxhT/photoshop.png" alt="Photoshop">
+                <span class="tool-logo-name">Photoshop</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.adobe.com/products/illustrator.html" target="_blank" rel="noopener">
+                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" alt="Illustrator">
+                <span class="tool-logo-name">Illustrator</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">
+                <img class="tool-logo-img adobe" src="https://i.ibb.co/HLyYbKXd/premiere-pro.png" alt="Premiere Pro">
+                <span class="tool-logo-name">Premiere Pro</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.adobe.com/products/aftereffects.html" target="_blank" rel="noopener">
+                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="After Effects">
+                <span class="tool-logo-name">After Effects</span>
+              </a>
+              <a class="tool-logo-item" href="https://www.adobe.com/products/indesign.html" target="_blank" rel="noopener">
+                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg" alt="InDesign">
+                <span class="tool-logo-name">InDesign</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end slide-content -->
+    </div><!-- end about-slide-inner -->
+  </div>
+
+</div><!-- end .about-slider -->
+
+<!-- Slide dots -->
+<div class="about-dots" id="about-dots">
+  <span class="about-dot active" onclick="goToSlide(0)"></span>
+  <span class="about-dot" onclick="goToSlide(1)"></span>
+  <span class="about-dot" onclick="goToSlide(2)"></span>
+</div>
+
+</div><!-- end #about-page -->
+
+<div id="main-page-bottom" class="page">
+<section id="works">
+  <h2 class="s-title reveal">works</h2>
+  <div style="max-width:1300px; margin:0 auto;">
+    <div class="work-list">
+
+      <!-- ART & DESIGN -->
+      <div class="work-item reveal">
+        <div class="work-period">Dec. 2023 – Present</div>
+        <div><div class="work-role">Instructor</div><div class="work-company">Associazione EU Art Studio</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag art">Art</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Sep. 2022</div>
+        <div><div class="work-role">Graphic Designer</div><div class="work-company">Hotel Midway</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Design</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">2020 – 2022</div>
+        <div><div class="work-role">Photographer &amp; Post-Production Specialist</div><div class="work-company">Feiniao New Media Studio</div><div class="work-loc">Nanjing, China</div></div>
+        <span class="work-tag">Design</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">2019 – 2020</div>
+        <div><div class="work-role">3D Designer</div><div class="work-company">Nanjing Silk Road Education Design Studio</div><div class="work-loc">Nanjing, China</div></div>
+        <span class="work-tag">Design</span>
+      </div>
+
+      <!-- INTERPRETER & EVENT -->
+      <div class="work-item reveal">
+        <div class="work-period">Mar. 2026</div>
+        <div><div class="work-role">Interpreter</div><div class="work-company">Cosmoprof Worldwide Bologna 2026</div><div class="work-loc">Bologna, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Mar. 2026</div>
+        <div><div class="work-role">Interpreter</div><div class="work-company">KEY – The Energy Transition Expo 2026</div><div class="work-loc">Rimini, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Feb. 2026</div>
+        <div><div class="work-role">Backstage Producer &amp; Model Coordinator</div><div class="work-company">"RE-ENCOUNTER &amp; DUALITY" FW26/27 Milan Fashion Week</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Event</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Sep. 2025 / Feb. 2026</div>
+        <div><div class="work-role">Interpreter</div><div class="work-company">LINEAPELLE International Leather Fair 2025 &amp; 2026</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Nov. 2025</div>
+        <div><div class="work-role">Interpreter</div><div class="work-company">LUXIAOJUN Booth, Milan CrossFit Competition</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Nov. 2025</div>
+        <div><div class="work-role">Interpreter</div><div class="work-company">QJMotor (Qianjiang Motorcycle), EICMA 2025</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">Sep. 2025</div>
+        <div><div class="work-role">Interpreter &amp; Camera Assistant</div><div class="work-company">TCL Milano Cortina 2026 Winter Olympic Games Promo Video Shoot</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+      <div class="work-item reveal">
+        <div class="work-period">May 2025</div>
+        <div><div class="work-role">Interpreter &amp; Stage Assistant</div><div class="work-company">Geely Galaxy M9 Global Premiere Exhibition</div><div class="work-loc">Milan, Italy</div></div>
+        <span class="work-tag">Interpreter</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="s-title reveal">contact</h2>
+  <div class="contact-list reveal">
+    <div class="contact-phone">
+      <span class="contact-flag">&#127470;&#127481;</span>
+      <span>+39 3452181810</span>
+    </div>
+    <div class="contact-phone">
+      <span class="contact-flag">&#127464;&#127475;</span>
+      <span>+86 18805197996</span>
+    </div>
+    <div class="contact-line">
+      <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#97;&#114;&#99;&#101;&#108;&#108;&#111;&#54;&#50;&#54;&#56;&#64;&#103;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;">marcello6268&#64;gmail.com</a>
+    </div>
+  </div>
+  <div class="social-row reveal">
+    <a href="https://www.instagram.com/marcellowzy?igsh=a3hqN2ZrdG1renAz&utm_source=qr" target="_blank" rel="noopener" class="soc" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://www.facebook.com/share/1AKBfKtnaa/?mibextid=wwXIfr" target="_blank" rel="noopener" class="soc" title="Facebook">
+      <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/zeyu-wang-58364435b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" rel="noopener" class="soc" title="LinkedIn">
+      <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">&#169; 2025 Zeyu Wang</span>
+  <span class="footer-copy">Milan, Italy</span>
+</footer>
+
+</div><!-- end #main-page-bottom -->
+
+<!-- PROJECT PAGE: Altera -->
+<div id="project-page-altera" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <div></div>
+    <button class="project-page-topnav-btn next" onclick="openProject('duna')">next.</button>
+  </div>
+  <div class="project-page-header">
+    <div class="project-page-header-left reveal">
+      <div class="project-page-title">Altera</div>
+      <div class="project-page-meta">Resident Visual Artist &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; 2025–2026</div>
+      <div class="project-page-divider"></div>
+    </div>
+    <div class="project-page-poster-wrap reveal">
+    </div>
+  </div>
+  <div class="project-gallery reveal">
+    <img loading="lazy" src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
+    <img src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
+
+    <!-- Video -->
+    <div class="gallery-video-wrap" data-vimeo="1180158841">
+      <iframe id="vimeo-1180158841"
+        src="https://player.vimeo.com/video/1180158841?autoplay=0&muted=1&loop=1&background=0&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <button class="gallery-mute-btn" onclick="toggleMute(this,'1180158841')">sound off.</button>
+    </div>
+
+  </div>
+  <div class="project-page-bottomnav">
+    <div></div>
+    <button class="project-page-topnav-btn next" onclick="openProject('duna')">next.</button>
+  </div>
+</div>
+
+<!-- PROJECT PAGE: DUNA -->
+<div id="project-page" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('altera')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('duna2')">next.</button>
+  </div>
+  <div class="project-page-header">
+    <div class="project-page-header-left reveal">
+      <div class="project-page-title">4 Years Duna</div>
+      <div class="project-page-meta">Live VJ &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Feb 7, 2026</div>
+      <p class="project-page-desc">Zeyu Wang and Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) served as VJs for DUNA's 4th Anniversary at the Abandoned Post Warehouse in Sofia, collaborating with Ausgang Studio (<a href="https://www.instagram.com/ausgang.studio" target="_blank" rel="noopener" class="ig-link">@ausgang.studio</a>) to transform the venue's visual environment through immersive, real-time generated visuals.</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">While Ausgang Studio developed the architectural lighting installations, Zeyu and Giovanni crafted a responsive visual layer that interacted with both the music and the spatial conditions, reshaping the industrial warehouse into a dynamic, living environment.</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">The night featured a powerful international lineup, headlined by Rrose (<a href="https://www.instagram.com/rrose1921" target="_blank" rel="noopener" class="ig-link">@rrose1921</a>) for their Sofia debut, alongside artists including Ness b2b CONCEPTUAL (<a href="https://www.instagram.com/ness_tgp" target="_blank" rel="noopener" class="ig-link">@ness_tgp</a> &amp; <a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>), Ana Rs (<a href="https://www.instagram.com/anars___" target="_blank" rel="noopener" class="ig-link">@anars___</a>), Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>), and Modèrn (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a>).</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">Continuing their collaborative practice, Zeyu and Giovanni explored the relationship between body, gaze, and technology through generative and interactive visual systems, creating an evolving dialogue between sound, light, and perception.</p>
+      <div class="project-page-divider"></div>
+    </div>
+    <div class="project-page-poster-wrap reveal">
+      <img loading="lazy" src="https://i.ibb.co/bMDXbjxr/duna4y-poster.jpg" alt="DUNA 4th Anniversary Poster">
+    </div>
+  </div>
+  <div class="project-gallery reveal">
+    <img loading="lazy" src="https://i.ibb.co/VW4JKfbf/Duna-4-Y-Edited-96.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3qV8kdW/Duna-4-Y-Edited-121.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7N8P8XJP/Duna-4-Y-Edited-125.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/qM0MBPz4/Duna-4-Y-Edited-127.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/bjR69prn/Duna-4-Y-Edited-128.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/hxgC2J4Z/Duna-4-Y-Edited-158.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8LFbWKTQ/Duna-4-Y-Edited-172.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ZpbSpt15/Duna-4-Y-Edited-184.jpg" alt="">
+    <img src="https://i.ibb.co/LD3SvQYV/Duna-4-Y-Edited-193.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zT4ZxKSv/Duna-4-Y-Edited-218.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3yLt62Sj/Duna-4-Y-Edited-222.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/FLwqZy5p/Duna-4-Y-Edited-268.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zH4CrjHh/Duna-4-Y-Edited-285.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/mCK9JvbP/Duna-4-Y-Edited-303.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/vvVfq6qc/Duna-4-Y-Edited-339.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ttSwJCy/Duna-4-Y-Edited-394.jpg" alt="">
+  </div>
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('altera')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('duna2')">next.</button>
+  </div>
+</div>
+
+<!-- PROJECT PAGE 2: DUNA pres. Oscar Mulero & Sybil -->
+<div id="project-page-duna2" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('duna')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('invisible')">next.</button>
+  </div>
+  <div class="project-page-header">
+    <div class="project-page-header-left reveal">
+      <div class="project-page-title">Duna pres. Oscar Mulero &amp; Sybil</div>
+      <div class="project-page-meta">Live VJ &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Oct 3, 2025</div>
+      <p class="project-page-desc">Zeyu Wang and Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) served as VJs for the opening night of DUNA's multidisciplinary warehouse event in Sofia, crafting immersive live visuals in response to the music and industrial space.</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">The night featured an international lineup of DJs, including Oscar Mulero (<a href="https://www.instagram.com/oscarmulerooficial" target="_blank" rel="noopener" class="ig-link">@oscarmulerooficial</a>), Sybil (<a href="https://www.instagram.com/sybil_dj" target="_blank" rel="noopener" class="ig-link">@sybil_dj</a>), Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>), Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>), Modérn b2b Ruben Ganev (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a> &amp; <a href="https://www.instagram.com/rubenganev" target="_blank" rel="noopener" class="ig-link">@rubenganev</a>), and Terra b2b Reneta (<a href="https://www.instagram.com/teodoradzhenkova" target="_blank" rel="noopener" class="ig-link">@teodoradzhenkova</a> &amp; <a href="https://www.instagram.com/reneta" target="_blank" rel="noopener" class="ig-link">@reneta</a>). In addition, visual and performance works were presented by artists such as Aaron Jablonski (<a href="https://www.instagram.com/exitsimulation" target="_blank" rel="noopener" class="ig-link">@exitsimulation</a>), Giusy Amoroso (<a href="https://www.instagram.com/marigoldff" target="_blank" rel="noopener" class="ig-link">@marigoldff</a>), Jiannyuh Wang (<a href="https://www.instagram.com/jiannyuhw" target="_blank" rel="noopener" class="ig-link">@jiannyuhw</a>), and Agnes Yit (<a href="https://www.instagram.com/agnesmyx" target="_blank" rel="noopener" class="ig-link">@agnesmyx</a>), creating a multidisciplinary environment.</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">Zeyu's VJ work continues his collaboration with Giovanni, exploring the relationship between body, gaze, and technology through generative and interactive visuals, engaging audiences in the interplay between virtual and physical space.</p>
+      <div class="project-page-divider"></div>
+    </div>
+    <div class="project-page-poster-wrap reveal">
+      <img loading="lazy" src="https://i.ibb.co/4ZB7dG41/duna-poster1.jpg" alt="DUNA Poster">
+    </div>
+  </div>
+  <!-- Mixed gallery: photos + videos interleaved -->
+  <div class="project-gallery reveal" id="duna2-gallery">
+    <img src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
+
+    <!-- Video 1 -->
+    <div class="gallery-video-wrap" data-vimeo="1175517943">
+      <iframe id="vimeo-1175517943"
+        src="https://player.vimeo.com/video/1175517943?autoplay=0&muted=1&loop=1&background=0&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175517943')">sound off.</button>
+    </div>
+
+    <img loading="lazy" src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
+
+    <!-- Video 2 -->
+    <div class="gallery-video-wrap" data-vimeo="1175518019">
+      <iframe id="vimeo-1175518019"
+        src="https://player.vimeo.com/video/1175518019?autoplay=0&muted=1&loop=1&background=0&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518019')">sound off.</button>
+    </div>
+
+    <img loading="lazy" src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
+
+    <!-- Video 3 -->
+    <div class="gallery-video-wrap" data-vimeo="1175518102">
+      <iframe id="vimeo-1175518102"
+        src="https://player.vimeo.com/video/1175518102?autoplay=0&muted=1&loop=1&background=0&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518102')">sound off.</button>
+    </div>
+
+    <img loading="lazy" src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
+  </div>
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('duna')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('invisible')">next.</button>
+  </div>
+</div>
+
+<!-- PROJECT PAGE 3: In-visible Gaze -->
+<div id="project-page-invisible" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
+  </div>
+  <div class="project-page-header">
+    <div class="project-page-header-left reveal">
+      <div class="project-page-title">In-visible Gaze</div>
+      <div class="project-page-meta">Audiovisual Performance &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Jul 10, 2025</div>
+      <p class="project-page-desc">For the live audiovisual performance <em>In-visible Gaze</em>, Zeyu Wang and artist Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) collaborated to construct a real-time visual system that investigates the power dynamics embedded in machine vision and medical imaging. By subverting the clinical gaze, they transformed data—originally invisible to the human eye—into an immersive, perceivable "expanded archive."</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">This spatial transformation was driven by an original soundscape composed and performed live by Iako (<a href="https://www.instagram.com/iako000" target="_blank" rel="noopener" class="ig-link">@iako000</a>) and Novecento (<a href="https://www.instagram.com/nvcnt" target="_blank" rel="noopener" class="ig-link">@nvcnt</a>). Moving far beyond traditional accompaniment, the audio functioned as a living, integral organism, communicating and reacting in strict real-time synergy with the generative visual system.</p>
+      <p class="project-page-desc" style="margin-top:1.2rem;">Acting as the interactive visual designer, their work immersed the audience in a critical environment where physical bodies, algorithms, and surveillance technologies intersect. By navigating the delicate tension between gazing and being gazed at, the performance offered a momentary sense of resistance and perceptual freedom, completely redefining the boundaries between clinical observation and immersive digital art.</p>
+      <div class="project-page-divider"></div>
+    </div>
+    <div class="project-page-poster-wrap reveal">
+      <img loading="lazy" src="https://i.ibb.co/WN08NW6T/cover.jpg" alt="In-visible Gaze Poster">
+    </div>
+  </div>
+  <div class="project-gallery reveal">
+    <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
+  </div>
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
+  </div>
+</div>
+
+<!-- PROJECT PAGE: App Design -->
+<div id="project-page-appdesign" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
+    <div></div>
+  </div>
+
+  <!-- App 1: Perfumen -->
+  <div class="app-project-section reveal">
+    <div class="app-project-title">Perfumen</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <p class="app-project-desc">Perfumen is an innovative mobile experience that bridges the gap between online convenience and offline sensory exploration in fragrance shopping. The app empowers users to intuitively blend their desired scent notes or even translate their uploaded photos into personalized fragrance profiles. To eliminate the uncertainty of online purchasing, Perfumen offers same-day delivery of custom concoction samples. Coupled with personalized gifting services like bespoke bottle engraving, it transforms perfume shopping into a seamless and highly customized journey.</p>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="project-gallery reveal appdesign-single-col appdesign-first-gallery">
+    <img loading="lazy" src="https://i.ibb.co/qFhYZpvP/1-1-1.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HLTVd8Vc/1-2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/jvZCYH3c/1-3.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/LKhmXfV/1-4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/21Z1vfnq/1-5.jpg" alt="">
+  </div>
+
+
+
+  <!-- App 2: Petradise -->
+  <div class="app-project-section reveal app-project-gap-top">
+    <div class="app-project-title">Petradise</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <p class="app-project-desc">Petradise is a compassionate mobile ecosystem that bridges the gap between the finality of pet loss and the enduring bond of companionship. The app empowers users to coordinate bespoke memorial services and interact with AI-driven “digital twins” that preserve the essence of their departed pets. To support the healing journey, Petradise utilizes intelligent filtering to recommend adoption matches based on the original pet’s unique traits and history. Coupled with personalized ritual planning, it transforms the grieving process into a supportive and hope-filled bridge toward new beginnings.</p>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="project-gallery reveal appdesign-single-col">
+    <img loading="lazy" src="https://i.ibb.co/yBfprSVY/2-1-1.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HLmgY791/2-2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/rRwFymVB/2-3.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/gL4Gq491/2-4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8VSXtdZ/2-5.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/B5N6h3Fs/2-6.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/bRgZ1L3K/2-7.jpg" alt="">
+  </div>
+
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
+    <div></div>
+  </div>
+</div>
+
+<script>
+function openProject(id) {
+  var pageId = id === 'duna' ? 'project-page' : 'project-page-' + id;
+  var incoming = document.getElementById(pageId);
+
+  // Clean up appdesign scroll listener if any
+  if (window.__appdesignScrollHandler) {
+    window.removeEventListener('scroll', window.__appdesignScrollHandler);
+    window.__appdesignScrollHandler = null;
+  }
+
+  // hide everything
+  document.getElementById('main-page').style.display = 'none';
+  document.getElementById('main-page-bottom').style.display = 'none';
+  document.getElementById('about-page').style.display = 'none';
+  document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
+    el.style.display = 'none';
+    // reset reveal elements so animation replays on next open
+    el.querySelectorAll('.reveal').forEach(function(r) {
+      if (obs.unobserve) { obs.unobserve(r); }
+      r.classList.remove('visible');
+    });
+  });
+
+  incoming.style.display = 'block';
+  window.scrollTo(0, 0);
+
+  // Re-observe reveals in next frame
+  requestAnimationFrame(function() {
+    incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+    if (id === 'appdesign') {
+      // Perfumen gallery is near page top, so obs sees it at scroll=0 and never
+      // hides it on scroll-up. Fix: unobserve from obs, use scroll handler that
+      // checks BOTH viewport AND scroll position — keeps the reveal CSS animation.
+      var firstGallery = incoming.querySelector('.appdesign-first-gallery');
+      if (firstGallery) {
+        obs.unobserve(firstGallery);
+        firstGallery.classList.remove('visible');
+        var updateFirstGallery = function() {
+          var rect = firstGallery.getBoundingClientRect();
+          var inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 80;
+          if (inView && window.scrollY > 80) {
+            firstGallery.classList.add('visible');
+          } else {
+            firstGallery.classList.remove('visible');
+          }
+        };
+        window.__appdesignScrollHandler = updateFirstGallery;
+        window.addEventListener('scroll', updateFirstGallery, { passive: true });
+      }
+    }
+  });
+}
+
+function closeProject() {
+  if (window.__appdesignScrollHandler) {
+    window.removeEventListener('scroll', window.__appdesignScrollHandler);
+    window.__appdesignScrollHandler = null;
+  }
+
+  document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
+    el.style.display = 'none';
+    el.querySelectorAll('.reveal').forEach(function(r) {
+      r.classList.remove('visible');
+    });
+  });
+  document.getElementById('main-page').style.display = 'block';
+  document.getElementById('main-page-bottom').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+// About slider state
+var aboutCurrentSlide = 0;
+var aboutTotalSlides = 3;
+var aboutScrolling = false;
+
+function goToSlide(index) {
+  if (index < 0 || index >= aboutTotalSlides) return;
+  // fade out current slide content
+  var currentEl = document.getElementById('about-slide-' + aboutCurrentSlide);
+  if (currentEl) currentEl.classList.remove('slide-visible');
+  aboutCurrentSlide = index;
+  var slider = document.getElementById('about-slider');
+  slider.style.transform = 'translateY(-' + (index * 100) + 'vh)';
+  document.querySelectorAll('.about-dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === index);
+  });
+  // fade in new slide content after slide transition
+  setTimeout(function() {
+    var nextEl = document.getElementById('about-slide-' + index);
+    if (nextEl) nextEl.classList.add('slide-visible');
+  }, 300);
+}
+
+function showPage(page, scrollTo) {
+  var mainPage = document.getElementById('main-page');
+  var mainBottom = document.getElementById('main-page-bottom');
+  var aboutPage = document.getElementById('about-page');
+
+  if (page === 'about') {
+    mainPage.style.display = 'none';
+    mainBottom.style.display = 'none';
+    aboutPage.style.display = 'block';
+    // reset to first slide without animation
+    aboutCurrentSlide = 0;
+    var slider = document.getElementById('about-slider');
+    slider.style.transition = 'none';
+    slider.style.transform = 'translateY(0)';
+    document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
+    document.querySelectorAll('.about-dot').forEach(function(d, i) { d.classList.toggle('active', i === 0); });
+    window.scrollTo(0, 0);
+    // fade in page, then fade in first slide content
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() {
+        aboutPage.classList.add('active');
+        slider.style.transition = '';
+        setTimeout(function() {
+          var firstSlide = document.getElementById('about-slide-0');
+          if (firstSlide) firstSlide.classList.add('slide-visible');
+        }, 200);
+      });
+    });
+  } else {
+    aboutPage.classList.remove('active');
+    setTimeout(function() {
+      aboutPage.style.display = 'none';
+    }, 600);
+    // ensure all project pages are hidden
+    document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
+      el.style.display = 'none';
+    });
+    mainPage.style.display = 'block';
+    mainBottom.style.display = 'block';
+    if (scrollTo) {
+      setTimeout(function() {
+        var target = document.getElementById(scrollTo);
+        if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+      }, 50);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }
+}
+
+// Wheel scroll for about page
+document.addEventListener('wheel', function(e) {
+  var aboutPage = document.getElementById('about-page');
+  if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  if (aboutScrolling) return;
+  aboutScrolling = true;
+  if (e.deltaY > 0) {
+    goToSlide(aboutCurrentSlide + 1);
+  } else {
+    goToSlide(aboutCurrentSlide - 1);
+  }
+  setTimeout(function() { aboutScrolling = false; }, 900);
+}, { passive: true });
+
+// Touch swipe for about page
+var aboutTouchStartY = 0;
+document.addEventListener('touchstart', function(e) {
+  var aboutPage = document.getElementById('about-page');
+  if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  aboutTouchStartY = e.touches[0].clientY;
+}, { passive: true });
+document.addEventListener('touchend', function(e) {
+  var aboutPage = document.getElementById('about-page');
+  if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  if (aboutScrolling) return;
+  var dy = aboutTouchStartY - e.changedTouches[0].clientY;
+  if (Math.abs(dy) < 40) return;
+  aboutScrolling = true;
+  if (dy > 0) { goToSlide(aboutCurrentSlide + 1); }
+  else { goToSlide(aboutCurrentSlide - 1); }
+  setTimeout(function() { aboutScrolling = false; }, 900);
+}, { passive: true });
+
+// Vimeo scroll autoplay + mute toggle
+(function(){
+  var vimeoScript = document.createElement('script');
+  vimeoScript.src = 'https://player.vimeo.com/api/player.js';
+  vimeoScript.onload = function(){ initVimeoPlayers(); };
+  document.head.appendChild(vimeoScript);
+
+  var players = {};
+  var muteState = {};
+
+  function initVimeoPlayers(){
+    document.querySelectorAll('.gallery-video-wrap iframe').forEach(function(iframe){
+      var id = iframe.id.replace('vimeo-','');
+      players[id] = new Vimeo.Player(iframe);
+      muteState[id] = true; // start muted
+      players[id].setMuted(true);
+    });
+    setupScrollAutoplay();
+  }
+
+  function setupScrollAutoplay(){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        var wrap = entry.target;
+        var id = wrap.querySelector('iframe').id.replace('vimeo-','');
+        if(!players[id]) return;
+        if(entry.isIntersecting){
+          players[id].play();
+        } else {
+          players[id].pause();
+        }
+      });
+    }, { threshold: 0.4 });
+
+    document.querySelectorAll('.gallery-video-wrap').forEach(function(wrap){
+      observer.observe(wrap);
+    });
+  }
+
+  window.toggleMute = function(btn, id){
+    if(!players[id]) return;
+    muteState[id] = !muteState[id];
+    players[id].setMuted(muteState[id]);
+    btn.textContent = muteState[id] ? 'sound off.' : 'sound on.';
+  };
+})();
+
+// Hero video watchdog: restart if stalled for > 3s
+(function() {
+  var heroIframe = document.querySelector('.hero-video-wrap iframe');
+  if (!heroIframe) return;
+  var heroScript = document.createElement('script');
+  heroScript.src = 'https://player.vimeo.com/api/player.js';
+  heroScript.onload = function() {
+    try {
+      var heroPlayer = new Vimeo.Player(heroIframe);
+      var lastTime = -1;
+      var stallCount = 0;
+      setInterval(function() {
+        heroPlayer.getCurrentTime().then(function(t) {
+          if (t === lastTime) {
+            stallCount++;
+            if (stallCount >= 3) { heroPlayer.play(); stallCount = 0; }
+          } else { stallCount = 0; }
+          lastTime = t;
+        }).catch(function(){});
+      }, 1000);
+    } catch(e) {}
+  };
+  document.head.appendChild(heroScript);
+})();
+
+var cur = document.getElementById('cur');
+document.addEventListener('mousemove', function(e) {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a, .project-card, .soc').forEach(function(el) {
+  el.addEventListener('mouseenter', function() { cur.classList.add('big'); });
+  el.addEventListener('mouseleave', function() { cur.classList.remove('big'); });
+});
+
+var obs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    } else {
+      e.target.classList.remove('visible');
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+// Nav auto-hide on scroll down, show on scroll up (Apple-style)
+var navEl = document.querySelector('nav');
+var lastScrollY = 0;
+var scrollThreshold = 60;
+window.addEventListener('scroll', function() {
+  var currentY = window.scrollY;
+  if (currentY < scrollThreshold) {
+    // near top — always show
+    navEl.classList.remove('hidden');
+  } else if (currentY > lastScrollY) {
+    // scrolling down — hide
+    navEl.classList.add('hidden');
+  } else {
+    // scrolling up — show
+    navEl.classList.remove('hidden');
+  }
+  lastScrollY = currentY;
+}, { passive: true });
+
+var secs = document.querySelectorAll('section[id]');
+var navAs = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', function() {
+  var active = '';
+  secs.forEach(function(s) { if (window.scrollY >= s.offsetTop - 220) active = s.id; });
+  navAs.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + active); });
+}, { passive: true });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
