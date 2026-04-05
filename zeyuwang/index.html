@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -385,7 +385,8 @@ footer {
 #project-page,
 #project-page-duna2,
 #project-page-invisible,
-#project-page-altera {
+#project-page-altera,
+#project-page-appdesign {
   display:none;
   min-height:100vh;
   background:#000;
@@ -419,6 +420,40 @@ footer {
 }
 .project-page-back {
   display:none;
+}
+.app-project-section {
+  max-width:1400px;
+  margin:0 auto;
+  padding:2.4rem 2.5rem 3rem;
+}
+.app-project-section.app-project-gap-top {
+  padding-top:11rem;
+}
+.app-project-title {
+  font-size:clamp(1.6rem,3vw,2.8rem);
+  font-weight:700;
+  letter-spacing:-0.02em;
+  margin-bottom:.4rem;
+}
+.app-project-meta {
+  font-size:.72rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  margin-bottom:1.5rem;
+}
+.app-project-desc {
+  font-size:.95rem;
+  line-height:1.8;
+  color:rgba(255,255,255,.65);
+  max-width:none;
+  margin:0;
+}
+.app-project-divider {
+  width:100%;
+  height:1px;
+  background:rgba(255,255,255,.08);
+  margin:3rem 0;
 }
 .project-page-header-left {
   grid-column:1;
@@ -487,6 +522,9 @@ footer {
 .project-gallery {
   columns:2; column-gap:4px; padding:4px;
 }
+.project-gallery.appdesign-single-col {
+  columns:1;
+}
 .project-gallery img {
   width:100%; display:block; margin-bottom:4px;
   break-inside:avoid; transition:opacity .3s;
@@ -552,6 +590,15 @@ footer {
   .edu-logo { display:none; }
   .work-item { grid-template-columns:1fr; gap:.4rem; }
   .work-tag { display:none; }
+  .app-project-section {
+    padding:2rem 1.5rem 3rem;
+  }
+  .app-project-section.app-project-gap-top {
+    padding-top:4rem;
+  }
+  .app-project-desc {
+    margin:0;
+  }
   footer { flex-direction:column; gap:.8rem; text-align:center; }
 
   /* Video fits mobile screen without cropping */
@@ -610,7 +657,7 @@ footer {
 
 <section id="hero">
     <div class="hero-video-wrap">
-      <iframe src="https://player.vimeo.com/video/1175312383?autoplay=1&muted=1&loop=1&background=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <iframe src="https://player.vimeo.com/video/1175312383?autoplay=1&muted=1&loop=1&background=1&quality=auto&playsinline=1&title=0&byline=0&portrait=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
   <div class="hero-overlay"></div>
   <div class="hero-body">
@@ -649,9 +696,16 @@ footer {
         <div class="project-year">2025</div>
       </div>
     </div>
+    <div class="project-card reveal" onclick="openProject('appdesign')" style="cursor:pointer;">
+      <img src="https://i.ibb.co/3yK0zvCZ/app-cover.png" alt="App Design">
+      <div class="project-info">
+        <div class="project-name">App Design</div>
+        <div class="project-year">2020</div>
+      </div>
+    </div>
 
     <div class="project-card reveal">
-      <!-- <img src="YOUR_URL" alt="Lycosìa"> -->
+      <!-- <img loading="lazy" src="YOUR_URL" alt="Lycosìa"> -->
       <div class="project-placeholder"></div>
       <div class="project-info">
         <div class="project-name">Lycosìa</div>
@@ -659,7 +713,7 @@ footer {
       </div>
     </div>
     <div class="project-card reveal">
-      <!-- <img src="YOUR_URL" alt="Lucus Angitiae"> -->
+      <!-- <img loading="lazy" src="YOUR_URL" alt="Lucus Angitiae"> -->
       <div class="project-placeholder"></div>
       <div class="project-info">
         <div class="project-name">Lucus Angitiae</div>
@@ -959,21 +1013,30 @@ footer {
     </div>
   </div>
   <div class="project-gallery reveal">
-    <img src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
-    <img src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
-    <img src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
-    <img src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
-    <img src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
-    <img src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
-    <img src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
-    <img src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
-    <img src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
-    <img src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
-    <img src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
-    <img src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
-    <img src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
     <img src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="">
-    <img src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
+
+    <!-- Video -->
+    <div class="gallery-video-wrap" data-vimeo="1180158841">
+      <iframe id="vimeo-1180158841"
+        src="https://player.vimeo.com/video/1180158841?autoplay=0&muted=1&loop=1&background=0&controls=0"
+        allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <button class="gallery-mute-btn" onclick="toggleMute(this,'1180158841')">sound off.</button>
+    </div>
+
   </div>
   <div class="project-page-bottomnav">
     <div></div>
@@ -998,26 +1061,26 @@ footer {
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
-      <img src="https://i.ibb.co/bMDXbjxr/duna4y-poster.jpg" alt="DUNA 4th Anniversary Poster">
+      <img loading="lazy" src="https://i.ibb.co/bMDXbjxr/duna4y-poster.jpg" alt="DUNA 4th Anniversary Poster">
     </div>
   </div>
   <div class="project-gallery reveal">
-    <img src="https://i.ibb.co/VW4JKfbf/Duna-4-Y-Edited-96.jpg" alt="">
-    <img src="https://i.ibb.co/3qV8kdW/Duna-4-Y-Edited-121.jpg" alt="">
-    <img src="https://i.ibb.co/7N8P8XJP/Duna-4-Y-Edited-125.jpg" alt="">
-    <img src="https://i.ibb.co/qM0MBPz4/Duna-4-Y-Edited-127.jpg" alt="">
-    <img src="https://i.ibb.co/bjR69prn/Duna-4-Y-Edited-128.jpg" alt="">
-    <img src="https://i.ibb.co/hxgC2J4Z/Duna-4-Y-Edited-158.jpg" alt="">
-    <img src="https://i.ibb.co/8LFbWKTQ/Duna-4-Y-Edited-172.jpg" alt="">
-    <img src="https://i.ibb.co/ZpbSpt15/Duna-4-Y-Edited-184.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/VW4JKfbf/Duna-4-Y-Edited-96.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3qV8kdW/Duna-4-Y-Edited-121.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7N8P8XJP/Duna-4-Y-Edited-125.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/qM0MBPz4/Duna-4-Y-Edited-127.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/bjR69prn/Duna-4-Y-Edited-128.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/hxgC2J4Z/Duna-4-Y-Edited-158.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8LFbWKTQ/Duna-4-Y-Edited-172.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ZpbSpt15/Duna-4-Y-Edited-184.jpg" alt="">
     <img src="https://i.ibb.co/LD3SvQYV/Duna-4-Y-Edited-193.jpg" alt="">
-    <img src="https://i.ibb.co/zT4ZxKSv/Duna-4-Y-Edited-218.jpg" alt="">
-    <img src="https://i.ibb.co/3yLt62Sj/Duna-4-Y-Edited-222.jpg" alt="">
-    <img src="https://i.ibb.co/FLwqZy5p/Duna-4-Y-Edited-268.jpg" alt="">
-    <img src="https://i.ibb.co/zH4CrjHh/Duna-4-Y-Edited-285.jpg" alt="">
-    <img src="https://i.ibb.co/mCK9JvbP/Duna-4-Y-Edited-303.jpg" alt="">
-    <img src="https://i.ibb.co/vvVfq6qc/Duna-4-Y-Edited-339.jpg" alt="">
-    <img src="https://i.ibb.co/ttSwJCy/Duna-4-Y-Edited-394.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zT4ZxKSv/Duna-4-Y-Edited-218.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3yLt62Sj/Duna-4-Y-Edited-222.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/FLwqZy5p/Duna-4-Y-Edited-268.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zH4CrjHh/Duna-4-Y-Edited-285.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/mCK9JvbP/Duna-4-Y-Edited-303.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/vvVfq6qc/Duna-4-Y-Edited-339.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ttSwJCy/Duna-4-Y-Edited-394.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('altera')">previous.</button>
@@ -1041,14 +1104,14 @@ footer {
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
-      <img src="https://i.ibb.co/4ZB7dG41/duna-poster1.jpg" alt="DUNA Poster">
+      <img loading="lazy" src="https://i.ibb.co/4ZB7dG41/duna-poster1.jpg" alt="DUNA Poster">
     </div>
   </div>
   <!-- Mixed gallery: photos + videos interleaved -->
   <div class="project-gallery reveal" id="duna2-gallery">
     <img src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="">
-    <img src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
-    <img src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
 
     <!-- Video 1 -->
     <div class="gallery-video-wrap" data-vimeo="1175517943">
@@ -1058,10 +1121,10 @@ footer {
       <button class="gallery-mute-btn" onclick="toggleMute(this,'1175517943')">sound off.</button>
     </div>
 
-    <img src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
-    <img src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
-    <img src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
-    <img src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
 
     <!-- Video 2 -->
     <div class="gallery-video-wrap" data-vimeo="1175518019">
@@ -1071,10 +1134,10 @@ footer {
       <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518019')">sound off.</button>
     </div>
 
-    <img src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
-    <img src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
-    <img src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
-    <img src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
 
     <!-- Video 3 -->
     <div class="gallery-video-wrap" data-vimeo="1175518102">
@@ -1084,15 +1147,15 @@ footer {
       <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518102')">sound off.</button>
     </div>
 
-    <img src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
-    <img src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
-    <img src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
-    <img src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
-    <img src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
-    <img src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
-    <img src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
-    <img src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
-    <img src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna')">previous.</button>
@@ -1104,7 +1167,7 @@ footer {
 <div id="project-page-invisible" style="display:none;">
   <div class="project-page-topnav reveal">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
-    <div></div>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
   </div>
   <div class="project-page-header">
     <div class="project-page-header-left reveal">
@@ -1116,27 +1179,74 @@ footer {
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
-      <img src="https://i.ibb.co/WN08NW6T/cover.jpg" alt="In-visible Gaze Poster">
+      <img loading="lazy" src="https://i.ibb.co/WN08NW6T/cover.jpg" alt="In-visible Gaze Poster">
     </div>
   </div>
   <div class="project-gallery reveal">
     <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
-    <img src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
-    <img src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
-    <img src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
-    <img src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
-    <img src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
-    <img src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
-    <img src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
-    <img src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
-    <img src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
-    <img src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
-    <img src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
-    <img src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
-    <img src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
+  </div>
+</div>
+
+<!-- PROJECT PAGE: App Design -->
+<div id="project-page-appdesign" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
+    <div></div>
+  </div>
+
+  <!-- App 1: Perfumen -->
+  <div class="app-project-section reveal">
+    <div class="app-project-title">Perfumen</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <p class="app-project-desc">Perfumen is an innovative mobile experience that bridges the gap between online convenience and offline sensory exploration in fragrance shopping. The app empowers users to intuitively blend their desired scent notes or even translate their uploaded photos into personalized fragrance profiles. To eliminate the uncertainty of online purchasing, Perfumen offers same-day delivery of custom concoction samples. Coupled with personalized gifting services like bespoke bottle engraving, it transforms perfume shopping into a seamless and highly customized journey.</p>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="project-gallery reveal appdesign-single-col appdesign-first-gallery">
+    <img loading="lazy" src="https://i.ibb.co/qFhYZpvP/1-1-1.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HLTVd8Vc/1-2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/jvZCYH3c/1-3.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/LKhmXfV/1-4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/21Z1vfnq/1-5.jpg" alt="">
+  </div>
+
+
+
+  <!-- App 2: Petradise -->
+  <div class="app-project-section reveal app-project-gap-top">
+    <div class="app-project-title">Petradise</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <p class="app-project-desc">Petradise is a compassionate mobile ecosystem that bridges the gap between the finality of pet loss and the enduring bond of companionship. The app empowers users to coordinate bespoke memorial services and interact with AI-driven “digital twins” that preserve the essence of their departed pets. To support the healing journey, Petradise utilizes intelligent filtering to recommend adoption matches based on the original pet’s unique traits and history. Coupled with personalized ritual planning, it transforms the grieving process into a supportive and hope-filled bridge toward new beginnings.</p>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="project-gallery reveal appdesign-single-col">
+    <img loading="lazy" src="https://i.ibb.co/yBfprSVY/2-1-1.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HLmgY791/2-2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/rRwFymVB/2-3.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/gL4Gq491/2-4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8VSXtdZ/2-5.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/B5N6h3Fs/2-6.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/bRgZ1L3K/2-7.jpg" alt="">
+  </div>
+
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
     <div></div>
   </div>
 </div>
@@ -1146,6 +1256,12 @@ function openProject(id) {
   var pageId = id === 'duna' ? 'project-page' : 'project-page-' + id;
   var incoming = document.getElementById(pageId);
 
+  // Clean up appdesign scroll listener if any
+  if (window.__appdesignScrollHandler) {
+    window.removeEventListener('scroll', window.__appdesignScrollHandler);
+    window.__appdesignScrollHandler = null;
+  }
+
   // hide everything
   document.getElementById('main-page').style.display = 'none';
   document.getElementById('main-page-bottom').style.display = 'none';
@@ -1153,20 +1269,54 @@ function openProject(id) {
   document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
     el.style.display = 'none';
     // reset reveal elements so animation replays on next open
-    el.querySelectorAll('.reveal').forEach(function(r) { r.classList.remove('visible'); });
+    el.querySelectorAll('.reveal').forEach(function(r) {
+      if (obs.unobserve) { obs.unobserve(r); }
+      r.classList.remove('visible');
+    });
   });
 
   incoming.style.display = 'block';
   window.scrollTo(0, 0);
 
-  // re-observe reveal elements so IntersectionObserver triggers fresh
-  incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+  // Re-observe reveals in next frame
+  requestAnimationFrame(function() {
+    incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
+
+    if (id === 'appdesign') {
+      // Perfumen gallery is near page top, so obs sees it at scroll=0 and never
+      // hides it on scroll-up. Fix: unobserve from obs, use scroll handler that
+      // checks BOTH viewport AND scroll position — keeps the reveal CSS animation.
+      var firstGallery = incoming.querySelector('.appdesign-first-gallery');
+      if (firstGallery) {
+        obs.unobserve(firstGallery);
+        firstGallery.classList.remove('visible');
+        var updateFirstGallery = function() {
+          var rect = firstGallery.getBoundingClientRect();
+          var inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 80;
+          if (inView && window.scrollY > 80) {
+            firstGallery.classList.add('visible');
+          } else {
+            firstGallery.classList.remove('visible');
+          }
+        };
+        window.__appdesignScrollHandler = updateFirstGallery;
+        window.addEventListener('scroll', updateFirstGallery, { passive: true });
+      }
+    }
+  });
 }
 
 function closeProject() {
+  if (window.__appdesignScrollHandler) {
+    window.removeEventListener('scroll', window.__appdesignScrollHandler);
+    window.__appdesignScrollHandler = null;
+  }
+
   document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
     el.style.display = 'none';
-    el.querySelectorAll('.reveal').forEach(function(r) { r.classList.remove('visible'); });
+    el.querySelectorAll('.reveal').forEach(function(r) {
+      r.classList.remove('visible');
+    });
   });
   document.getElementById('main-page').style.display = 'block';
   document.getElementById('main-page-bottom').style.display = 'block';
@@ -1326,6 +1476,31 @@ document.addEventListener('touchend', function(e) {
   };
 })();
 
+// Hero video watchdog: restart if stalled for > 3s
+(function() {
+  var heroIframe = document.querySelector('.hero-video-wrap iframe');
+  if (!heroIframe) return;
+  var heroScript = document.createElement('script');
+  heroScript.src = 'https://player.vimeo.com/api/player.js';
+  heroScript.onload = function() {
+    try {
+      var heroPlayer = new Vimeo.Player(heroIframe);
+      var lastTime = -1;
+      var stallCount = 0;
+      setInterval(function() {
+        heroPlayer.getCurrentTime().then(function(t) {
+          if (t === lastTime) {
+            stallCount++;
+            if (stallCount >= 3) { heroPlayer.play(); stallCount = 0; }
+          } else { stallCount = 0; }
+          lastTime = t;
+        }).catch(function(){});
+      }, 1000);
+    } catch(e) {}
+  };
+  document.head.appendChild(heroScript);
+})();
+
 var cur = document.getElementById('cur');
 document.addEventListener('mousemove', function(e) {
   cur.style.left = e.clientX + 'px';
@@ -1376,3 +1551,24 @@ window.addEventListener('scroll', function() {
 </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
