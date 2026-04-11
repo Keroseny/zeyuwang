@@ -103,7 +103,7 @@ nav.hidden { transform:translateY(-100%); }
   background:#e63030; color:#fff; border-color:#e63030;
 }
 #about { padding:2rem 0 4rem; max-width:1250px; margin:0 auto; }
-section { padding:8rem 3rem; }
+section { padding:10rem 3rem; }
 .s-title {
   font-size:clamp(2.2rem, 5vw, 4.5rem); font-weight:700;
   letter-spacing:-0.02em; text-align:center; margin-bottom:5rem;
@@ -252,7 +252,7 @@ section { padding:8rem 3rem; }
   color:rgba(255,255,255,.6); transition:all .25s; cursor:default;
 }
 .tool-pill:hover { border-color:rgba(255,255,255,.7); color:#fff; }
-#works { border-top:1px solid rgba(255,255,255,.07); }
+#experience { border-top:1px solid rgba(255,255,255,.07); }
 #contact { text-align:center; border-top:1px solid rgba(255,255,255,.07); }
 .contact-list { display:flex; flex-direction:column; gap:1rem; align-items:center; margin-bottom:3rem; }
 .contact-phone {
@@ -388,6 +388,7 @@ footer {
 #project-page-altera,
 #project-page-peepbox,
 #project-page-lycosia,
+#project-page-lucus,
 #project-page-appdesign,
 #project-page-installation {
   display:none;
@@ -707,84 +708,40 @@ footer {
 
   /* Video fits mobile screen without cropping */
   #hero {
-    min-height:100vh;
+    min-height:unset;
     padding:0;
     display:flex;
     flex-direction:column;
     position:relative;
   }
   .hero-video-wrap {
-    position:absolute;
-    inset:0;
+    position:relative;
+    width:100%;
+    padding-top:56.25%; /* 16:9 */
+    flex-shrink:0;
   }
   .hero-video-wrap iframe {
+    position:absolute;
+    top:0; left:0;
     width:100%;
     height:100%;
     min-width:unset;
     min-height:unset;
-    top:0; left:0;
     transform:none;
-    position:absolute;
     object-fit:cover;
   }
   .hero-body {
-    position:absolute;
-    bottom:3rem;
-    left:0; right:0;
+    position:relative;
+    bottom:auto;
+    left:auto; right:auto;
     display:flex;
     justify-content:center;
-    padding:0 1.5rem;
+    padding:1.5rem 1.5rem 2rem;
   }
   .hero-cta {
     margin-top:0;
     opacity:1;
     animation:none;
-    /* 1. Smaller about me button on mobile */
-    padding:.6rem 1.6rem;
-    font-size:.75rem;
-    border-width:1.5px;
-  }
-
-  /* 2. Reduce vertical blank space on hero video */
-  #hero {
-    min-height:56.25vw; /* 16:9 ratio — video fills exactly */
-  }
-
-  /* 3. About bio: single column, photo on top */
-  .about-bio {
-    grid-template-columns:1fr;
-    gap:2rem;
-    margin-bottom:3rem;
-  }
-  .bio-right {
-    max-width:200px;
-    margin:0 auto;
-  }
-  .about-slide {
-    padding:5rem 1.5rem 3rem;
-    align-items:flex-start;
-  }
-  .slide-content {
-    width:100%;
-  }
-  .bio-left h2 {
-    font-size:1.6rem;
-  }
-  .bio-title {
-    font-size:.7rem;
-  }
-  .bio-text {
-    font-size:.88rem;
-    line-height:1.7;
-  }
-  .cv-btns {
-    flex-direction:column;
-    gap:.6rem;
-  }
-  .cv-btn {
-    font-size:.75rem;
-    padding:.65rem 1.4rem;
-    text-align:center;
   }
 }
 
@@ -792,6 +749,61 @@ footer {
   min-width:0;
   grid-column:1;
 }
+
+/* Works collapsible sections */
+.works-section-toggle {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1rem 0;
+  border-top:1px solid rgba(255,255,255,.12);
+  cursor:pointer;
+  color:#fff;
+  transition:color .2s;
+  background:none; border-left:none; border-right:none; border-bottom:none;
+  width:100%;
+  font-family:Helvetica, Arial, sans-serif;
+}
+.works-section-toggle:hover { color:#e63030; }
+.works-section-toggle:hover .works-section-arrow { color:rgba(255,255,255,.5); transition:transform .35s, color .2s; }
+.works-section-arrow.open { transform:rotate(180deg); }
+.works-section-label {
+  font-size:.72rem; font-weight:700; letter-spacing:.2em;
+  text-transform:uppercase; color:inherit;
+}
+.works-section-arrow {
+  font-size:.8rem; color:rgba(255,255,255,.4);
+  transition:transform .35s, color .2s;
+}
+
+.works-collapse {
+  overflow:hidden;
+  max-height:0;
+  opacity:0;
+  transition:max-height .5s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+}
+.works-collapse.open {
+  max-height:2000px;
+  opacity:1;
+}
+
+/* Work items: staggered fade-in when collapse opens */
+.works-collapse .work-item {
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .45s ease, transform .45s ease;
+}
+.works-collapse.open .work-item {
+  opacity:1;
+  transform:none;
+}
+/* Stagger each item */
+.works-collapse.open .work-item:nth-child(1) { transition-delay:.05s; }
+.works-collapse.open .work-item:nth-child(2) { transition-delay:.12s; }
+.works-collapse.open .work-item:nth-child(3) { transition-delay:.19s; }
+.works-collapse.open .work-item:nth-child(4) { transition-delay:.26s; }
+.works-collapse.open .work-item:nth-child(5) { transition-delay:.33s; }
+.works-collapse.open .work-item:nth-child(6) { transition-delay:.40s; }
+.works-collapse.open .work-item:nth-child(7) { transition-delay:.47s; }
+.works-collapse.open .work-item:nth-child(8) { transition-delay:.54s; }
 </style>
 </head>
 <body>
@@ -802,7 +814,7 @@ footer {
   <a href="#" onclick="showPage('main', null);return false;" class="nav-logo"><span class="logo-default">Zeyu Wang</span><span class="logo-hover">home.</span></a>
   <ul class="nav-links">
     <li><a href="#" onclick="showPage('main','projects');return false;">projects</a></li>
-    <li><a href="#" onclick="showPage('main','works');return false;">works</a></li>
+    <li><a href="#" onclick="showPage('main','experience');return false;">experience.</a></li>
     <li><a href="#" onclick="showPage('about', null);return false;">about</a></li>
     <li><a href="#" onclick="showPage('main','contact');return false;">contact</a></li>
   </ul>
@@ -865,9 +877,8 @@ footer {
         <div class="project-year">2024</div>
       </div>
     </div>
-    <div class="project-card reveal">
-      <!-- <img src="YOUR_URL" alt="Lucus Angitiae"> -->
-      <div class="project-placeholder"></div>
+    <div class="project-card reveal" onclick="openProject('lucus')" style="cursor:pointer;">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p1.jpeg" alt="Lucus Angitiae">
       <div class="project-info">
         <div class="project-name">Lucus Angitiae</div>
         <div class="project-year">2024</div>
@@ -1065,76 +1076,90 @@ footer {
 </div><!-- end #about-page -->
 
 <div id="main-page-bottom" class="page">
-<section id="works">
-  <h2 class="s-title reveal">works</h2>
+<section id="experience">
+  <h2 class="s-title reveal">experience.</h2>
   <div style="max-width:1300px; margin:0 auto;">
-    <div class="work-list">
 
-      <!-- ART & DESIGN -->
-      <div class="work-item reveal">
-        <div class="work-period">Dec. 2023 – Present</div>
-        <div><div class="work-role">Instructor</div><div class="work-company">Associazione EU Art Studio</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag art">Art</span>
+    <!-- Design group (default collapsed) -->
+    <button class="works-section-toggle" onclick="toggleWorksSection('design')">
+      <span class="works-section-label">Design</span>
+      <span class="works-section-arrow" id="works-arrow-design">↓</span>
+    </button>
+    <div class="works-collapse" id="works-collapse-design">
+      <div class="work-list">
+        <div class="work-item">
+          <div class="work-period">Dec. 2023 – Present</div>
+          <div><div class="work-role">Instructor</div><div class="work-company">Associazione EU Art Studio</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Design</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Sep. 2022</div>
+          <div><div class="work-role">Graphic Designer</div><div class="work-company">Hotel Midway</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Design</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">2020 – 2022</div>
+          <div><div class="work-role">Photographer &amp; Post-Production Specialist</div><div class="work-company">Feiniao New Media Studio</div><div class="work-loc">Nanjing, China</div></div>
+          <span class="work-tag">Design</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">2019 – 2020</div>
+          <div><div class="work-role">3D Designer</div><div class="work-company">Nanjing Silk Road Education Design Studio</div><div class="work-loc">Nanjing, China</div></div>
+          <span class="work-tag">Design</span>
+        </div>
       </div>
-      <div class="work-item reveal">
-        <div class="work-period">Sep. 2022</div>
-        <div><div class="work-role">Graphic Designer</div><div class="work-company">Hotel Midway</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Design</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">2020 – 2022</div>
-        <div><div class="work-role">Photographer &amp; Post-Production Specialist</div><div class="work-company">Feiniao New Media Studio</div><div class="work-loc">Nanjing, China</div></div>
-        <span class="work-tag">Design</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">2019 – 2020</div>
-        <div><div class="work-role">3D Designer</div><div class="work-company">Nanjing Silk Road Education Design Studio</div><div class="work-loc">Nanjing, China</div></div>
-        <span class="work-tag">Design</span>
-      </div>
-
-      <!-- INTERPRETER & EVENT -->
-      <div class="work-item reveal">
-        <div class="work-period">Mar. 2026</div>
-        <div><div class="work-role">Interpreter</div><div class="work-company">Cosmoprof Worldwide Bologna 2026</div><div class="work-loc">Bologna, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Mar. 2026</div>
-        <div><div class="work-role">Interpreter</div><div class="work-company">KEY – The Energy Transition Expo 2026</div><div class="work-loc">Rimini, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Feb. 2026</div>
-        <div><div class="work-role">Backstage Producer &amp; Model Coordinator</div><div class="work-company">"RE-ENCOUNTER &amp; DUALITY" FW26/27 Milan Fashion Week</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Event</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Sep. 2025 / Feb. 2026</div>
-        <div><div class="work-role">Interpreter</div><div class="work-company">LINEAPELLE International Leather Fair 2025 &amp; 2026</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Nov. 2025</div>
-        <div><div class="work-role">Interpreter</div><div class="work-company">LUXIAOJUN Booth, Milan CrossFit Competition</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Nov. 2025</div>
-        <div><div class="work-role">Interpreter</div><div class="work-company">QJMotor (Qianjiang Motorcycle), EICMA 2025</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">Sep. 2025</div>
-        <div><div class="work-role">Interpreter &amp; Camera Assistant</div><div class="work-company">TCL Milano Cortina 2026 Winter Olympic Games Promo Video Shoot</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-      <div class="work-item reveal">
-        <div class="work-period">May 2025</div>
-        <div><div class="work-role">Interpreter &amp; Stage Assistant</div><div class="work-company">Geely Galaxy M9 Global Premiere Exhibition</div><div class="work-loc">Milan, Italy</div></div>
-        <span class="work-tag">Interpreter</span>
-      </div>
-
     </div>
+
+    <!-- Interpreter & Event group (default collapsed) -->
+    <button class="works-section-toggle" onclick="toggleWorksSection('interpreter')">
+      <span class="works-section-label">Interpreter &amp; Event</span>
+      <span class="works-section-arrow" id="works-arrow-interpreter">↓</span>
+    </button>
+    <div class="works-collapse" id="works-collapse-interpreter">
+      <div class="work-list">
+        <div class="work-item">
+          <div class="work-period">Mar. 2026</div>
+          <div><div class="work-role">Interpreter</div><div class="work-company">Cosmoprof Worldwide Bologna 2026</div><div class="work-loc">Bologna, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Mar. 2026</div>
+          <div><div class="work-role">Interpreter</div><div class="work-company">KEY – The Energy Transition Expo 2026</div><div class="work-loc">Rimini, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Feb. 2026</div>
+          <div><div class="work-role">Backstage Producer &amp; Model Coordinator</div><div class="work-company">"RE-ENCOUNTER &amp; DUALITY" FW26/27 Milan Fashion Week</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Event</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Sep. 2025 / Feb. 2026</div>
+          <div><div class="work-role">Interpreter</div><div class="work-company">LINEAPELLE International Leather Fair 2025 &amp; 2026</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Nov. 2025</div>
+          <div><div class="work-role">Interpreter</div><div class="work-company">LUXIAOJUN Booth, Milan CrossFit Competition</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Nov. 2025</div>
+          <div><div class="work-role">Interpreter</div><div class="work-company">QJMotor (Qianjiang Motorcycle), EICMA 2025</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">Sep. 2025</div>
+          <div><div class="work-role">Interpreter &amp; Camera Assistant</div><div class="work-company">TCL Milano Cortina 2026 Winter Olympic Games Promo Video Shoot</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+        <div class="work-item">
+          <div class="work-period">May 2025</div>
+          <div><div class="work-role">Interpreter &amp; Stage Assistant</div><div class="work-company">Geely Galaxy M9 Global Premiere Exhibition</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -1382,7 +1407,7 @@ footer {
 <div id="project-page-peepbox" style="display:none;">
   <div class="project-page-topnav reveal">
     <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lucus')">next.</button>
   </div>
   <div class="app-project-section reveal">
     <div class="app-project-title">PEEP BOX</div>
@@ -1413,16 +1438,16 @@ footer {
 <!-- PROJECT PAGE: Lycosia -->
 <div id="project-page-lycosia" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
     <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
   </div>
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
-      <div class="app-project-title">Lycosia</div>
+      <div class="app-project-title">Lycosìa</div>
       <div class="app-project-meta">Audiovisual Performance &nbsp;·&nbsp; Schwäbisch Gmünd, Germany &nbsp;·&nbsp; Nov 22, 2024</div>
-      <p class="app-project-desc">An immersive performance presented by Etere (<a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">@etere.xyz</a>) at Gmunder Kunstverein (Germany), in collaboration with Conceptual and Sina. Inspired by Southern Italian Tarantismo, the work merges ancient ritual with AI and multimedia technology to explore post-human, interspecies transformation.</p>
+      <p class="app-project-desc">An immersive performance presented by Etere (<a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">@etere.xyz</a>) at Gmünder Kunstverein (<a href="https://www.instagram.com/gmuenderkunstverein" target="_blank" rel="noopener" class="ig-link">@gmuenderkunstverein</a>) in Schwäbisch Gmünd, in collaboration with Conceptual and Sina. Inspired by Southern Italian Tarantismo, the work merges ancient ritual with AI and multimedia technology to explore post-human, interspecies transformation.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Acting as the visual artists, Zeyu Wang and Giovanni Lo Castro crafted the real-time visual environment, translating the audio and physical movements into an evolving digital landscape.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">Sound: Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>)<br>Vocal: Greta Mariani (<a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">@gretaaam</a>)<br>Movement: Sina (<a href="https://www.instagram.com/sina_kraft" target="_blank" rel="noopener" class="ig-link">@sina_kraft</a>)<br>Visual: Zeyu Wang &amp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>)<br>Costume: Francesco Canali (<a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">@francesco_canali</a>)</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Sound: Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>) &nbsp;·&nbsp; Vocal: Greta Mariani (<a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">@gretaaam</a>) &nbsp;·&nbsp; Movement: Sina (<a href="https://www.instagram.com/sina_kraft" target="_blank" rel="noopener" class="ig-link">@sina_kraft</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) &nbsp;·&nbsp; Costume: Francesco Canali (<a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">@francesco_canali</a>)</p>
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
@@ -1446,7 +1471,7 @@ footer {
     </div>
   </div>
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
     <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
   </div>
 </div>
@@ -1507,8 +1532,8 @@ footer {
 
   <!-- Work 1: 15 minutes -->
   <div class="app-project-section reveal">
-    <div class="app-project-title">15 minutes</div>
-    <div class="app-project-meta">Installation &nbsp;·&nbsp; 2020</div>
+    <div class="app-project-title">15 Minutes</div>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; 2020</div>
     <p class="app-project-desc">Drawing from Andy Warhol's prophecy of "15 minutes of fame," this interactive installation visualizes the ruthless and fleeting lifecycle of modern information consumption. Placed at a dining table—a daily site of digital consumption—the audience uses keyboard-like buttons to simulate online social behaviors. These actions trigger directed laser lights, representing the public gaze, camera lenses, and intense social discourse.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">As the lasers focus on a suspended red helium balloon, the accumulated "attention" (heat) violently pops it, scattering its red sand to mark the climax of a viral event. Yet, this fame is short-lived; white sand continually pours from above, gradually and silently burying the red remnants. This physical process serves as a poetic metaphor for how new data relentlessly overwrites old information, shifting the audience's role from passive bystanders to active catalysts in the media machine.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Just as Marshall McLuhan famously posited that "the medium is an extension of man," this installation transforms our intangible digital interactions into a visceral physical reality. It reminds us that while we actively shape the media landscape, we are simultaneously consumed, monitored, and reshaped by it.</p>
@@ -1526,7 +1551,57 @@ footer {
   </div>
 </div>
 
+<!-- PROJECT PAGE: Lucus Angitiae -->
+<div id="project-page-lucus" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
+  </div>
+  <div class="app-project-section has-poster reveal">
+    <div class="project-text-col">
+      <div class="app-project-title">Lucus Angitiae</div>
+      <div class="app-project-meta">Audiovisual Performance &nbsp;·&nbsp; Sansepolcro, Italy &nbsp;·&nbsp; May 29, 2024</div>
+      <p class="app-project-desc">An immersive performance presented by Etere (<a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">@etere.xyz</a>) at spazio. (<a href="https://www.instagram.com/spazio.artandpeople" target="_blank" rel="noopener" class="ig-link">@spazio.artandpeople</a>) in Sansepolcro for the Anti-Uroboros collection launch. Inspired by the goddess Angitia and the Festa dei Serpari in Cocullo (Abruzzo), the project bridges the region's esoteric symbolism and ancient goldsmith traditions, merging collective memory and nature into an audiovisual ritual.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">As the visual artists, Zeyu Wang and Giovanni Lo Castro designed the immersive projections, weaving archival documentary footage of the Festa dei Serpari into an evolving digital landscape to amplify the performance's ritualistic atmosphere.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Voice and Sound: Greta Mariani (<a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">@gretaaam</a>) &amp; Eathan &nbsp;·&nbsp; Styling: Zoe Mariani (<a href="https://www.instagram.com/zoe.mariani" target="_blank" rel="noopener" class="ig-link">@zoe.mariani</a>) &nbsp;·&nbsp; Mask Design: Francesco Canali (<a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">@francesco_canali</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>)</p>
+      <div class="project-page-divider"></div>
+    </div>
+    <div class="project-page-poster-wrap reveal">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/lucus_poster.jpg" alt="Lucus Angitiae Poster">
+    </div>
+  </div>
+  <div class="project-gallery reveal appdesign-first-gallery">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p1.jpeg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p2.jpeg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p3.jpeg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p4.jpeg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p5.jpeg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p6.jpeg" alt="">
+    <div class="gallery-video-fullrow">
+      <div class="gallery-video-wrap" data-vimeo="955645704">
+        <iframe id="vimeo-955645704"
+          src="https://player.vimeo.com/video/955645704?autoplay=0&muted=1&loop=1&background=0&controls=0"
+          allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <button class="gallery-mute-btn" onclick="toggleMute(this,'955645704')">sound off.</button>
+      </div>
+    </div>
+  </div>
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
+  </div>
+</div>
+
 <script>
+
+
+function toggleWorksSection(id) {
+  var collapse = document.getElementById('works-collapse-' + id);
+  var arrow = document.getElementById('works-arrow-' + id);
+  var isOpen = collapse.classList.contains('open');
+  collapse.classList.toggle('open');
+  arrow.classList.toggle('open');
+}
 
 function toggleEarlierWorks(btn) {
   var grid = document.getElementById('earlier-works-grid');
@@ -1565,7 +1640,7 @@ function openProject(id) {
   requestAnimationFrame(function() {
     incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-    if (id === 'appdesign' || id === 'installation' || id === 'peepbox') {
+    if (id === 'appdesign' || id === 'installation' || id === 'peepbox' || id === 'lucus') {
       var firstGallery = incoming.querySelector('.appdesign-first-gallery');
       if (firstGallery) {
         obs.unobserve(firstGallery);
