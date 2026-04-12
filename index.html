@@ -154,7 +154,7 @@ section { padding:12rem 3rem; }
 }
 .about-bio {
   display:grid; grid-template-columns:1fr 360px;
-  gap:6rem; align-items:start; margin-bottom:7rem;
+  gap:6rem; align-items:center; margin-bottom:7rem;
 }
 .bio-left h2 { font-size:clamp(2rem,3.2vw,3rem); font-weight:700; margin-bottom:.5rem; }
 .bio-title { font-size:.78rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:2.5rem; }
@@ -169,7 +169,7 @@ section { padding:12rem 3rem; }
   transition:background .25s, color .25s, border-color .25s;
 }
 .cv-btn:hover { background:#e63030; color:#fff; border-color:#e63030; }
-.bio-right { position:relative; }
+.bio-right { position:relative; max-width:240px; }
 .bio-photo {
   width:100%; aspect-ratio:3/4; object-fit:cover; display:block;
   filter:grayscale(100%);
@@ -322,19 +322,30 @@ footer {
 }
 /* Slide content fade animation */
 .about-slide .slide-content {
-  opacity:0;
-  transform:translateY(22px);
-  transition:opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
-}
-.about-slide.slide-visible .slide-content {
   opacity:1;
-  transform:translateY(0);
+  transform:none;
 }
+/* Staggered row animation inside each slide */
+.slide-row {
+  opacity:0;
+  transform:translateY(18px);
+  transition:opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+}
+.slide-visible .slide-row { opacity:1; transform:none; }
+.slide-visible .slide-row:nth-child(1) { transition-delay:.05s; }
+.slide-visible .slide-row:nth-child(2) { transition-delay:.13s; }
+.slide-visible .slide-row:nth-child(3) { transition-delay:.21s; }
+.slide-visible .slide-row:nth-child(4) { transition-delay:.29s; }
+.slide-visible .slide-row:nth-child(5) { transition-delay:.37s; }
+.slide-visible .slide-row:nth-child(6) { transition-delay:.45s; }
+.slide-visible .slide-row:nth-child(7) { transition-delay:.53s; }
+.slide-visible .slide-row:nth-child(8) { transition-delay:.61s; }
+.about-slide
 .about-bio {
   display:grid;
   grid-template-columns:1fr 360px;
   gap:6rem;
-  align-items:start;
+  align-items:center;
   max-width:1250px;
   width:100%;
 }
@@ -408,9 +419,7 @@ footer {
   max-width:1300px; margin:3rem auto 0;
   display:flex; justify-content:center; align-items:center;
 }
-.earlier-works-line {
-  flex:1; height:1px; background:rgba(255,255,255,.08);
-}
+.earlier-works-line { display:none; }
 .earlier-works-toggle {
   display:inline-block;
   border:2px solid rgba(255,255,255,.5); padding:.55rem 1.6rem;
@@ -956,14 +965,14 @@ footer {
     <div class="earlier-works-line"></div>
   </div>
   <div class="earlier-works-grid" id="earlier-works-grid">
-    <div class="project-card" onclick="openProject('appdesign')" style="cursor:pointer;">
+    <div class="project-card reveal" onclick="openProject('appdesign')" style="cursor:pointer;">
       <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
         <div class="project-name">App Design</div>
         <div class="project-year">2021</div>
       </div>
     </div>
-    <div class="project-card" onclick="openProject('installation')" style="cursor:pointer;">
+    <div class="project-card reveal" onclick="openProject('installation')" style="cursor:pointer;">
       <div class="project-placeholder"></div>
       <div class="project-info">
         <div class="project-name">Installation</div>
@@ -984,7 +993,7 @@ footer {
   <!-- SLIDE 1: Bio -->
   <div class="about-slide" id="about-slide-0">
     <div class="slide-content">
-    <div class="about-bio">
+      <div class="slide-row about-bio">
       <div class="bio-left">
         <h2>Zeyu Wang</h2>
         <p class="bio-title">Multimedia artist &amp; Visual interaction designer</p>
@@ -1000,7 +1009,7 @@ footer {
         <img class="bio-photo" src="https://i.ibb.co/KnSkbq5/new-headphoto.png" alt="Zeyu Wang">
         <img class="bio-sig-img" src="https://i.ibb.co/Kx70Pt11/firma.png" alt="Zeyu Wang signature">
       </div>
-    </div>
+    </div><!-- end slide-row about-bio -->
     </div><!-- end slide-content -->
   </div>
 
@@ -1008,8 +1017,8 @@ footer {
   <div class="about-slide" id="about-slide-1">
     <div class="about-slide-inner">
     <div class="slide-content">
-      <h2 class="s-title">education</h2>
-      <div class="edu-list" style="max-width:900px; margin:0 auto;">
+      <div class="slide-row"><h2 class="s-title">education</h2></div>
+      <div class="slide-row"><div class="edu-list" style="max-width:900px; margin:0 auto;">
         <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
           <div class="edu-period">Oct. 2021 – Mar. 2025</div>
           <div class="edu-logo-wrap">
@@ -1048,7 +1057,7 @@ footer {
             <div class="edu-school">Shih Hsin University, Taipei</div>
           </div>
         </div>
-      </div>
+      </div></div><!-- end edu-list slide-row -->
     </div><!-- end slide-content -->
     </div><!-- end about-slide-inner -->
   </div>
@@ -1057,8 +1066,8 @@ footer {
   <div class="about-slide" id="about-slide-2">
     <div class="about-slide-inner">
     <div class="slide-content">
-      <h2 class="s-title">skills</h2>
-      <div class="skills-inner">
+      <div class="slide-row"><h2 class="s-title">skills</h2></div>
+      <div class="slide-row skills-inner">
         <p class="skills-desc">I work across a range of creative and technical tools for interactive and visual art production. My practice combines real-time generative design, 3D modeling, and audiovisual composition. I am also experienced with Arduino for physical interaction, and proficient in the Adobe Suite for image editing, motion graphics, and video production.</p>
         <div class="tools-block">
           <div class="tools-group">
@@ -1143,7 +1152,7 @@ footer {
   <div style="max-width:1300px; margin:0 auto;">
 
     <!-- Design group (default collapsed) -->
-    <button class="works-section-toggle" onclick="toggleWorksSection('design')">
+    <button class="works-section-toggle reveal" onclick="toggleWorksSection('design')">
       <span class="works-section-label">Design</span>
       <span class="works-section-arrow" id="works-arrow-design">↓</span>
     </button>
@@ -1173,7 +1182,7 @@ footer {
     </div>
 
     <!-- Interpreter & Event group (default collapsed) -->
-    <button class="works-section-toggle" onclick="toggleWorksSection('interpreter')">
+    <button class="works-section-toggle reveal" onclick="toggleWorksSection('interpreter')">
       <span class="works-section-label">Interpreter &amp; Event</span>
       <span class="works-section-arrow" id="works-arrow-interpreter">↓</span>
     </button>
@@ -1473,8 +1482,8 @@ footer {
   </div>
   <div class="app-project-section reveal">
     <div class="app-project-title">PEEP BOX</div>
-    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; 2025</div>
-    <p class="app-project-desc">Created in collaboration with Mehdi El Ouazzani, PEEP BOX is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Mar 2025</div>
+    <p class="app-project-desc">Created in collaboration with Mehdi El Ouazzani (<a href="https://www.instagram.com/medi_imedici" target="_blank" rel="noopener" class="ig-link">@medi_imedici</a>), PEEP BOX is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Because viewers can only observe one screen at a time through designated windows, they are forced to physically move back and forth between the two ends to piece together the machine's internal computational logic. By placing the audience in a continuous loop of observing and being observed, PEEP BOX serves as a powerful spatial metaphor for the cognitive gap between human perception and rapid technological development.</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1684,6 +1693,15 @@ function toggleEarlierWorks(btn) {
   var isOpen = grid.classList.contains('open');
   grid.classList.toggle('open');
   btn.textContent = isOpen ? 'earlier projects.' : 'collapse.';
+  if (!isOpen) {
+    // Re-observe cards so reveal animation triggers when they scroll into view
+    requestAnimationFrame(function() {
+      grid.querySelectorAll('.reveal').forEach(function(el) {
+        el.classList.remove('visible');
+        obs.observe(el);
+      });
+    });
+  }
 }
 
 function openProject(id) {
