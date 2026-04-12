@@ -103,7 +103,7 @@ nav.hidden { transform:translateY(-100%); }
   background:#e63030; color:#fff; border-color:#e63030;
 }
 #about { padding:2rem 0 4rem; max-width:1250px; margin:0 auto; }
-section { padding:10rem 3rem; }
+section { padding:12rem 3rem; }
 .s-title {
   font-size:clamp(2.2rem, 5vw, 4.5rem); font-weight:700;
   letter-spacing:-0.02em; text-align:center; margin-bottom:5rem;
@@ -252,8 +252,8 @@ section { padding:10rem 3rem; }
   color:rgba(255,255,255,.6); transition:all .25s; cursor:default;
 }
 .tool-pill:hover { border-color:rgba(255,255,255,.7); color:#fff; }
-#experience { border-top:1px solid rgba(255,255,255,.07); }
-#contact { text-align:center; border-top:1px solid rgba(255,255,255,.07); }
+#experience { border-top:none; }
+#contact { text-align:center; border-top:none; }
 .contact-list { display:flex; flex-direction:column; gap:1rem; align-items:center; margin-bottom:3rem; }
 .contact-phone {
   display:flex; align-items:center; gap:.6rem;
@@ -804,6 +804,10 @@ footer {
 .works-collapse.open .work-item:nth-child(6) { transition-delay:.40s; }
 .works-collapse.open .work-item:nth-child(7) { transition-delay:.47s; }
 .works-collapse.open .work-item:nth-child(8) { transition-delay:.54s; }
+
+/* Nav hamburger: hidden on desktop, nav-row-top is inline */
+.nav-row-top { display:contents; }
+.nav-hamburger { display:none; }
 </style>
 </head>
 <body>
@@ -811,12 +815,17 @@ footer {
 <div id="cur"></div>
 
 <nav>
-  <a href="#" onclick="showPage('main', null);return false;" class="nav-logo"><span class="logo-default">Zeyu Wang</span><span class="logo-hover">home.</span></a>
-  <ul class="nav-links">
-    <li><a href="#" onclick="showPage('main','projects');return false;">projects</a></li>
-    <li><a href="#" onclick="showPage('main','experience');return false;">experience.</a></li>
-    <li><a href="#" onclick="showPage('about', null);return false;">about</a></li>
-    <li><a href="#" onclick="showPage('main','contact');return false;">contact</a></li>
+  <div class="nav-row-top">
+    <a href="#" onclick="if(document.getElementById('main-page').style.display!=='none'){location.reload();}else{showPage('main',null);}return false;" class="nav-logo"><span class="logo-default">Zeyu Wang</span><span class="logo-hover">home.</span></a>
+    <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" onclick="showPage('main','projects');closeMobileNav();return false;">projects</a></li>
+    <li><a href="#" onclick="showPage('main','experience');closeMobileNav();return false;">experience</a></li>
+    <li><a href="#" onclick="showPage('about', null);closeMobileNav();return false;">about</a></li>
+    <li><a href="#" onclick="showPage('main','contact');closeMobileNav();return false;">contact</a></li>
   </ul>
 </nav>
 
@@ -1077,7 +1086,7 @@ footer {
 
 <div id="main-page-bottom" class="page">
 <section id="experience">
-  <h2 class="s-title reveal">experience.</h2>
+  <h2 class="s-title reveal">experience</h2>
   <div style="max-width:1300px; margin:0 auto;">
 
     <!-- Design group (default collapsed) -->
@@ -1381,7 +1390,7 @@ footer {
       <img loading="lazy" src="https://i.ibb.co/WN08NW6T/cover.jpg" alt="In-visible Gaze Poster">
     </div>
   </div>
-  <div class="project-gallery reveal">
+  <div class="project-gallery reveal appdesign-first-gallery">
     <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
     <img src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
     <img src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
@@ -1454,7 +1463,7 @@ footer {
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/lycosia/lycosia_poster.jpg" alt="Lycosia Poster">
     </div>
   </div>
-  <div class="project-gallery reveal lycosia-grid">
+  <div class="project-gallery reveal lycosia-grid appdesign-first-gallery">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/lycosia/1.png" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/lycosia/2.png" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/lycosia/3.png" alt="">
@@ -1557,7 +1566,7 @@ footer {
     <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
     <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
   </div>
-  <div class="app-project-section has-poster reveal">
+  <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">Lucus Angitiae</div>
       <div class="app-project-meta">Audiovisual Performance &nbsp;·&nbsp; Sansepolcro, Italy &nbsp;·&nbsp; May 29, 2024</div>
@@ -1594,6 +1603,20 @@ footer {
 
 <script>
 
+
+
+function toggleMobileNav() {
+  var links = document.getElementById('nav-links');
+  var btn = document.getElementById('nav-hamburger');
+  links.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileNav() {
+  var links = document.getElementById('nav-links');
+  var btn = document.getElementById('nav-hamburger');
+  links.classList.remove('open');
+  btn.classList.remove('open');
+}
 
 function toggleWorksSection(id) {
   var collapse = document.getElementById('works-collapse-' + id);
@@ -1640,7 +1663,7 @@ function openProject(id) {
   requestAnimationFrame(function() {
     incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-    if (id === 'appdesign' || id === 'installation' || id === 'peepbox' || id === 'lucus') {
+    if (id === 'appdesign' || id === 'installation' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
       var firstGallery = incoming.querySelector('.appdesign-first-gallery');
       if (firstGallery) {
         obs.unobserve(firstGallery);
