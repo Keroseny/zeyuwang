@@ -153,12 +153,12 @@ section { padding:12rem 3rem; }
   opacity:1; transform:translateY(0);
 }
 .about-bio {
-  display:grid; grid-template-columns:1fr 360px;
-  gap:6rem; align-items:center; margin-bottom:7rem;
+  display:grid; grid-template-columns:minmax(0,1fr) 260px;
+  column-gap:4rem; align-items:center; margin-bottom:0;
 }
 .bio-left h2 { font-size:clamp(2rem,3.2vw,3rem); font-weight:700; margin-bottom:.5rem; }
 .bio-title { font-size:.78rem; font-weight:400; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.45); margin-bottom:2.5rem; }
-.bio-text { font-size:1.02rem; font-weight:400; line-height:1.88; color:rgba(255,255,255,.7); margin-bottom:1.2rem; max-width:540px; }
+.bio-text { font-size:1.02rem; font-weight:400; line-height:1.88; color:rgba(255,255,255,.7); margin-bottom:1.2rem; }
 .cv-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem; }
 .cv-btn {
   display:inline-block;
@@ -169,7 +169,11 @@ section { padding:12rem 3rem; }
   transition:background .25s, color .25s, border-color .25s;
 }
 .cv-btn:hover { background:#e63030; color:#fff; border-color:#e63030; }
-.bio-right { position:relative; max-width:240px; }
+.bio-right {
+  position:relative;
+  width:100%;
+  align-self:center;
+}
 .bio-photo {
   width:100%; aspect-ratio:3/4; object-fit:cover; display:block;
   filter:grayscale(100%);
@@ -254,6 +258,11 @@ section { padding:12rem 3rem; }
 }
 .tool-pill:hover { border-color:rgba(255,255,255,.7); color:#fff; }
 #experience { border-top:none; }
+#experience .s-title { margin-bottom:5rem; }
+#experience .experience-groups {
+  max-width:1300px;
+  margin:0 auto;
+}
 #contact { text-align:center; border-top:none; }
 .contact-list { display:flex; flex-direction:column; gap:1rem; align-items:center; margin-bottom:3rem; }
 .contact-tel {
@@ -313,42 +322,29 @@ footer {
   align-items:center;
   justify-content:center;
   flex-shrink:0;
-  padding:5rem 3rem 3rem;
+  padding:5rem 0 3rem;
 }
 .about-slide-inner {
   width:100%;
-  max-width:1250px;
+  max-width:1400px;
   margin:0 auto;
+  padding:0 2.5rem;
+  box-sizing:border-box;
 }
 /* Slide content fade animation */
 .about-slide .slide-content {
   opacity:1;
   transform:none;
+  width:100%;
 }
 /* Staggered row animation inside each slide */
 .slide-row {
   opacity:0;
   transform:translateY(18px);
   transition:opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+  transition-delay:var(--row-delay, 0s);
 }
 .slide-visible .slide-row { opacity:1; transform:none; }
-.slide-visible .slide-row:nth-child(1) { transition-delay:.05s; }
-.slide-visible .slide-row:nth-child(2) { transition-delay:.13s; }
-.slide-visible .slide-row:nth-child(3) { transition-delay:.21s; }
-.slide-visible .slide-row:nth-child(4) { transition-delay:.29s; }
-.slide-visible .slide-row:nth-child(5) { transition-delay:.37s; }
-.slide-visible .slide-row:nth-child(6) { transition-delay:.45s; }
-.slide-visible .slide-row:nth-child(7) { transition-delay:.53s; }
-.slide-visible .slide-row:nth-child(8) { transition-delay:.61s; }
-.about-slide
-.about-bio {
-  display:grid;
-  grid-template-columns:1fr 360px;
-  gap:6rem;
-  align-items:center;
-  max-width:1250px;
-  width:100%;
-}
 /* Skills slide: tighter spacing to fit in one screen */
 .about-slide .skills-inner { max-width:860px; margin:0 auto; }
 .about-slide .skills-desc {
@@ -652,6 +648,8 @@ footer {
   transition:opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1);
 }
 .reveal.visible { opacity:1; transform:none; }
+#experience .experience-groups.reveal { transition-delay:0s; }
+#experience .experience-groups.reveal.visible { transition-delay:.16s; }
 @keyframes fadeIn { to { opacity:1; } }
 @media(max-width:900px){
   /* Hide custom cursor on touch devices */
@@ -712,6 +710,55 @@ footer {
   .projects-grid { grid-template-columns:1fr; }
   .about-bio { grid-template-columns:1fr; gap:3rem; }
   .bio-right { max-width:260px; }
+  /* About page: mobile-first stacked layout (stable and fully readable) */
+  #about-page {
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .about-slider {
+    height:auto;
+    min-height:100%;
+    transform:none !important;
+    transition:none !important;
+  }
+  .about-slide {
+    min-height:auto;
+    align-items:flex-start;
+    justify-content:flex-start;
+    padding:5.8rem 1.5rem 2.2rem;
+  }
+  .about-slide-inner {
+    max-width:100%;
+    padding:0;
+  }
+  .about-slide .slide-content {
+    max-width:100%;
+  }
+  .about-slide .slide-row {
+    opacity:1;
+    transform:none;
+    transition:none;
+  }
+  .about-slide .s-title {
+    margin-bottom:1.4rem;
+  }
+  .about-bio {
+    grid-template-columns:1fr;
+    gap:1.8rem;
+  }
+  .bio-right {
+    max-width:220px;
+    margin:0 auto;
+  }
+  .bio-sig-img {
+    width:230px;
+    right:-8px;
+    bottom:-1rem;
+  }
+  .about-dots,
+  #about-page.active .about-dots {
+    display:none !important;
+  }
   .edu-item { grid-template-columns:1fr; gap:.4rem; }
   .edu-logo { display:none; }
   .work-item { grid-template-columns:1fr; gap:.4rem; }
@@ -899,7 +946,7 @@ footer {
     </div>
   <div class="hero-overlay"></div>
   <div class="hero-body">
-    <button onclick="showPage('about', null)" class="hero-cta">about me</button>
+    <button onclick="if(document.getElementById('about-page').style.display!=='none'&&document.getElementById('about-page').classList.contains('active')){location.reload();}else{showPage('about',null);}return false;" class="hero-cta">about me</button>
   </div>
 </section>
 
@@ -992,34 +1039,36 @@ footer {
 
   <!-- SLIDE 1: Bio -->
   <div class="about-slide" id="about-slide-0">
+    <div class="about-slide-inner">
     <div class="slide-content">
-      <div class="slide-row about-bio">
+      <div class="about-bio">
       <div class="bio-left">
-        <h2>Zeyu Wang</h2>
-        <p class="bio-title">Multimedia artist &amp; Visual interaction designer</p>
-        <p class="bio-text">Zeyu Wang (born in Taiyuan, China, 1997) is a multimedia artist and visual interaction designer based in Milan, Italy.</p>
-        <p class="bio-text">His practice explores the intersection of technology and perception through generative art, machine learning, and interactive visual systems. By integrating algorithmic processes and real-time audiovisual environments, Wang investigates the boundaries and possibilities of contemporary image-making, rethinking how humans and machines perceive, interpret, and transform one another.</p>
-        <p class="bio-text">Currently based in Milan, he collaborates on interdisciplinary projects across visual art, new media, and performance.</p>
-        <div class="cv-btns">
-          <a href="https://drive.google.com/uc?export=download&id=1KaIY3UPL-YPDEbZ0xM765S5suNHKcvX9" target="_blank" class="cv-btn">download my cv. (en)</a>
-          <a href="https://drive.google.com/uc?export=download&id=1kgsLl1uoAVHNoyNdyohBAd-AyLX1iZF7" target="_blank" class="cv-btn">download my cv. (中文)</a>
+        <h2 class="slide-row" style="--row-delay:.05s;">Zeyu Wang</h2>
+        <p class="bio-title slide-row" style="--row-delay:.12s;">Multimedia artist &amp; Visual interaction designer</p>
+        <p class="bio-text slide-row" style="--row-delay:.19s;">Zeyu Wang (born in Taiyuan, China, 1997) is a multimedia artist and visual interaction designer based in Milan, Italy.</p>
+        <p class="bio-text slide-row" style="--row-delay:.26s;">His practice explores the intersection of technology and perception through generative art, machine learning, and interactive visual systems. By integrating algorithmic processes and real-time audiovisual environments, Wang investigates the boundaries and possibilities of contemporary image-making, rethinking how humans and machines perceive, interpret, and transform one another.</p>
+        <p class="bio-text slide-row" style="--row-delay:.33s;">Currently based in Milan, he collaborates on interdisciplinary projects across visual art, new media, and performance.</p>
+        <div class="cv-btns slide-row" style="--row-delay:.40s;">
+          <a href="https://drive.google.com/uc?export=download&id=1KaIY3UPL-YPDEbZ0xM765S5suNHKcvX9" target="_blank" class="cv-btn">download cv. (en)</a>
+          <a href="https://drive.google.com/uc?export=download&id=1kgsLl1uoAVHNoyNdyohBAd-AyLX1iZF7" target="_blank" class="cv-btn">download cv. (中文)</a>
         </div>
       </div>
-      <div class="bio-right">
+      <div class="bio-right slide-row" style="--row-delay:.47s;">
         <img class="bio-photo" src="https://i.ibb.co/KnSkbq5/new-headphoto.png" alt="Zeyu Wang">
         <img class="bio-sig-img" src="https://i.ibb.co/Kx70Pt11/firma.png" alt="Zeyu Wang signature">
       </div>
     </div><!-- end slide-row about-bio -->
     </div><!-- end slide-content -->
+    </div><!-- end about-slide-inner -->
   </div>
 
   <!-- SLIDE 2: Education -->
   <div class="about-slide" id="about-slide-1">
     <div class="about-slide-inner">
     <div class="slide-content">
-      <div class="slide-row"><h2 class="s-title">education</h2></div>
-      <div class="slide-row"><div class="edu-list" style="max-width:900px; margin:0 auto;">
-        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+      <div><h2 class="s-title slide-row" style="--row-delay:.05s;">education</h2></div>
+      <div><div class="edu-list" style="max-width:900px; margin:0 auto;">
+        <div class="edu-item slide-row" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center; --row-delay:.13s;">
           <div class="edu-period">Oct. 2021 – Mar. 2025</div>
           <div class="edu-logo-wrap">
             <a href="https://www.accademiadibrera.milano.it" target="_blank" rel="noopener">
@@ -1032,7 +1081,7 @@ footer {
             <div class="edu-detail">Final Grade: 110 / 110</div>
           </div>
         </div>
-        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+        <div class="edu-item slide-row" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center; --row-delay:.21s;">
           <div class="edu-period">Sep. 2016 – Jun. 2020</div>
           <div class="edu-logo-wrap">
             <a href="https://www.njupt.edu.cn" target="_blank" rel="noopener">
@@ -1045,7 +1094,7 @@ footer {
             <div class="edu-detail">GPA: 3.84 / 4.0</div>
           </div>
         </div>
-        <div class="edu-item" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center;">
+        <div class="edu-item slide-row" style="grid-template-columns:180px 130px 1fr; justify-items:center; text-align:center; --row-delay:.29s;">
           <div class="edu-period">Jul. 2017 – Feb. 2018</div>
           <div class="edu-logo-wrap">
             <a href="https://www.shu.edu.tw" target="_blank" rel="noopener">
@@ -1066,11 +1115,11 @@ footer {
   <div class="about-slide" id="about-slide-2">
     <div class="about-slide-inner">
     <div class="slide-content">
-      <div class="slide-row"><h2 class="s-title">skills</h2></div>
-      <div class="slide-row skills-inner">
-        <p class="skills-desc">I work across a range of creative and technical tools for interactive and visual art production. My practice combines real-time generative design, 3D modeling, and audiovisual composition. I am also experienced with Arduino for physical interaction, and proficient in the Adobe Suite for image editing, motion graphics, and video production.</p>
+      <div><h2 class="s-title slide-row" style="--row-delay:.05s;">skills</h2></div>
+      <div class="skills-inner">
+        <p class="skills-desc slide-row" style="--row-delay:.13s;">I work across a range of creative and technical tools for interactive and visual art production. My practice combines real-time generative design, 3D modeling, and audiovisual composition. I am also experienced with Arduino for physical interaction, and proficient in the Adobe Suite for image editing, motion graphics, and video production.</p>
         <div class="tools-block">
-          <div class="tools-group">
+          <div class="tools-group slide-row" style="--row-delay:.21s;">
             <span class="tools-label">Real-time &amp; Generative</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://derivative.ca" target="_blank" rel="noopener">
@@ -1087,7 +1136,7 @@ footer {
               </a>
             </div>
           </div>
-          <div class="tools-group">
+          <div class="tools-group slide-row" style="--row-delay:.29s;">
             <span class="tools-label">3D &amp; Interactive</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://www.blender.org" target="_blank" rel="noopener">
@@ -1104,7 +1153,7 @@ footer {
               </a>
             </div>
           </div>
-          <div class="tools-group">
+          <div class="tools-group slide-row" style="--row-delay:.37s;">
             <span class="tools-label">Adobe Suite</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noopener">
@@ -1149,10 +1198,10 @@ footer {
 <div id="main-page-bottom" class="page">
 <section id="experience">
   <h2 class="s-title reveal">experience</h2>
-  <div style="max-width:1300px; margin:0 auto;">
+  <div class="experience-groups reveal">
 
     <!-- Design group (default collapsed) -->
-    <button class="works-section-toggle reveal" onclick="toggleWorksSection('design')">
+    <button class="works-section-toggle" onclick="toggleWorksSection('design')">
       <span class="works-section-label">Design</span>
       <span class="works-section-arrow" id="works-arrow-design">↓</span>
     </button>
@@ -1182,7 +1231,7 @@ footer {
     </div>
 
     <!-- Interpreter & Event group (default collapsed) -->
-    <button class="works-section-toggle reveal" onclick="toggleWorksSection('interpreter')">
+    <button class="works-section-toggle" onclick="toggleWorksSection('interpreter')">
       <span class="works-section-label">Interpreter &amp; Event</span>
       <span class="works-section-arrow" id="works-arrow-interpreter">↓</span>
     </button>
@@ -1776,9 +1825,23 @@ function closeProject() {
 var aboutCurrentSlide = 0;
 var aboutTotalSlides = 3;
 var aboutScrolling = false;
+function isMobileAboutLayout() {
+  return window.matchMedia('(max-width:900px)').matches;
+}
 
 function goToSlide(index) {
   if (index < 0 || index >= aboutTotalSlides) return;
+  if (isMobileAboutLayout()) {
+    aboutCurrentSlide = index;
+    var mobileTarget = document.getElementById('about-slide-' + index);
+    if (mobileTarget) {
+      mobileTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    document.querySelectorAll('.about-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === index);
+    });
+    return;
+  }
   // fade out current slide content
   var currentEl = document.getElementById('about-slide-' + aboutCurrentSlide);
   if (currentEl) currentEl.classList.remove('slide-visible');
@@ -1808,10 +1871,18 @@ function showPage(page, scrollTo) {
     aboutCurrentSlide = 0;
     var slider = document.getElementById('about-slider');
     slider.style.transition = 'none';
-    slider.style.transform = 'translateY(0)';
+    slider.style.transform = isMobileAboutLayout() ? 'none' : 'translateY(0)';
     document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
     document.querySelectorAll('.about-dot').forEach(function(d, i) { d.classList.toggle('active', i === 0); });
     window.scrollTo(0, 0);
+    if (isMobileAboutLayout()) {
+      aboutPage.classList.add('active');
+      slider.style.transition = 'none';
+      slider.style.transform = 'none';
+      document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.add('slide-visible'); });
+      aboutPage.scrollTop = 0;
+      return;
+    }
     // fade in page, then fade in first slide content
     requestAnimationFrame(function() {
       requestAnimationFrame(function() {
@@ -1849,6 +1920,7 @@ function showPage(page, scrollTo) {
 document.addEventListener('wheel', function(e) {
   var aboutPage = document.getElementById('about-page');
   if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  if (isMobileAboutLayout()) return;
   if (aboutScrolling) return;
   aboutScrolling = true;
   if (e.deltaY > 0) {
@@ -1864,11 +1936,13 @@ var aboutTouchStartY = 0;
 document.addEventListener('touchstart', function(e) {
   var aboutPage = document.getElementById('about-page');
   if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  if (isMobileAboutLayout()) return;
   aboutTouchStartY = e.touches[0].clientY;
 }, { passive: true });
 document.addEventListener('touchend', function(e) {
   var aboutPage = document.getElementById('about-page');
   if (aboutPage.style.display === 'none' || aboutPage.style.display === '') return;
+  if (isMobileAboutLayout()) return;
   if (aboutScrolling) return;
   var dy = aboutTouchStartY - e.changedTouches[0].clientY;
   if (Math.abs(dy) < 40) return;
@@ -1975,22 +2049,6 @@ window.addEventListener('scroll', function() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
