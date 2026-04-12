@@ -735,16 +735,48 @@ footer {
     max-width:100%;
   }
   .about-slide .slide-row {
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .9s cubic-bezier(.4,0,.2,1), transform .9s cubic-bezier(.4,0,.2,1);
+  }
+  .about-slide .slide-row.visible {
     opacity:1;
     transform:none;
-    transition:none;
   }
   .about-slide .s-title {
     margin-bottom:1.4rem;
   }
-  .about-bio {
+  #about-slide-0 .about-bio {
     grid-template-columns:1fr;
-    gap:1.8rem;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  #about-slide-0 .bio-left {
+    display:contents;
+  }
+  #about-slide-0 .bio-left h2 { order:1; margin-bottom:.35rem; }
+  #about-slide-0 .bio-title { order:2; margin-bottom:1rem; }
+  #about-slide-0 .bio-right {
+    order:3;
+    max-width:220px;
+    margin:0 auto 1.2rem;
+  }
+  #about-slide-0 .bio-text { order:4; }
+  #about-slide-0 .cv-btns {
+    order:5;
+    margin-top:1rem;
+    justify-content:center;
+    flex-wrap:nowrap;
+    gap:.6rem;
+  }
+  #about-slide-0 .cv-btn {
+    padding:.5rem 1.2rem;
+    font-size:.68rem;
+    border-width:1.5px;
+    letter-spacing:.03em;
+    line-height:1.2;
+    white-space:nowrap;
   }
   .bio-right {
     max-width:220px;
@@ -759,8 +791,28 @@ footer {
   #about-page.active .about-dots {
     display:none !important;
   }
-  .edu-item { grid-template-columns:1fr; gap:.4rem; }
-  .edu-logo { display:none; }
+  #about-slide-1 .edu-list {
+    max-width:100% !important;
+  }
+  #about-slide-1 .edu-item {
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center;
+    text-align:center !important;
+    gap:.7rem !important;
+    padding:1.2rem 0 !important;
+  }
+  #about-slide-1 .edu-logo {
+    display:block !important;
+    width:84px;
+    max-height:64px;
+  }
+  #about-slide-1 .edu-logo-wrap {
+    min-height:0;
+  }
+  #about-slide-1 .edu-period {
+    padding-top:0;
+  }
   .work-item { grid-template-columns:1fr; gap:.4rem; }
   .work-tag { display:none; }
   .project-page-topnav {
@@ -1879,7 +1931,13 @@ function showPage(page, scrollTo) {
       aboutPage.classList.add('active');
       slider.style.transition = 'none';
       slider.style.transform = 'none';
-      document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.add('slide-visible'); });
+      document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
+      requestAnimationFrame(function() {
+        aboutPage.querySelectorAll('.slide-row').forEach(function(row) {
+          row.classList.remove('visible');
+          if (obs && obs.observe) { obs.observe(row); }
+        });
+      });
       aboutPage.scrollTop = 0;
       return;
     }
@@ -2049,7 +2107,5 @@ window.addEventListener('scroll', function() {
 </script>
 </body>
 </html>
-
-
 
 
