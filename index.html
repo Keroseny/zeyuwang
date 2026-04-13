@@ -877,6 +877,7 @@ footer {
     width:100%;
     padding-top:56.25%; /* 16:9 */
     flex-shrink:0;
+    margin-top:3.5rem;
   }
   .hero-video-wrap iframe {
     position:absolute;
@@ -894,7 +895,7 @@ footer {
     left:auto; right:auto;
     display:flex;
     justify-content:center;
-    padding:1.5rem 1.5rem 2rem;
+    padding:1.8rem 1.5rem 3rem;
   }
   .hero-cta {
     margin-top:0;
@@ -969,7 +970,7 @@ footer {
 /* Nav hamburger: hidden on desktop, nav-row-top is inline */
 .nav-row-top { display:contents; }
 .nav-hamburger { display:none; }
-</style>
+</style></style>
 </head>
 <body>
 
@@ -1055,29 +1056,32 @@ footer {
       </div>
     </div>
 
-  </div>
 
-  <!-- Earlier works toggle -->
-  <div class="earlier-works-divider">
-    <div class="earlier-works-line"></div>
-    <button class="earlier-works-toggle" onclick="toggleEarlierWorks(this)">earlier projects.</button>
-    <div class="earlier-works-line"></div>
-  </div>
-  <div class="earlier-works-grid" id="earlier-works-grid">
-    <div class="project-card reveal" onclick="openProject('appdesign')" style="cursor:pointer;">
+<div class="project-card reveal earlier-card" style="display:none" onclick="openProject('appdesign')" style="cursor:pointer;">
       <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
         <div class="project-name">App Design</div>
         <div class="project-year">2021</div>
       </div>
     </div>
-    <div class="project-card reveal" onclick="openProject('installation')" style="cursor:pointer;">
+
+    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('installation')" style="cursor:pointer;">
       <div class="project-placeholder"></div>
       <div class="project-info">
         <div class="project-name">Installation</div>
         <div class="project-year">2020</div>
       </div>
     </div>
+  </div>
+
+  <!-- Earlier works toggle -->
+  <div class="earlier-works-divider">
+    <div class="earlier-works-line"></div>
+    <button class="earlier-works-toggle" onclick="toggleEarlierWorks(this)">view archive.</button>
+    <div class="earlier-works-line"></div>
+  </div>
+  <div class="earlier-works-grid" id="earlier-works-grid">
+  </div>
   </div>
 
 </section>
@@ -1790,18 +1794,33 @@ function toggleWorksSection(id) {
 }
 
 function toggleEarlierWorks(btn) {
-  var grid = document.getElementById('earlier-works-grid');
-  var isOpen = grid.classList.contains('open');
-  grid.classList.toggle('open');
-  btn.textContent = isOpen ? 'earlier projects.' : 'collapse.';
+  var isOpen = btn.dataset.open === 'true';
+  var cards = document.querySelectorAll('.earlier-card');
   if (!isOpen) {
-    // Re-observe cards so reveal animation triggers when they scroll into view
+    // Show: reveal the hidden cards in the main grid
+    cards.forEach(function(el) {
+      el.style.display = '';
+    });
+    btn.textContent = 'close archive.';
+    btn.dataset.open = 'true';
+    // Re-observe for reveal animation
     requestAnimationFrame(function() {
-      grid.querySelectorAll('.reveal').forEach(function(el) {
-        el.classList.remove('visible');
-        obs.observe(el);
+      cards.forEach(function(el) {
+        var reveals = el.classList.contains('reveal') ? [el] : Array.from(el.querySelectorAll('.reveal'));
+        if (el.classList.contains('reveal')) reveals = [el];
+        reveals.forEach(function(r) {
+          r.classList.remove('visible');
+          obs.observe(r);
+        });
       });
     });
+  } else {
+    // Hide: collapse back
+    cards.forEach(function(el) {
+      el.style.display = 'none';
+    });
+    btn.textContent = 'view archive.';
+    btn.dataset.open = 'false';
   }
 }
 
