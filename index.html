@@ -755,19 +755,41 @@ footer {
   #about-slide-0 .bio-left {
     display:contents;
   }
-  #about-slide-0 .bio-left h2 { order:1; margin-bottom:.35rem; }
-  #about-slide-0 .bio-title { order:2; margin-bottom:1rem; }
+  /* Match app-project-title */
+  #about-slide-0 .bio-left h2 {
+    order:1;
+    font-size:clamp(1.6rem,3vw,2.8rem);
+    letter-spacing:-0.02em;
+    margin-bottom:.4rem;
+  }
+  /* Match app-project-meta */
+  #about-slide-0 .bio-title {
+    order:2;
+    font-size:.72rem;
+    color:rgba(255,255,255,.4);
+    margin-bottom:1.5rem;
+  }
+  /* Match project-page-poster-wrap */
   #about-slide-0 .bio-right {
     order:3;
-    max-width:220px;
-    margin:0 auto 1.2rem;
+    width:min(260px, 68vw);
+    max-width:none;
+    margin:1.1rem auto 1.4rem;
+    align-self:center;
   }
-  #about-slide-0 .bio-text { order:4; }
+  /* Match app-project-desc */
+  #about-slide-0 .bio-text {
+    order:4;
+    font-size:.95rem;
+    line-height:1.8;
+    color:rgba(255,255,255,.65);
+    margin-bottom:1.2rem;
+  }
   #about-slide-0 .cv-btns {
     order:5;
-    margin-top:1rem;
-    justify-content:center;
-    flex-wrap:nowrap;
+    margin-top:1.5rem;
+    justify-content:flex-start;
+    flex-wrap:wrap;
     gap:.6rem;
   }
   #about-slide-0 .cv-btn {
