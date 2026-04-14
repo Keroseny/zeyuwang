@@ -584,10 +584,14 @@ footer {
 }
 .project-gallery {
   columns:2; column-gap:4px;
+  column-fill:balance;
   max-width:1400px;
   margin:0 auto;
   padding:4px 2.5rem;
   box-sizing:border-box;
+}
+.project-gallery img {
+  width:100%; display:block; margin-bottom:4px; break-inside:avoid;
 }
 .project-gallery.appdesign-single-col {
   columns:1;
@@ -605,10 +609,7 @@ footer {
   grid-column:1 / -1;
   margin-bottom:0;
 }
-.project-gallery img {
-  width:100%; display:block; margin-bottom:4px;
-  break-inside:avoid; transition:opacity .3s;
-}
+
 
 .gallery-video-wrap {
   position:relative;
@@ -1074,7 +1075,8 @@ footer {
 }
 @media(max-width:900px){
   .photography-grid { grid-template-columns:1fr; gap:4px; padding:4px 1.5rem; }
-  .photography-grid .photo-full { grid-column:1; aspect-ratio:4/3; }
+  .photography-grid img { aspect-ratio:unset; height:auto; }
+  .photography-grid .photo-full { grid-column:1; aspect-ratio:unset; height:auto; }
 }
 </style></style>
 </head>
@@ -1127,7 +1129,7 @@ footer {
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('duna2')" style="cursor:pointer;">
-      <img loading="lazy" src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
       <div class="project-info">
         <div class="project-name">Duna pres. Oscar Mulero &amp; Sybil</div>
         <div class="project-year">2025</div>
@@ -1593,14 +1595,14 @@ footer {
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
-      <img loading="lazy" src="https://i.ibb.co/4ZB7dG41/duna-poster1.jpg" alt="DUNA Poster">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/duna_oscar_poster.JPEG" alt="DUNA Poster">
     </div>
   </div>
   <!-- Mixed gallery: photos + videos interleaved -->
   <div class="project-gallery reveal" id="duna2-gallery">
-    <img loading="lazy" src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-112.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-378.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-108.jpg" alt="">
 
     <!-- Video 1 -->
     <div class="gallery-video-wrap" data-vimeo="1175517943">
@@ -1610,10 +1612,10 @@ footer {
       <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175517943')">sound off.</button></div>
     </div>
 
-    <img loading="lazy" src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-283.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-244.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-258.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-374.jpg" alt="">
 
     <!-- Video 2 -->
     <div class="gallery-video-wrap" data-vimeo="1175518019">
@@ -1623,10 +1625,10 @@ footer {
       <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175518019')">sound off.</button></div>
     </div>
 
-    <img loading="lazy" src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-318.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-324.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2010%2041.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2008%2009.jpg" alt="">
 
     <!-- Video 3 -->
     <div class="gallery-video-wrap" data-vimeo="1175518102">
@@ -1636,15 +1638,14 @@ footer {
       <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175518102')">sound off.</button></div>
     </div>
 
-    <img loading="lazy" src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2006%2017.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2005%2056.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2009%2032.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2010%2044.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2010%2049.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-406.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/Photo%2013-10-25%2C%2013%2008%2040.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-424.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna')">previous.</button>
