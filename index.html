@@ -404,7 +404,8 @@ footer {
 #project-page-lycosia,
 #project-page-lucus,
 #project-page-appdesign,
-#project-page-installation {
+#project-page-installation,
+#project-page-photography {
   display:none;
   min-height:100vh;
   background:#000;
@@ -640,7 +641,6 @@ footer {
   opacity:0;
   transition:opacity .25s, background .25s, border-color .25s, color .25s;
 }
-.gallery-video-wrap:hover .gallery-mute-btn { opacity:1; }
 .gallery-mute-btn:hover { background:#e63030; border-color:#e63030; color:#fff; }
 
 .reveal {
@@ -769,13 +769,14 @@ footer {
     font-size:.72rem;
     color:rgba(255,255,255,.4);
     margin-bottom:1.5rem;
+    text-align:center;
   }
   /* Match project-page-poster-wrap */
   #about-slide-0 .bio-right {
     order:3;
-    width:min(260px, 68vw);
+    width:min(220px, 58vw);
     max-width:none;
-    margin:1.1rem auto 1.4rem;
+    margin:1.1rem auto 2.4rem;
     align-self:center;
   }
   /* Match app-project-desc */
@@ -993,6 +994,88 @@ footer {
 /* Nav hamburger: hidden on desktop, nav-row-top is inline */
 .nav-row-top { display:contents; }
 .nav-hamburger { display:none; }
+
+/* YouTube embed */
+.gallery-yt { position:relative; width:100%; }
+.yt-thumb-wrap {
+  position:relative; width:100%; cursor:pointer;
+  background:#000;
+}
+.yt-thumb-wrap img {
+  width:100%; display:block; opacity:.85;
+  transition:opacity .3s;
+}
+.yt-thumb-wrap:hover img { opacity:1; }
+.yt-play-btn {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:64px; height:64px; border-radius:50%;
+  background:rgba(0,0,0,.7); border:2px solid rgba(255,255,255,.8);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; color:#fff; pointer-events:none;
+  transition:background .3s, border-color .3s;
+}
+.yt-thumb-wrap:hover .yt-play-btn {
+  background:#e63030; border-color:#e63030;
+}
+.yt-iframe-wrap { position:relative; width:100%; padding-top:56.25%; }
+.yt-iframe-wrap iframe {
+  position:absolute; top:0; left:0; width:100%; height:100%; border:none;
+}
+
+
+
+/* Unified gallery video buttons */
+.gallery-btn-group {
+  position:absolute;
+  bottom:.8rem; right:.8rem;
+  display:flex;
+  gap:.5rem;
+  z-index:10;
+  pointer-events:all;
+  opacity:0;
+  transition:opacity .25s;
+}
+.gallery-video-wrap:hover .gallery-btn-group { opacity:1; }
+.gallery-btn {
+  display:inline-block;
+  border:1px solid rgba(255,255,255,.5);
+  padding:.35rem 1rem;
+  font-size:.65rem; font-weight:400; letter-spacing:.1em;
+  color:rgba(255,255,255,.7); background:rgba(0,0,0,.6);
+  cursor:pointer; font-family:Helvetica, Arial, sans-serif;
+  text-decoration:none;
+  transition:border-color .2s, color .2s, background .2s;
+  white-space:nowrap;
+}
+.gallery-btn:hover { color:#e63030; border-color:#e63030; background:rgba(0,0,0,.8); }
+
+/* Photography gallery: CSS grid, no gaps or empty spaces */
+.photography-grid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:4px;
+  padding:4px 2.5rem;
+  max-width:1400px; margin:0 auto;
+  box-sizing:border-box;
+}
+.photography-grid img {
+  width:100%; display:block;
+  object-fit:cover;
+  aspect-ratio:3/2;
+  filter:grayscale(100%);
+}
+.photography-grid .photo-full {
+  grid-column:1 / -1;
+  aspect-ratio:16/9;
+}
+.photography-grid .photo-tall {
+  aspect-ratio:2/3;
+}
+@media(max-width:900px){
+  .photography-grid { grid-template-columns:1fr; gap:4px; padding:4px 1.5rem; }
+  .photography-grid .photo-full { grid-column:1; aspect-ratio:4/3; }
+}
 </style></style>
 </head>
 <body>
@@ -1030,28 +1113,28 @@ footer {
   <h2 class="s-title reveal">projects</h2>
   <div class="projects-grid">
     <div class="project-card reveal" onclick="openProject('altera')" style="cursor:pointer;">
-      <img src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="Altera">
+      <img loading="lazy" src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="Altera">
       <div class="project-info">
         <div class="project-name">Altera</div>
         <div class="project-year">2025–2026</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('duna')" style="cursor:pointer;">
-      <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="4 Years Duna">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="4 Years Duna">
       <div class="project-info">
         <div class="project-name">4 Years Duna</div>
         <div class="project-year">2026</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('duna2')" style="cursor:pointer;">
-      <img src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
+      <img loading="lazy" src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
       <div class="project-info">
         <div class="project-name">Duna pres. Oscar Mulero &amp; Sybil</div>
         <div class="project-year">2025</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('invisible')" style="cursor:pointer;">
-      <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="In-visible Gaze">
+      <img loading="lazy" src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="In-visible Gaze">
       <div class="project-info">
         <div class="project-name">In-visible Gaze</div>
         <div class="project-year">2025</div>
@@ -1080,18 +1163,26 @@ footer {
     </div>
 
 
-<div class="project-card reveal earlier-card" style="display:none" onclick="openProject('appdesign')" style="cursor:pointer;">
-      <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
+    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('installation')" style="cursor:pointer;">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/installation_cover.jpg" alt="Installation">
       <div class="project-info">
-        <div class="project-name">App Design</div>
-        <div class="project-year">2021</div>
+        <div class="project-name">Installation</div>
+        <div class="project-year">2020</div>
       </div>
     </div>
 
-    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('installation')" style="cursor:pointer;">
-      <div class="project-placeholder"></div>
+<div class="project-card reveal earlier-card" style="display:none" onclick="openProject('appdesign')" style="cursor:pointer;">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
-        <div class="project-name">Installation</div>
+        <div class="project-name">App Design</div>
+        <div class="project-year">2020</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('photography')" style="cursor:pointer;">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="Photography">
+      <div class="project-info">
+        <div class="project-name">Photography</div>
         <div class="project-year">2020</div>
       </div>
     </div>
@@ -1133,8 +1224,8 @@ footer {
         </div>
       </div>
       <div class="bio-right slide-row" style="--row-delay:.47s;">
-        <img class="bio-photo" src="https://i.ibb.co/KnSkbq5/new-headphoto.png" alt="Zeyu Wang">
-        <img class="bio-sig-img" src="https://i.ibb.co/Kx70Pt11/firma.png" alt="Zeyu Wang signature">
+        <img loading="lazy" class="bio-photo" src="https://i.ibb.co/KnSkbq5/new-headphoto.png" alt="Zeyu Wang">
+        <img loading="lazy" class="bio-sig-img" src="https://i.ibb.co/Kx70Pt11/firma.png" alt="Zeyu Wang signature">
       </div>
     </div><!-- end slide-row about-bio -->
     </div><!-- end slide-content -->
@@ -1151,7 +1242,7 @@ footer {
           <div class="edu-period">Oct. 2021 – Mar. 2025</div>
           <div class="edu-logo-wrap">
             <a href="https://www.accademiadibrera.milano.it" target="_blank" rel="noopener">
-              <img class="edu-logo" src="https://i.ibb.co/kgjb8j98/BRERA-LOGO.png" alt="Brera">
+              <img loading="lazy" class="edu-logo" src="https://i.ibb.co/kgjb8j98/BRERA-LOGO.png" alt="Brera">
             </a>
           </div>
           <div>
@@ -1164,7 +1255,7 @@ footer {
           <div class="edu-period">Sep. 2016 – Jun. 2020</div>
           <div class="edu-logo-wrap">
             <a href="https://www.njupt.edu.cn" target="_blank" rel="noopener">
-              <img class="edu-logo" src="https://i.ibb.co/chjdn0xZ/NJUPT-LOGO.png" alt="NJUPT">
+              <img loading="lazy" class="edu-logo" src="https://i.ibb.co/chjdn0xZ/NJUPT-LOGO.png" alt="NJUPT">
             </a>
           </div>
           <div>
@@ -1177,7 +1268,7 @@ footer {
           <div class="edu-period">Jul. 2017 – Feb. 2018</div>
           <div class="edu-logo-wrap">
             <a href="https://www.shu.edu.tw" target="_blank" rel="noopener">
-              <img class="edu-logo" src="https://i.ibb.co/b5j78nbD/SHU-Logo.png" alt="Shih Hsin University">
+              <img loading="lazy" class="edu-logo" src="https://i.ibb.co/b5j78nbD/SHU-Logo.png" alt="Shih Hsin University">
             </a>
           </div>
           <div>
@@ -1202,15 +1293,15 @@ footer {
             <span class="tools-label">Real-time &amp; Generative</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://derivative.ca" target="_blank" rel="noopener">
-                <img class="tool-logo-img wide" src="https://i.ibb.co/PZzyrTsS/Touch-Designer-Derivative-logo-white.png" alt="TouchDesigner">
+                <img loading="lazy" class="tool-logo-img wide" src="https://i.ibb.co/PZzyrTsS/Touch-Designer-Derivative-logo-white.png" alt="TouchDesigner">
                 <span class="tool-logo-name">TouchDesigner</span>
               </a>
               <a class="tool-logo-item" href="https://resolume.com" target="_blank" rel="noopener">
-                <img class="tool-logo-img wide" src="https://i.ibb.co/Z6wsbJvR/resolumelogowhite.png" alt="Resolume Arena">
+                <img loading="lazy" class="tool-logo-img wide" src="https://i.ibb.co/Z6wsbJvR/resolumelogowhite.png" alt="Resolume Arena">
                 <span class="tool-logo-name">Resolume Arena</span>
               </a>
               <a class="tool-logo-item" href="https://www.arduino.cc" target="_blank" rel="noopener">
-                <img class="tool-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino">
+                <img loading="lazy" class="tool-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/8/87/Arduino_Logo.svg" alt="Arduino">
                 <span class="tool-logo-name">Arduino</span>
               </a>
             </div>
@@ -1219,15 +1310,15 @@ footer {
             <span class="tools-label">3D &amp; Interactive</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://www.blender.org" target="_blank" rel="noopener">
-                <img class="tool-logo-img color" src="https://i.ibb.co/q3C985jq/blender-logo.png" alt="Blender">
+                <img loading="lazy" class="tool-logo-img color" src="https://i.ibb.co/q3C985jq/blender-logo.png" alt="Blender">
                 <span class="tool-logo-name">Blender</span>
               </a>
               <a class="tool-logo-item" href="https://unity.com" target="_blank" rel="noopener">
-                <img class="tool-logo-img wide" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" alt="Unity 3D">
+                <img loading="lazy" class="tool-logo-img wide" src="https://upload.wikimedia.org/wikipedia/commons/1/19/Unity_Technologies_logo.svg" alt="Unity 3D">
                 <span class="tool-logo-name">Unity 3D</span>
               </a>
               <a class="tool-logo-item" href="https://www.maxon.net/zbrush" target="_blank" rel="noopener">
-                <img class="tool-logo-img" src="https://i.ibb.co/1tWnm5gc/zbrush-svgrepo-com.png" alt="ZBrush">
+                <img loading="lazy" class="tool-logo-img" src="https://i.ibb.co/1tWnm5gc/zbrush-svgrepo-com.png" alt="ZBrush">
                 <span class="tool-logo-name">ZBrush</span>
               </a>
             </div>
@@ -1236,23 +1327,23 @@ footer {
             <span class="tools-label">Adobe Suite</span>
             <div class="tools-row">
               <a class="tool-logo-item" href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noopener">
-                <img class="tool-logo-img adobe" src="https://i.ibb.co/RrbjxhT/photoshop.png" alt="Photoshop">
+                <img loading="lazy" class="tool-logo-img adobe" src="https://i.ibb.co/RrbjxhT/photoshop.png" alt="Photoshop">
                 <span class="tool-logo-name">Photoshop</span>
               </a>
               <a class="tool-logo-item" href="https://www.adobe.com/products/illustrator.html" target="_blank" rel="noopener">
-                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" alt="Illustrator">
+                <img loading="lazy" class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Adobe_Illustrator_CC_icon.svg" alt="Illustrator">
                 <span class="tool-logo-name">Illustrator</span>
               </a>
               <a class="tool-logo-item" href="https://www.adobe.com/products/premiere.html" target="_blank" rel="noopener">
-                <img class="tool-logo-img adobe" src="https://i.ibb.co/HLyYbKXd/premiere-pro.png" alt="Premiere Pro">
+                <img loading="lazy" class="tool-logo-img adobe" src="https://i.ibb.co/HLyYbKXd/premiere-pro.png" alt="Premiere Pro">
                 <span class="tool-logo-name">Premiere Pro</span>
               </a>
               <a class="tool-logo-item" href="https://www.adobe.com/products/aftereffects.html" target="_blank" rel="noopener">
-                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="After Effects">
+                <img loading="lazy" class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/c/cb/Adobe_After_Effects_CC_icon.svg" alt="After Effects">
                 <span class="tool-logo-name">After Effects</span>
               </a>
               <a class="tool-logo-item" href="https://www.adobe.com/products/indesign.html" target="_blank" rel="noopener">
-                <img class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg" alt="InDesign">
+                <img loading="lazy" class="tool-logo-img adobe" src="https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg" alt="InDesign">
                 <span class="tool-logo-name">InDesign</span>
               </a>
             </div>
@@ -1410,28 +1501,28 @@ footer {
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal">
-    <img src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
-    <img src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
-    <img src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
-    <img src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
-    <img src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
-    <img src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
-    <img src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
-    <img src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
-    <img src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
-    <img src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
-    <img src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
-    <img src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
-    <img src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
-    <img src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="">
-    <img src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
 
     <!-- Video -->
     <div class="gallery-video-wrap" data-vimeo="1180158841">
       <iframe id="vimeo-1180158841"
         src="https://player.vimeo.com/video/1180158841?autoplay=0&muted=1&loop=1&background=0&controls=0"
         allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <button class="gallery-mute-btn" onclick="toggleMute(this,'1180158841')">sound off.</button>
+      <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1180158841')">sound off.</button></div>
     </div>
 
   </div>
@@ -1462,23 +1553,23 @@ footer {
     </div>
   </div>
   <div class="project-gallery reveal">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-96.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-121.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-125.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-127.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-128.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-158.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-172.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-184.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-218.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-222.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-268.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-285.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-303.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-333.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-339.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-394.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-96.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-121.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-125.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-127.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-128.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-158.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-172.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-184.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-218.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-222.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-268.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-285.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-303.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-333.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-339.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-394.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('altera')">previous.</button>
@@ -1507,53 +1598,53 @@ footer {
   </div>
   <!-- Mixed gallery: photos + videos interleaved -->
   <div class="project-gallery reveal" id="duna2-gallery">
-    <img src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="">
-    <img src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
-    <img src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/PZ6Lhwsj/DUNA-OSCAR-MULERO-SYBIL-112.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/KJxD1Vn/DUNA-OSCAR-MULERO-SYBIL-378.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/q3CwJqwK/DUNA-OSCAR-MULERO-SYBIL-108.jpg" alt="">
 
     <!-- Video 1 -->
     <div class="gallery-video-wrap" data-vimeo="1175517943">
       <iframe id="vimeo-1175517943"
         src="https://player.vimeo.com/video/1175517943?autoplay=0&muted=1&loop=1&background=0&controls=0"
         allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175517943')">sound off.</button>
+      <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175517943')">sound off.</button></div>
     </div>
 
-    <img src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
-    <img src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
-    <img src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
-    <img src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/fdyxRBQD/DUNA-OSCAR-MULERO-SYBIL-283.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DXpv4V6/DUNA-OSCAR-MULERO-SYBIL-244.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Xfkp8bPm/DUNA-OSCAR-MULERO-SYBIL-258.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/pjQgYvNc/DUNA-OSCAR-MULERO-SYBIL-374.jpg" alt="">
 
     <!-- Video 2 -->
     <div class="gallery-video-wrap" data-vimeo="1175518019">
       <iframe id="vimeo-1175518019"
         src="https://player.vimeo.com/video/1175518019?autoplay=0&muted=1&loop=1&background=0&controls=0"
         allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518019')">sound off.</button>
+      <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175518019')">sound off.</button></div>
     </div>
 
-    <img src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
-    <img src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
-    <img src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
-    <img src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/TqK0vntd/DUNA-OSCAR-MULERO-SYBIL-318.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DfQ7TsL5/DUNA-OSCAR-MULERO-SYBIL-324.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/9H0wVPZd/Photo-13-10-25-13-10-41.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/YFzthP1w/Photo-13-10-25-13-08-09.jpg" alt="">
 
     <!-- Video 3 -->
     <div class="gallery-video-wrap" data-vimeo="1175518102">
       <iframe id="vimeo-1175518102"
         src="https://player.vimeo.com/video/1175518102?autoplay=0&muted=1&loop=1&background=0&controls=0"
         allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <button class="gallery-mute-btn" onclick="toggleMute(this,'1175518102')">sound off.</button>
+      <div class="gallery-btn-group"><button class="gallery-btn" onclick="toggleMuteNew(this,'1175518102')">sound off.</button></div>
     </div>
 
-    <img src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
-    <img src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
-    <img src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
-    <img src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
-    <img src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
-    <img src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
-    <img src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
-    <img src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
-    <img src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Pq2VfZ6/Photo-13-10-25-13-06-17.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/S4SmqFV8/Photo-13-10-25-13-05-56.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8Ltg6JZw/Photo-13-10-25-13-09-32.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/ZzQSynZ4/Photo-13-10-25-13-10-44.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/3Y1hqftD/Photo-13-10-25-13-10-49.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/5hgdH03d/DUNA-OSCAR-MULERO-SYBIL-406.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/8LMk7dJJ/DUNA-OSCAR-MULERO-SYBIL-416.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/d11GyDn/DUNA-OSCAR-MULERO-SYBIL-424.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/DHzRN8YQ/IMG-1733.png" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna')">previous.</button>
@@ -1581,20 +1672,20 @@ footer {
     </div>
   </div>
   <div class="project-gallery reveal appdesign-first-gallery">
-    <img src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
-    <img src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
-    <img src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
-    <img src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
-    <img src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
-    <img src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
-    <img src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
-    <img src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
-    <img src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
-    <img src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
-    <img src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
-    <img src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
-    <img src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
-    <img src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
+    <img loading="lazy" src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
@@ -1606,13 +1697,13 @@ footer {
 <div id="project-page-peepbox" style="display:none;">
   <div class="project-page-topnav reveal">
     <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('lucus')">next.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
   </div>
   <div class="app-project-section reveal">
     <div class="app-project-title">PEEP BOX</div>
     <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Mar 2025</div>
-    <p class="app-project-desc">Created in collaboration with Mehdi El Ouazzani (<a href="https://www.instagram.com/medi_imedici" target="_blank" rel="noopener" class="ig-link">@medi_imedici</a>), PEEP BOX is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
-    <p class="app-project-desc" style="margin-top:1.2rem;">Because viewers can only observe one screen at a time through designated windows, they are forced to physically move back and forth between the two ends to piece together the machine's internal computational logic. By placing the audience in a continuous loop of observing and being observed, PEEP BOX serves as a powerful spatial metaphor for the cognitive gap between human perception and rapid technological development.</p>
+    <p class="app-project-desc">Created in collaboration with Mehdi El Ouazzani (<a href="https://www.instagram.com/medi_imedici" target="_blank" rel="noopener" class="ig-link">@medi_imedici</a>), <em>PEEP BOX</em> is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
+    <p class="app-project-desc" style="margin-top:1.2rem;">Because viewers can only observe one screen at a time through designated windows, they are forced to physically move back and forth between the two ends to piece together the machine's internal computational logic. By placing the audience in a continuous loop of observing and being observed, <em>PEEP BOX</em> serves as a powerful spatial metaphor for the cognitive gap between human perception and rapid technological development.</p>
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal appdesign-first-gallery">
@@ -1625,20 +1716,21 @@ footer {
         <iframe id="vimeo-1180827485"
           src="https://player.vimeo.com/video/1180827485?autoplay=0&muted=1&loop=1&background=0&controls=0"
           allow="autoplay; fullscreen" allowfullscreen></iframe>
+      
       </div>
     </div>
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('invisible')">previous.</button>
     <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
-  </div>
+</div>
 </div>
 
 <!-- PROJECT PAGE: Lycosia -->
 <div id="project-page-lycosia" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lucus')">next.</button>
   </div>
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
@@ -1665,21 +1757,21 @@ footer {
         <iframe id="vimeo-1038239920"
           src="https://player.vimeo.com/video/1038239920?autoplay=0&muted=1&loop=1&background=0&controls=0"
           allow="autoplay; fullscreen" allowfullscreen></iframe>
-        <button class="gallery-mute-btn" onclick="toggleMute(this,'1038239920')">sound off.</button>
+        <div class="gallery-btn-group"><a class="gallery-btn" href="https://vimeo.com/1038239920" target="_blank" rel="noopener">vimeo.</a><button class="gallery-btn" onclick="toggleMuteNew(this,'1038239920')">sound off.</button></div>
       </div>
     </div>
   </div>
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
-  </div>
+    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('lucus')">next.</button>
+</div>
 </div>
 
 <!-- PROJECT PAGE: App Design -->
 <div id="project-page-appdesign" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('lycosia')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('installation')">next.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('photography')">next.</button>
   </div>
 
   <!-- App 1: Perfumen -->
@@ -1690,11 +1782,11 @@ footer {
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal appdesign-single-col appdesign-first-gallery">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-1.1.png" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-2.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-3.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-4.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-5.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-1.1.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-2.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-3.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-4.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/perfumen/1-5.jpg" alt="">
   </div>
 
 
@@ -1707,26 +1799,26 @@ footer {
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal appdesign-single-col">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-1.1.png" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-2.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-3.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-4.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-5.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-6.jpg" alt="">
-    <img src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-7.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-1.1.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-2.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-3.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-4.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-5.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-6.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/petradise/2-7.jpg" alt="">
   </div>
 
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('lycosia')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('installation')">next.</button>
-  </div>
+    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('photography')">next.</button>
+</div>
 </div>
 
 <!-- PROJECT PAGE: Installation -->
 <div id="project-page-installation" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
-    <div></div>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
   </div>
 
   <!-- Work 1: 15 minutes -->
@@ -1744,17 +1836,41 @@ footer {
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/15_minutes/3-3.jpg" alt="">
   </div>
 
+
+  <!-- Work 2: Section -->
+  <div class="app-project-section reveal app-project-gap-top">
+    <div class="app-project-title">Section</div>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; 2020</div>
+    <p class="app-project-desc"><em>Section</em> is an interactive installation that explores the profound relationship between human presence, physical space, and the fluidity of time. By slicing and overlaying linear timelines, the work poetically restores different temporal moments into a singular spatial experience.</p>
+    <p class="app-project-desc" style="margin-top:1.2rem;">The installation centers around a circular projection initially displaying cinematic quotes about time. When a viewer approaches the projection to read, a Kinect sensor detects their presence: the text instantly vanishes, and the viewer's silhouette is silently recorded into the system's database, capturing them as a slice of the present moment to be met by future strangers.</p>
+    <p class="app-project-desc" style="margin-top:1.2rem;">The true cross-temporal encounter, however, emerges in absence. When the installation detects no human activity for over 15 seconds, the text dissolves, replaced by the blurred silhouettes of past visitors previously recorded by the system. These historical traces randomly combine and visually overlap, allowing strangers from different moments to poetically intersect within the exact same physical coordinates.</p>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="project-gallery reveal appdesign-single-col">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/section/4-1.1.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/section/4-2.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/section/4-3.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/section/4-4.jpg" alt="">
+    <div class="gallery-video-fullrow">
+      <div class="gallery-video-wrap gallery-yt" data-yt="LKuTzOh-bg4">
+        <div class="yt-thumb-wrap" onclick="loadYT(this,'LKuTzOh-bg4')">
+          <img loading="lazy" class="yt-thumb" src="https://img.youtube.com/vi/LKuTzOh-bg4/maxresdefault.jpg" alt="Section video">
+          <div class="yt-play-btn">▶</div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
-    <div></div>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lucus')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('appdesign')">next.</button>
   </div>
 </div>
 
 <!-- PROJECT PAGE: Lucus Angitiae -->
 <div id="project-page-lucus" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lycosia')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('installation')">next.</button>
   </div>
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
@@ -1781,13 +1897,46 @@ footer {
         <iframe id="vimeo-955645704"
           src="https://player.vimeo.com/video/955645704?autoplay=0&muted=1&loop=1&background=0&controls=0"
           allow="autoplay; fullscreen" allowfullscreen></iframe>
-        <button class="gallery-mute-btn" onclick="toggleMute(this,'955645704')">sound off.</button>
+        <div class="gallery-btn-group"><a class="gallery-btn" href="https://vimeo.com/955645704" target="_blank" rel="noopener">vimeo.</a><button class="gallery-btn" onclick="toggleMuteNew(this,'955645704')">sound off.</button></div>
       </div>
     </div>
   </div>
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('peepbox')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('lycosia')">next.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('lycosia')">previous.</button>
+    <button class="project-page-topnav-btn next" onclick="openProject('installation')">next.</button>
+</div>
+</div>
+
+<!-- PROJECT PAGE: Photography -->
+<div id="project-page-photography" style="display:none;">
+  <div class="project-page-topnav reveal">
+    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <div></div>
+  </div>
+  <div class="app-project-section reveal">
+    <div class="app-project-title">Photography</div>
+    <div class="app-project-meta">2020</div>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="photography-grid reveal">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p3.jpg" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p9.jpg" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.png" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p14.png" alt="">
+  </div>
+  <div class="project-page-bottomnav">
+    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <div></div>
   </div>
 </div>
 
@@ -1806,6 +1955,11 @@ function closeMobileNav() {
   var btn = document.getElementById('nav-hamburger');
   links.classList.remove('open');
   btn.classList.remove('open');
+}
+
+
+function loadYT(el, id) {
+  window.open('https://www.youtube.com/watch?v=' + id, '_blank');
 }
 
 function toggleWorksSection(id) {
@@ -1877,7 +2031,7 @@ function openProject(id) {
   requestAnimationFrame(function() {
     incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-    if (id === 'appdesign' || id === 'installation' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
+    if (id === 'appdesign' || id === 'installation' || id === 'photography' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
       var firstGallery = incoming.querySelector('.appdesign-first-gallery');
       if (firstGallery) {
         obs.unobserve(firstGallery);
