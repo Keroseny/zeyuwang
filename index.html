@@ -15,7 +15,7 @@ body {
 }
 body { cursor:auto; }
 a, button, .project-card, .soc, .tool-logo-item,
-.gallery-mute-btn, .back-btn, .project-page-back,
+.back-btn, .project-page-back,
 .cv-btn, .hero-cta, .nav-logo, .nav-links a { cursor:pointer; }
 nav {
   position:fixed; top:0; left:0; right:0; z-index:100;
@@ -29,21 +29,14 @@ nav {
   transition:transform 0.4s cubic-bezier(0.4,0,0.2,1), background 0.3s ease;
 }
 nav.hidden { transform:translateY(-100%); }
-.nav-logo { font-size:1.3rem; font-weight:700; color:#fff; text-decoration:none; transition:color .2s; position:relative; display:inline-block; }
-.nav-logo:hover { color:#e63030; }
-.nav-logo .logo-default,
-.nav-logo .logo-hover {
-  display:block;
-  transition:opacity .2s;
-}
-.nav-logo .logo-hover {
-  position:absolute;
-  top:0; left:0;
-  opacity:0;
-  white-space:nowrap;
-}
-.nav-logo:hover .logo-default { opacity:0; }
-.nav-logo:hover .logo-hover { opacity:1; }
+.nav-logo { font-size:1.3rem; font-weight:700; color:#fff; text-decoration:none; transition:color .2s; display:inline-block; }
+/* hover only active in secondary pages — controlled by .nav-logo.is-home class */
+.nav-logo.is-home { cursor:default; pointer-events:none; }
+.nav-logo:not(.is-home):hover { color:#e63030; cursor:pointer; }
+
+
+
+
 .nav-links { display:flex; gap:2rem; list-style:none; }
 .nav-links a { font-size:1.3rem; font-weight:700; color:rgba(255,255,255,0.55); text-decoration:none; transition:color .2s; }
 .nav-links a::after { content:'.'; }
@@ -91,9 +84,9 @@ nav.hidden { transform:translateY(-100%); }
 }
 .hero-cta {
   margin-top:3rem; display:inline-block;
-  border:2px solid rgba(255,255,255,.9); padding:.85rem 2.5rem;
-  font-size:.88rem; font-weight:400; letter-spacing:.05em;
-  color:rgba(255,255,255,.9); background:#000;
+  border:2px solid rgba(255,255,255,.5); padding:.55rem 1.6rem;
+  font-size:.75rem; font-weight:400; letter-spacing:.05em;
+  color:rgba(255,255,255,.6); background:#000;
   text-decoration:none; cursor:pointer; text-transform:none;
   transition:background .25s, color .25s, border-color .25s;
   opacity:0; animation:fadeIn .8s 1.9s forwards;
@@ -162,9 +155,9 @@ section { padding:12rem 3rem; }
 .cv-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem; }
 .cv-btn {
   display:inline-block;
-  border:2px solid rgba(255,255,255,.9); padding:.85rem 2.5rem;
-  font-size:.88rem; font-weight:400; letter-spacing:.05em;
-  color:rgba(255,255,255,.9); background:#000;
+  border:2px solid rgba(255,255,255,.5); padding:.55rem 1.6rem;
+  font-size:.75rem; font-weight:400; letter-spacing:.05em;
+  color:rgba(255,255,255,.6); background:#000;
   text-decoration:none; cursor:pointer; text-transform:none;
   transition:background .25s, color .25s, border-color .25s;
 }
@@ -479,22 +472,20 @@ footer {
 .project-page-back {
   display:none;
 }
-.app-project-section,
-.app-project-section-with-poster {
+.app-project-section {
   max-width:1400px;
   margin:0 auto;
   padding:2.4rem 2.5rem 3rem;
   box-sizing:border-box;
   display:grid;
-  grid-template-columns:minmax(0, 1fr) 260px;
-  column-gap:4rem;
-  align-items:start;
+  grid-template-columns:1fr;
 }
 .app-project-section.app-project-gap-top {
   padding-top:11rem;
 }
-.app-project-section > *,
-.app-project-section-with-poster > * { grid-column:1; }
+.app-project-section > * {
+  grid-column:1;
+}
 .app-project-title {
   font-size:clamp(1.6rem,3vw,2.8rem);
   font-weight:700;
@@ -625,24 +616,8 @@ footer {
   border:none;
   pointer-events:none;
 }
-.gallery-mute-btn {
-  position:absolute;
-  bottom:.8rem; right:.8rem;
-  background:#000;
-  border:2px solid rgba(255,255,255,.9);
-  color:rgba(255,255,255,.9);
-  font-family:Helvetica, Arial, sans-serif;
-  font-size:.75rem;
-  font-weight:400;
-  letter-spacing:.05em;
-  padding:.5rem 1.2rem;
-  cursor:pointer;
-  z-index:10;
-  pointer-events:all;
-  opacity:0;
-  transition:opacity .25s, background .25s, border-color .25s, color .25s;
-}
-.gallery-mute-btn:hover { background:#e63030; border-color:#e63030; color:#fff; }
+
+
 
 .reveal {
   opacity:0; transform:translateY(26px);
@@ -859,10 +834,7 @@ footer {
     grid-template-columns:1fr;
   }
   .app-project-section,
-  .app-project-section-with-poster {
-    padding:2rem 1.5rem 3rem;
-    display:block;
-  }
+  
   .app-project-section.with-poster {
     display:flex;
     flex-direction:column;
@@ -1019,10 +991,8 @@ footer {
 .yt-thumb-wrap:hover .yt-play-btn {
   background:#e63030; border-color:#e63030;
 }
-.yt-iframe-wrap { position:relative; width:100%; padding-top:56.25%; }
-.yt-iframe-wrap iframe {
-  position:absolute; top:0; left:0; width:100%; height:100%; border:none;
-}
+
+
 
 
 
@@ -1053,9 +1023,7 @@ footer {
 
 /* Photography gallery: CSS grid, no gaps or empty spaces */
 .photography-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:4px;
+  columns:2; column-gap:4px;
   padding:4px 2.5rem;
   max-width:1400px; margin:0 auto;
   box-sizing:border-box;
@@ -1065,19 +1033,49 @@ footer {
   object-fit:cover;
   aspect-ratio:3/2;
   filter:grayscale(100%);
+  margin-bottom:4px;
+  break-inside:avoid;
+  background-color:#1c1c1c;
+  opacity:0;
+  transition:opacity .5s ease;
+}
+.photography-grid img.loaded {
+  opacity:1;
 }
 .photography-grid .photo-full {
-  grid-column:1 / -1;
-  aspect-ratio:16/9;
+  column-span:all;
+  width:100%; display:block;
+  margin-bottom:4px;
+  aspect-ratio:21/9;
+  object-fit:cover;
+  background-color:#1c1c1c;
 }
 .photography-grid .photo-tall {
   aspect-ratio:2/3;
 }
 @media(max-width:900px){
-  .photography-grid { grid-template-columns:1fr; gap:4px; padding:4px 1.5rem; }
+  .photography-grid { columns:1; gap:4px; padding:4px 1.5rem; }
   .photography-grid img { aspect-ratio:unset; height:auto; }
-  .photography-grid .photo-full { grid-column:1; aspect-ratio:unset; height:auto; }
+  
 }
+
+/* ── Page transitions ──────────────────────────────────── */
+.page-fade-in {
+  animation: pageFadeIn 0.35s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+.page-fade-out {
+  animation: pageFadeOut 0.2s ease forwards;
+}
+@keyframes pageFadeIn {
+  from { opacity:0; transform:translateY(8px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pageFadeOut {
+  from { opacity:1; transform:translateY(0); }
+  to   { opacity:0; transform:translateY(-4px); }
+}
+
+
 </style></style>
 </head>
 <body>
@@ -1086,7 +1084,7 @@ footer {
 
 <nav>
   <div class="nav-row-top">
-    <a href="#" onclick="if(document.getElementById('main-page').style.display!=='none'){location.reload();}else{showPage('main',null);}return false;" class="nav-logo"><span class="logo-default">Zeyu Wang</span><span class="logo-hover">home.</span></a>
+    <a href="#" id="nav-logo-link" class="nav-logo" onclick="navLogoClick();return false;">Zeyu Wang</a>
     <button class="nav-hamburger" id="nav-hamburger" onclick="toggleMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
@@ -1165,7 +1163,7 @@ footer {
     </div>
 
 
-    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('installation')" style="cursor:pointer;">
+    <div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('installation')">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/installation_cover.jpg" alt="Installation">
       <div class="project-info">
         <div class="project-name">Installation</div>
@@ -1173,7 +1171,7 @@ footer {
       </div>
     </div>
 
-<div class="project-card reveal earlier-card" style="display:none" onclick="openProject('appdesign')" style="cursor:pointer;">
+<div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('appdesign')">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
         <div class="project-name">App Design</div>
@@ -1181,7 +1179,7 @@ footer {
       </div>
     </div>
 
-    <div class="project-card reveal earlier-card" style="display:none" onclick="openProject('photography')" style="cursor:pointer;">
+    <div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('photography')">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="Photography">
       <div class="project-info">
         <div class="project-name">Photography</div>
@@ -1201,8 +1199,6 @@ footer {
   </div>
 
 </section>
-
-</div><!-- end #main-page -->
 
 <!-- ABOUT PAGE (separate view) -->
 <div id="about-page">
@@ -1911,7 +1907,7 @@ footer {
 <!-- PROJECT PAGE: Photography -->
 <div id="project-page-photography" style="display:none;">
   <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
     <div></div>
   </div>
   <div class="app-project-section reveal">
@@ -1919,24 +1915,21 @@ footer {
     <div class="app-project-meta">2020</div>
     <div class="project-page-divider"></div>
   </div>
-  <div class="photography-grid reveal">
+      <div class="photography-grid reveal">
     <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" alt="">
-    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p3.jpg" alt="">
-    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.jpg" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" alt="">
-    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" alt="">
-    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.jpg" alt="">
-    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p9.jpg" alt="">
-    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" alt="">
-    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.png" alt="">
-    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p14.png" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" alt="">
   </div>
   <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('installation')">previous.</button>
+    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
     <div></div>
   </div>
 </div>
@@ -2012,45 +2005,62 @@ function openProject(id) {
     window.__appdesignScrollHandler = null;
   }
 
-  // hide everything
-  document.getElementById('main-page').style.display = 'none';
-  document.getElementById('main-page-bottom').style.display = 'none';
-  document.getElementById('about-page').style.display = 'none';
-  document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
-    el.style.display = 'none';
-    // reset reveal elements so animation replays on next open
-    el.querySelectorAll('.reveal').forEach(function(r) {
-      if (obs.unobserve) { obs.unobserve(r); }
-      r.classList.remove('visible');
+  var mainPage = document.getElementById('main-page');
+  var mainIsVisible = mainPage.style.display !== 'none';
+
+  function _doOpenProject() {
+    document.getElementById('main-page').style.display = 'none';
+    document.getElementById('main-page').classList.remove('page-fade-out');
+    document.getElementById('main-page-bottom').style.display = 'none';
+    document.getElementById('about-page').style.display = 'none';
+    document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
+      el.style.display = 'none';
+      el.querySelectorAll('.reveal').forEach(function(r) {
+        if (obs.unobserve) { obs.unobserve(r); }
+        r.classList.remove('visible');
+      });
     });
-  });
+    incoming.style.display = 'block';
+    incoming.classList.remove('page-fade-in');
+    void incoming.offsetWidth;
+    incoming.classList.add('page-fade-in');
+    window.scrollTo(0, 0);
 
-  incoming.style.display = 'block';
-  window.scrollTo(0, 0);
+    // Re-observe reveals AFTER incoming is visible
+    requestAnimationFrame(function() {
+      incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
 
-  // Re-observe reveals in next frame
-  requestAnimationFrame(function() {
-    incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-
-    if (id === 'appdesign' || id === 'installation' || id === 'photography' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
-      var firstGallery = incoming.querySelector('.appdesign-first-gallery');
-      if (firstGallery) {
-        obs.unobserve(firstGallery);
-        firstGallery.classList.remove('visible');
-        var updateFirstGallery = function() {
-          var rect = firstGallery.getBoundingClientRect();
-          var inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 80;
-          if (inView && window.scrollY > 80) {
-            firstGallery.classList.add('visible');
-          } else {
-            firstGallery.classList.remove('visible');
-          }
-        };
-        window.__appdesignScrollHandler = updateFirstGallery;
-        window.addEventListener('scroll', updateFirstGallery, { passive: true });
+      if (id === 'appdesign' || id === 'installation' || id === 'photography' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
+        var firstGallery = incoming.querySelector('.appdesign-first-gallery');
+        if (firstGallery) {
+          obs.unobserve(firstGallery);
+          firstGallery.classList.remove('visible');
+          var updateFirstGallery = function() {
+            var rect = firstGallery.getBoundingClientRect();
+            var inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 80;
+            if (inView && window.scrollY > 80) {
+              firstGallery.classList.add('visible');
+            } else {
+              firstGallery.classList.remove('visible');
+            }
+          };
+          window.__appdesignScrollHandler = updateFirstGallery;
+          window.addEventListener('scroll', updateFirstGallery, { passive: true });
+        }
       }
-    }
-  });
+    });
+
+    // Update nav logo state
+    updateNavLogo();
+  }
+
+  if (mainIsVisible) {
+    mainPage.classList.remove('page-fade-in');
+    mainPage.classList.add('page-fade-out');
+    setTimeout(_doOpenProject, 200);
+  } else {
+    _doOpenProject();
+  }
 }
 
 function closeProject() {
@@ -2111,63 +2121,86 @@ function showPage(page, scrollTo) {
   var mainPage = document.getElementById('main-page');
   var mainBottom = document.getElementById('main-page-bottom');
   var aboutPage = document.getElementById('about-page');
+  var FADE = 200; // ms for outgoing fade
 
   if (page === 'about') {
-    mainPage.style.display = 'none';
-    mainBottom.style.display = 'none';
-    aboutPage.style.display = 'block';
-    // reset to first slide without animation
-    aboutCurrentSlide = 0;
-    var slider = document.getElementById('about-slider');
-    slider.style.transition = 'none';
-    slider.style.transform = isMobileAboutLayout() ? 'none' : 'translateY(0)';
-    document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
-    document.querySelectorAll('.about-dot').forEach(function(d, i) { d.classList.toggle('active', i === 0); });
-    window.scrollTo(0, 0);
-    if (isMobileAboutLayout()) {
-      aboutPage.classList.add('active');
+    // Fade out main first, then show about
+    mainPage.classList.remove('page-fade-in');
+    mainPage.classList.add('page-fade-out');
+    setTimeout(function() {
+      mainPage.style.display = 'none';
+      mainPage.classList.remove('page-fade-out');
+      mainBottom.style.display = 'none';
+      // Setup about page before showing
+      aboutCurrentSlide = 0;
+      var slider = document.getElementById('about-slider');
       slider.style.transition = 'none';
-      slider.style.transform = 'none';
+      slider.style.transform = isMobileAboutLayout() ? 'none' : 'translateY(0)';
       document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
+      document.querySelectorAll('.about-dot').forEach(function(d, i) { d.classList.toggle('active', i === 0); });
+      aboutPage.style.display = 'block';
+      window.scrollTo(0, 0);
+      if (isMobileAboutLayout()) {
+        aboutPage.classList.add('active');
+        updateNavLogo();
+        slider.style.transition = 'none';
+        slider.style.transform = 'none';
+        document.querySelectorAll('.about-slide').forEach(function(s) { s.classList.remove('slide-visible'); });
+        requestAnimationFrame(function() {
+          aboutPage.querySelectorAll('.slide-row').forEach(function(row) {
+            row.classList.remove('visible');
+            if (obs && obs.observe) { obs.observe(row); }
+          });
+        });
+        aboutPage.scrollTop = 0;
+        return;
+      }
       requestAnimationFrame(function() {
-        aboutPage.querySelectorAll('.slide-row').forEach(function(row) {
-          row.classList.remove('visible');
-          if (obs && obs.observe) { obs.observe(row); }
+        requestAnimationFrame(function() {
+          aboutPage.classList.add('active');
+          updateNavLogo();
+          slider.style.transition = '';
+          setTimeout(function() {
+            var firstSlide = document.getElementById('about-slide-0');
+            if (firstSlide) firstSlide.classList.add('slide-visible');
+          }, 200);
         });
       });
-      aboutPage.scrollTop = 0;
-      return;
-    }
-    // fade in page, then fade in first slide content
-    requestAnimationFrame(function() {
-      requestAnimationFrame(function() {
-        aboutPage.classList.add('active');
-        slider.style.transition = '';
-        setTimeout(function() {
-          var firstSlide = document.getElementById('about-slide-0');
-          if (firstSlide) firstSlide.classList.add('slide-visible');
-        }, 200);
-      });
-    });
+    }, FADE);
+
   } else {
-    aboutPage.classList.remove('active');
-    setTimeout(function() {
-      aboutPage.style.display = 'none';
-    }, 600);
-    // ensure all project pages are hidden
-    document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
-      el.style.display = 'none';
-    });
-    mainPage.style.display = 'block';
-    mainBottom.style.display = 'block';
-    if (scrollTo) {
+    // Fade out about page, then show main
+    var onAbout = aboutPage.classList.contains('active');
+    if (onAbout) {
+      aboutPage.classList.remove('active');
       setTimeout(function() {
-        var target = document.getElementById(scrollTo);
-        if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
-      }, 50);
+        aboutPage.style.display = 'none';
+        _showMain(mainPage, mainBottom, scrollTo);
+      }, 350); // match about opacity transition 0.6s → wait half
     } else {
-      window.scrollTo(0, 0);
+      // Coming from project page — fade out handled by openProject
+      _showMain(mainPage, mainBottom, scrollTo);
     }
+  }
+}
+
+function _showMain(mainPage, mainBottom, scrollTo) {
+  document.querySelectorAll('[id^="project-page"]').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  mainPage.style.display = 'block';
+  mainBottom.style.display = 'block';
+  mainPage.classList.remove('page-fade-in');
+  void mainPage.offsetWidth;
+  mainPage.classList.add('page-fade-in');
+  updateNavLogo();
+  if (scrollTo) {
+    setTimeout(function() {
+      var target = document.getElementById(scrollTo);
+      if (target) { target.scrollIntoView({ behavior: 'smooth' }); }
+    }, 100);
+  } else {
+    window.scrollTo(0, 0);
   }
 }
 
@@ -2301,6 +2334,69 @@ window.addEventListener('scroll', function() {
   secs.forEach(function(s) { if (window.scrollY >= s.offsetTop - 220) active = s.id; });
   navAs.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + active); });
 }, { passive: true });
+
+/* ── Photography lazy load fade-in ──────────────────────── */
+(function(){
+  function initPhotoFade() {
+    var grid = document.querySelector('.photography-grid');
+    if (!grid) return;
+    var imgs = grid.querySelectorAll('img');
+    imgs.forEach(function(img) {
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('loaded');
+      } else {
+        img.addEventListener('load', function() {
+          img.classList.add('loaded');
+        });
+        img.addEventListener('error', function() {
+          img.classList.add('loaded'); /* show even on error */
+        });
+      }
+    });
+  }
+  /* Run when photography page opens */
+  var _orig = window.openProject;
+  if (typeof _orig === 'function') {
+    window.openProject = function(id) {
+      _orig(id);
+      if (id === 'photography') {
+        setTimeout(initPhotoFade, 50);
+      }
+    };
+  }
+  /* Also run on page load in case directly navigated */
+  document.addEventListener('DOMContentLoaded', initPhotoFade);
+})();
+
+/* ── Nav logo state management ──────────────────────────── */
+function updateNavLogo() {
+  var logo = document.getElementById('nav-logo-link');
+  if (!logo) return;
+  var onMain = document.getElementById('main-page').style.display !== 'none';
+  if (onMain) {
+    logo.textContent = 'Zeyu Wang';
+    logo.classList.add('is-home');
+  } else {
+    logo.textContent = 'home.';
+    logo.classList.remove('is-home');
+  }
+}
+
+function navLogoClick() {
+  var logo = document.getElementById('nav-logo-link');
+  if (logo && logo.classList.contains('is-home')) return; // no-op on main
+  // Check if on main page (shouldn't happen, but safety)
+  var onMain = document.getElementById('main-page').style.display !== 'none';
+  if (onMain) { location.reload(); return; }
+  showPage('main', null);
+}
+
+/* Patch showPage and openProject to call updateNavLogo after every transition */
+(function() {
+  /* updateNavLogo is called directly inside showPage/_showMain and openProject/_doOpenProject */
+  // Init on load
+  updateNavLogo();
+})();
 </script>
 </body>
 </html>
