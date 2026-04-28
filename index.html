@@ -1,9 +1,18 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zeyu Wang</title>
+<meta name="description" content="Zeyu Wang — Multimedia artist and visual interaction designer based in Milan, Italy. Working at the intersection of technology, generative art, and live visual performance.">
+<meta property="og:title" content="Zeyu Wang">
+<meta property="og:description" content="Multimedia artist and visual interaction designer based in Milan, Italy.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://zeyuwang.eu">
+<meta property="og:image" content="https://i.ibb.co/KnSkbq5/new-headphoto.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Zeyu Wang">
+<meta name="twitter:description" content="Multimedia artist and visual interaction designer based in Milan, Italy.">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -521,6 +530,7 @@ footer {
   flex-shrink:0;
   width:260px;
   align-self:center;
+  padding-left:2rem;
 }
 .project-page-poster-wrap img {
   width:100%;
@@ -626,6 +636,7 @@ footer {
 .reveal.visible { opacity:1; transform:none; }
 #experience .experience-groups.reveal { transition-delay:0s; }
 #experience .experience-groups.reveal.visible { transition-delay:.16s; }
+
 @keyframes fadeIn { to { opacity:1; } }
 @media(max-width:900px){
   /* Hide custom cursor on touch devices */
@@ -834,7 +845,6 @@ footer {
     grid-template-columns:1fr;
   }
   .app-project-section,
-  
   .app-project-section.with-poster {
     display:flex;
     flex-direction:column;
@@ -1076,7 +1086,7 @@ footer {
 }
 
 
-</style></style>
+</style>
 </head>
 <body>
 
@@ -1113,23 +1123,23 @@ footer {
   <h2 class="s-title reveal">projects</h2>
   <div class="projects-grid">
     <div class="project-card reveal" onclick="openProject('altera')" style="cursor:pointer;">
-      <img loading="lazy" src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="Altera">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_006.jpg" alt="Altéra">
       <div class="project-info">
-        <div class="project-name">Altera</div>
+        <div class="project-name">Altéra</div>
         <div class="project-year">2025–2026</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('duna')" style="cursor:pointer;">
-      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="4 Years Duna">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/4_years_duna/Duna%204Y%20Edited-193.jpg" alt="Duna (4 years)">
       <div class="project-info">
-        <div class="project-name">4 Years Duna</div>
+        <div class="project-name">Duna (4 years)</div>
         <div class="project-year">2026</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('duna2')" style="cursor:pointer;">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-112.jpg" alt="DUNA pres. Oscar Mulero & Sybil">
       <div class="project-info">
-        <div class="project-name">Duna pres. Oscar Mulero &amp; Sybil</div>
+        <div class="project-name">Duna (pres. Oscar Mulero &amp; Sybil)</div>
         <div class="project-year">2025</div>
       </div>
     </div>
@@ -1166,7 +1176,7 @@ footer {
     <div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('installation')">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/installation_cover.jpg" alt="Installation">
       <div class="project-info">
-        <div class="project-name">Installation</div>
+        <div class="project-name">15 Minutes &amp; Section</div>
         <div class="project-year">2020</div>
       </div>
     </div>
@@ -1174,15 +1184,15 @@ footer {
 <div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('appdesign')">
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
-        <div class="project-name">App Design</div>
+        <div class="project-name">Perfumen &amp; Petradise</div>
         <div class="project-year">2020</div>
       </div>
     </div>
 
     <div class="project-card reveal earlier-card" style="display:none; cursor:pointer;" onclick="openProject('photography')">
-      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="Photography">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="Hands">
       <div class="project-info">
-        <div class="project-name">Photography</div>
+        <div class="project-name">Hands</div>
         <div class="project-year">2020</div>
       </div>
     </div>
@@ -1217,8 +1227,8 @@ footer {
         <p class="bio-text slide-row" style="--row-delay:.26s;">His practice explores the intersection of technology and perception through generative art, machine learning, and interactive visual systems. By integrating algorithmic processes and real-time audiovisual environments, Wang investigates the boundaries and possibilities of contemporary image-making, rethinking how humans and machines perceive, interpret, and transform one another.</p>
         <p class="bio-text slide-row" style="--row-delay:.33s;">Currently based in Milan, he collaborates on interdisciplinary projects across visual art, new media, and performance.</p>
         <div class="cv-btns slide-row" style="--row-delay:.40s;">
-          <a href="https://drive.google.com/uc?export=download&id=1KaIY3UPL-YPDEbZ0xM765S5suNHKcvX9" target="_blank" class="cv-btn">download cv. (en)</a>
-          <a href="https://drive.google.com/uc?export=download&id=1kgsLl1uoAVHNoyNdyohBAd-AyLX1iZF7" target="_blank" class="cv-btn">download cv. (中文)</a>
+          <a href="https://drive.google.com/file/d/1CK32A73_mBSxsd2vQdcwU3RGtipk5D0w/view?usp=sharing" target="_blank" rel="noopener" class="cv-btn">view cv. (en)</a>
+          <a href="https://drive.google.com/file/d/1NeVjSz6Z-lX112x7AEtNGPmtjgVkphsx/view?usp=sharing" target="_blank" rel="noopener" class="cv-btn">view cv. (中文)</a>
         </div>
       </div>
       <div class="bio-right slide-row" style="--row-delay:.47s;">
@@ -1480,7 +1490,7 @@ footer {
 </section>
 
 <footer>
-  <span class="footer-copy">&#169; 2025 Zeyu Wang</span>
+  <span class="footer-copy" id="footer-year">&#169; 2025 Zeyu Wang</span>
   <span class="footer-copy">Milan, Italy</span>
 </footer>
 
@@ -1493,27 +1503,28 @@ footer {
     <button class="project-page-topnav-btn next" onclick="openProject('duna')">next.</button>
   </div>
     <div class="app-project-section reveal">
-    <div class="app-project-title">Altera</div>
-    <div class="app-project-meta">Resident Visual Artist &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; 2025–2026</div>
-    <!-- Description coming soon -->
+    <div class="app-project-title">Altéra</div>
+    <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Dec 2025–May 2026</div>
+    <p class="app-project-desc"><em>Altéra</em> (<a href="https://www.instagram.com/altera.eu" target="_blank" rel="noopener" class="ig-link">@altera.eu</a>) is a hybrid and installative environment born to explore the thresholds between sound, art, and presence. Not a collective, but a fluid space where avant-garde electronics—ranging from deconstructed clubbing and broken beats to sound art—intertwine with visual and material interventions to trigger a perceptual reactivation.</p>
+    <p class="app-project-desc" style="margin-top:1.2rem;">Each installation acts as a temporary environment that amplifies or dissonates with the sonic experience, seeking tension and transformation. The direction of the visuals and the room's scenography, developed in close collaboration with Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>), stems from the exploration of liminal devices between surveillance and voyeurism.</p>
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal">
-    <img loading="lazy" src="https://i.ibb.co/k6hDskMk/20260321-ALTERA-087.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/XfzC40LK/20260321-ALTERA-128.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/wFX18JmP/20260321-ALTERA-084.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/QF4B9qRg/20260321-ALTERA-082.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/6J4MftGr/20260321-ALTERA-130.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/LdBgQr8g/20260321-ALTERA-122.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/zWQW5nSd/20260321-ALTERA-053.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/WND7s95m/20260321-ALTERA-008.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/fzP9PXxx/20260321-ALTERA-099.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/4g7ZmYXg/20260321-ALTERA-014.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/HfRsM91y/20260321-ALTERA-025.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/YBWwLQDd/20260321-ALTERA-116.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/r2G1nBbq/20260321-ALTERA-004.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/XN3V50X/20260321-ALTERA-006.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/pjQgVKnj/20260321-ALTERA-106.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_087.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_128.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_084.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_082.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_130.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_122.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_053.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_008.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_099.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_014.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_025.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_116.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_004.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_006.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_106.jpg" alt="">
 
     <!-- Video -->
     <div class="gallery-video-wrap" data-vimeo="1180158841">
@@ -1538,12 +1549,12 @@ footer {
   </div>
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
-      <div class="app-project-title">4 Years Duna</div>
-      <div class="app-project-meta">Live VJ &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Feb 7, 2026</div>
-      <p class="app-project-desc">Zeyu Wang and Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) served as VJs for DUNA's 4th Anniversary at the Abandoned Post Warehouse in Sofia, collaborating with Ausgang Studio (<a href="https://www.instagram.com/ausgang.studio" target="_blank" rel="noopener" class="ig-link">@ausgang.studio</a>) to transform the venue's visual environment through immersive, real-time generated visuals.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">While Ausgang Studio developed the architectural lighting installations, Zeyu and Giovanni crafted a responsive visual layer that interacted with both the music and the spatial conditions, reshaping the industrial warehouse into a dynamic, living environment.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">The night featured a powerful international lineup, headlined by Rrose (<a href="https://www.instagram.com/rrose1921" target="_blank" rel="noopener" class="ig-link">@rrose1921</a>) for their Sofia debut, alongside artists including Ness b2b CONCEPTUAL (<a href="https://www.instagram.com/ness_tgp" target="_blank" rel="noopener" class="ig-link">@ness_tgp</a> &amp; <a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>), Ana Rs (<a href="https://www.instagram.com/anars___" target="_blank" rel="noopener" class="ig-link">@anars___</a>), Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>), and Modèrn (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a>).</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">Continuing their collaborative practice, Zeyu and Giovanni explored the relationship between body, gaze, and technology through generative and interactive visual systems, creating an evolving dialogue between sound, light, and perception.</p>
+      <div class="app-project-title">Duna (4 years)</div>
+      <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Feb 7, 2026</div>
+      <p class="app-project-desc">Marking its 4th anniversary, <em>Duna</em> (<a href="https://www.instagram.com/duna_____________" target="_blank" rel="noopener" class="ig-link">@duna_____________</a>) hosted a milestone event at the Abandoned Post Warehouse in Sofia, continuing its exploration of the intersection between club culture, experimental sound, and contemporary art within industrial environments.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">The scenographic environment was constructed through two parallel systems: a large-scale lighting installation by Ausgang Studio and a real-time visual layer developed by Zeyu Wang in collaboration with Giovanni Lo Castro. Ausgang Studio's practice focuses on light as an architectural and perceptual medium, creating immersive installations that reshape spatial perception through rhythm-driven illumination. In this project, their lighting system transformed the warehouse into an active environment where intensity, color, and movement were directly modulated by sound.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Both visual and lighting systems operated within a shared reactive framework, functioning as interdependent outputs of the same audiovisual environment. Rather than a hierarchical relationship, image and light continuously co-constructed the spatial field in real time through their response to sound and atmosphere.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Line-up: Rrose (<a href="https://www.instagram.com/rrose1921" target="_blank" rel="noopener" class="ig-link">@rrose1921</a>) &nbsp;·&nbsp; Ness b2b Conceptual (<a href="https://www.instagram.com/ness_tgp" target="_blank" rel="noopener" class="ig-link">@ness_tgp</a> &amp; <a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>) &nbsp;·&nbsp; Ana Rs (<a href="https://www.instagram.com/anars_____" target="_blank" rel="noopener" class="ig-link">@anars_____</a>) &nbsp;·&nbsp; Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>) &nbsp;·&nbsp; Modèrn (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) &nbsp;·&nbsp; Light Installation: Ausgang Studio (<a href="https://www.instagram.com/ausgang.studio" target="_blank" rel="noopener" class="ig-link">@ausgang.studio</a>) &nbsp;·&nbsp; Exhibition: Yordanka Kostova (<a href="https://www.instagram.com/why_kostova" target="_blank" rel="noopener" class="ig-link">@why_kostova</a>)</p>
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
@@ -1583,11 +1594,11 @@ footer {
   </div>
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
-      <div class="app-project-title">Duna pres. Oscar Mulero &amp; Sybil</div>
-      <div class="app-project-meta">Live VJ &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Oct 3, 2025</div>
-      <p class="app-project-desc">Zeyu Wang and Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) served as VJs for the opening night of DUNA's multidisciplinary warehouse event in Sofia, crafting immersive live visuals in response to the music and industrial space.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">The night featured an international lineup of DJs, including Oscar Mulero (<a href="https://www.instagram.com/oscarmulerooficial" target="_blank" rel="noopener" class="ig-link">@oscarmulerooficial</a>), Sybil (<a href="https://www.instagram.com/sybil_dj" target="_blank" rel="noopener" class="ig-link">@sybil_dj</a>), Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>), Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>), Modérn b2b Ruben Ganev (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a> &amp; <a href="https://www.instagram.com/rubenganev" target="_blank" rel="noopener" class="ig-link">@rubenganev</a>), and Terra b2b Reneta (<a href="https://www.instagram.com/teodoradzhenkova" target="_blank" rel="noopener" class="ig-link">@teodoradzhenkova</a> &amp; <a href="https://www.instagram.com/reneta" target="_blank" rel="noopener" class="ig-link">@reneta</a>). In addition, visual and performance works were presented by artists such as Aaron Jablonski (<a href="https://www.instagram.com/exitsimulation" target="_blank" rel="noopener" class="ig-link">@exitsimulation</a>), Giusy Amoroso (<a href="https://www.instagram.com/marigoldff" target="_blank" rel="noopener" class="ig-link">@marigoldff</a>), Jiannyuh Wang (<a href="https://www.instagram.com/jiannyuhw" target="_blank" rel="noopener" class="ig-link">@jiannyuhw</a>), and Agnes Yit (<a href="https://www.instagram.com/agnesmyx" target="_blank" rel="noopener" class="ig-link">@agnesmyx</a>), creating a multidisciplinary environment.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">Zeyu's VJ work continues his collaboration with Giovanni, exploring the relationship between body, gaze, and technology through generative and interactive visuals, engaging audiences in the interplay between virtual and physical space.</p>
+      <div class="app-project-title">Duna (pres. Oscar Mulero &amp; Sybil)</div>
+      <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; Oct 3, 2025</div>
+      <p class="app-project-desc">Founded by Simone Scardino (CONCEPTUAL), <em>Duna</em> (<a href="https://www.instagram.com/duna_____________" target="_blank" rel="noopener" class="ig-link">@duna_____________</a>) is an independent label and curatorial platform bridging club culture with contemporary art. It treats experimental electronic music as a medium for critical exploration, fostering an evolving international network of underground artists.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">The visual and scenographic direction is driven by the use of hacked devices and expanded installations that diffuse into the space, redefining environmental perception. The project integrates visual systems, light, matter, and sculptural elements into a continuous dialogue, generating a multi-layered immersive experience. Developed in close collaboration with Giovanni Lo Castro, both artists were deeply involved in the design and onsite execution of the visual environment.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Line-up: Oscar Mulero (<a href="https://www.instagram.com/oscarmulerooficial" target="_blank" rel="noopener" class="ig-link">@oscarmulerooficial</a>) &nbsp;·&nbsp; Sybil (<a href="https://www.instagram.com/sybil_dj" target="_blank" rel="noopener" class="ig-link">@sybil_dj</a>) &nbsp;·&nbsp; Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>) &nbsp;·&nbsp; Mohamad Kafarsoussa (<a href="https://www.instagram.com/mohamad_kafarsoussa" target="_blank" rel="noopener" class="ig-link">@mohamad_kafarsoussa</a>) &nbsp;·&nbsp; Modérn b2b Ruben Ganev (<a href="https://www.instagram.com/daniele.modrn" target="_blank" rel="noopener" class="ig-link">@daniele.modrn</a> &amp; <a href="https://www.instagram.com/rubenganev" target="_blank" rel="noopener" class="ig-link">@rubenganev</a>) &nbsp;·&nbsp; Terra b2b Reneta (<a href="https://www.instagram.com/teodoradzhenkova" target="_blank" rel="noopener" class="ig-link">@teodoradzhenkova</a> &amp; <a href="https://www.instagram.com/_reneta_" target="_blank" rel="noopener" class="ig-link">@_reneta_</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro (live) (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) &nbsp;·&nbsp; Aaron Jablonski (<a href="https://www.instagram.com/exitsimulation" target="_blank" rel="noopener" class="ig-link">@exitsimulation</a>) &nbsp;·&nbsp; Giusy Amoroso (<a href="https://www.instagram.com/marigoldff" target="_blank" rel="noopener" class="ig-link">@marigoldff</a>) &nbsp;·&nbsp; Performance: Jiannyuh Wang (<a href="https://www.instagram.com/jiannyuhw" target="_blank" rel="noopener" class="ig-link">@jiannyuhw</a>) &nbsp;·&nbsp; Agnes Yit (<a href="https://www.instagram.com/agnesmyx" target="_blank" rel="noopener" class="ig-link">@agnesmyx</a>)</p>
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
@@ -1658,10 +1669,10 @@ footer {
     <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">In-visible Gaze</div>
-      <div class="app-project-meta">Audiovisual Performance &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Jul 10, 2025</div>
-      <p class="app-project-desc">For the live audiovisual performance <em>In-visible Gaze</em>, Zeyu Wang and artist Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) collaborated to construct a real-time visual system that investigates the power dynamics embedded in machine vision and medical imaging. By subverting the clinical gaze, they transformed data—originally invisible to the human eye—into an immersive, perceivable “expanded archive.”</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">This spatial transformation was driven by an original soundscape composed and performed live by Iako (<a href="https://www.instagram.com/iako000" target="_blank" rel="noopener" class="ig-link">@iako000</a>) and Novecento (<a href="https://www.instagram.com/nvcnt" target="_blank" rel="noopener" class="ig-link">@nvcnt</a>). Moving far beyond traditional accompaniment, the audio functioned as a living, integral organism, communicating and reacting in strict real-time synergy with the generative visual system.</p>
-      <p class="app-project-desc" style="margin-top:1.2rem;">Acting as the interactive visual designer, their work immersed the audience in a critical environment where physical bodies, algorithms, and surveillance technologies intersect. By navigating the delicate tension between gazing and being gazed at, the performance offered a momentary sense of resistance and perceptual freedom, completely redefining the boundaries between clinical observation and immersive digital art.</p>
+      <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Jul 10, 2025</div>
+      <p class="app-project-desc">Conceived and directed by Giovanni Lo Castro and presented at Section 80 (<a href="https://www.instagram.com/section80.bar" target="_blank" rel="noopener" class="ig-link">@section80.bar</a>) in Milan, <em>In-visible Gaze</em> is a live visual performance that translates clinical data into a profound sensory experience. The sonic landscape features a “sonification of the invisible” crafted by Iako and Novecento, utilizing voice and organic percussion to interpret the rhythmic flow of the images.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Acting as the interaction visual artist, I collaborated with Giovanni to translate this concept into a live deconstruction of machine vision. By employing hacked cameras and redirected sensors, we stripped surveillance devices of their traditional control functions, repurposing them into performative tools. This responsive visual environment exposes the audience to an automated vision that observes them without belonging to them, immersing the viewer in a sensing observatory where the act of seeing becomes a tactile and visceral experience.</p>
+      <p class="app-project-desc" style="margin-top:1.2rem;">Direction: Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) &nbsp;·&nbsp; Sound: Iako (<a href="https://www.instagram.com/iako000" target="_blank" rel="noopener" class="ig-link">@iako000</a>) &amp; Novecento (<a href="https://www.instagram.com/nvcnt" target="_blank" rel="noopener" class="ig-link">@nvcnt</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro &nbsp;·&nbsp; Curators: Benedetta Monteleone (<a href="https://www.instagram.com/bbmonteleone" target="_blank" rel="noopener" class="ig-link">@bbmonteleone</a>) &amp; Alessandro Quarta (<a href="https://www.instagram.com/quarta2445" target="_blank" rel="noopener" class="ig-link">@quarta2445</a>)</p>
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
@@ -1698,7 +1709,7 @@ footer {
   </div>
   <div class="app-project-section reveal">
     <div class="app-project-title">PEEP BOX</div>
-    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Mar 2025</div>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Mar 2025</div>
     <p class="app-project-desc">Created in collaboration with Mehdi El Ouazzani (<a href="https://www.instagram.com/medi_imedici" target="_blank" rel="noopener" class="ig-link">@medi_imedici</a>), <em>PEEP BOX</em> is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Because viewers can only observe one screen at a time through designated windows, they are forced to physically move back and forth between the two ends to piece together the machine's internal computational logic. By placing the audience in a continuous loop of observing and being observed, <em>PEEP BOX</em> serves as a powerful spatial metaphor for the cognitive gap between human perception and rapid technological development.</p>
     <div class="project-page-divider"></div>
@@ -1732,7 +1743,7 @@ footer {
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">Lycosìa</div>
-      <div class="app-project-meta">Audiovisual Performance &nbsp;·&nbsp; Schwäbisch Gmünd, Germany &nbsp;·&nbsp; Nov 22, 2024</div>
+      <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Schwäbisch Gmünd, Germany &nbsp;·&nbsp; Nov 22, 2024</div>
       <p class="app-project-desc">An immersive performance presented by Etere (<a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">@etere.xyz</a>) at Gmünder Kunstverein (<a href="https://www.instagram.com/gmuenderkunstverein" target="_blank" rel="noopener" class="ig-link">@gmuenderkunstverein</a>) in Schwäbisch Gmünd, in collaboration with Conceptual and Sina. Inspired by Southern Italian Tarantismo, the work merges ancient ritual with AI and multimedia technology to explore post-human, interspecies transformation.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Acting as the visual artists, Zeyu Wang and Giovanni Lo Castro crafted the real-time visual environment, translating the audio and physical movements into an evolving digital landscape.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Sound: Conceptual (<a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">@conceptual.2020</a>) &nbsp;·&nbsp; Vocal: Greta Mariani (<a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">@gretaaam</a>) &nbsp;·&nbsp; Movement: Sina (<a href="https://www.instagram.com/sina_kraft" target="_blank" rel="noopener" class="ig-link">@sina_kraft</a>) &nbsp;·&nbsp; Visual: Zeyu Wang &amp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>) &nbsp;·&nbsp; Costume: Francesco Canali (<a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">@francesco_canali</a>)</p>
@@ -1774,7 +1785,7 @@ footer {
   <!-- App 1: Perfumen -->
   <div class="app-project-section reveal">
     <div class="app-project-title">Perfumen</div>
-    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
     <p class="app-project-desc">Perfumen is an innovative mobile experience that bridges the gap between online convenience and offline sensory exploration in fragrance shopping. The app empowers users to intuitively blend their desired scent notes or even translate their uploaded photos into personalized fragrance profiles. To eliminate the uncertainty of online purchasing, Perfumen offers same-day delivery of custom concoction samples. Coupled with personalized gifting services like bespoke bottle engraving, it transforms perfume shopping into a seamless and highly customized journey.</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1791,7 +1802,7 @@ footer {
   <!-- App 2: Petradise -->
   <div class="app-project-section reveal app-project-gap-top">
     <div class="app-project-title">Petradise</div>
-    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; 2020</div>
+    <div class="app-project-meta">App UI Design &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
     <p class="app-project-desc">Petradise is a compassionate mobile ecosystem that bridges the gap between the finality of pet loss and the enduring bond of companionship. The app empowers users to coordinate bespoke memorial services and interact with AI-driven “digital twins” that preserve the essence of their departed pets. To support the healing journey, Petradise utilizes intelligent filtering to recommend adoption matches based on the original pet’s unique traits and history. Coupled with personalized ritual planning, it transforms the grieving process into a supportive and hope-filled bridge toward new beginnings.</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1821,7 +1832,7 @@ footer {
   <!-- Work 1: 15 minutes -->
   <div class="app-project-section reveal">
     <div class="app-project-title">15 Minutes</div>
-    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; 2020</div>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
     <p class="app-project-desc">Drawing from Andy Warhol's prophecy of "15 minutes of fame," this interactive installation visualizes the ruthless and fleeting lifecycle of modern information consumption. Placed at a dining table—a daily site of digital consumption—the audience uses keyboard-like buttons to simulate online social behaviors. These actions trigger directed laser lights, representing the public gaze, camera lenses, and intense social discourse.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">As the lasers focus on a suspended red helium balloon, the accumulated "attention" (heat) violently pops it, scattering its red sand to mark the climax of a viral event. Yet, this fame is short-lived; white sand continually pours from above, gradually and silently burying the red remnants. This physical process serves as a poetic metaphor for how new data relentlessly overwrites old information, shifting the audience's role from passive bystanders to active catalysts in the media machine.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Just as Marshall McLuhan famously posited that "the medium is an extension of man," this installation transforms our intangible digital interactions into a visceral physical reality. It reminds us that while we actively shape the media landscape, we are simultaneously consumed, monitored, and reshaped by it.</p>
@@ -1837,7 +1848,7 @@ footer {
   <!-- Work 2: Section -->
   <div class="app-project-section reveal app-project-gap-top">
     <div class="app-project-title">Section</div>
-    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; 2020</div>
+    <div class="app-project-meta">Interactive Installation &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
     <p class="app-project-desc"><em>Section</em> is an interactive installation that explores the profound relationship between human presence, physical space, and the fluidity of time. By slicing and overlaying linear timelines, the work poetically restores different temporal moments into a singular spatial experience.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">The installation centers around a circular projection initially displaying cinematic quotes about time. When a viewer approaches the projection to read, a Kinect sensor detects their presence: the text instantly vanishes, and the viewer's silhouette is silently recorded into the system's database, capturing them as a slice of the present moment to be met by future strangers.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">The true cross-temporal encounter, however, emerges in absence. When the installation detects no human activity for over 15 seconds, the text dissolves, replaced by the blurred silhouettes of past visitors previously recorded by the system. These historical traces randomly combine and visually overlap, allowing strangers from different moments to poetically intersect within the exact same physical coordinates.</p>
@@ -1911,8 +1922,8 @@ footer {
     <div></div>
   </div>
   <div class="app-project-section reveal">
-    <div class="app-project-title">Photography</div>
-    <div class="app-project-meta">2020</div>
+    <div class="app-project-title">Hands</div>
+    <div class="app-project-meta">Photography &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
     <div class="project-page-divider"></div>
   </div>
       <div class="photography-grid reveal">
@@ -2028,26 +2039,14 @@ function openProject(id) {
 
     // Re-observe reveals AFTER incoming is visible
     requestAnimationFrame(function() {
-      incoming.querySelectorAll('.reveal').forEach(function(el) { obs.observe(el); });
-
-      if (id === 'appdesign' || id === 'installation' || id === 'photography' || id === 'peepbox' || id === 'lucus' || id === 'invisible' || id === 'lycosia') {
-        var firstGallery = incoming.querySelector('.appdesign-first-gallery');
-        if (firstGallery) {
-          obs.unobserve(firstGallery);
-          firstGallery.classList.remove('visible');
-          var updateFirstGallery = function() {
-            var rect = firstGallery.getBoundingClientRect();
-            var inView = rect.top < window.innerHeight * 0.92 && rect.bottom > 80;
-            if (inView && window.scrollY > 80) {
-              firstGallery.classList.add('visible');
-            } else {
-              firstGallery.classList.remove('visible');
-            }
-          };
-          window.__appdesignScrollHandler = updateFirstGallery;
-          window.addEventListener('scroll', updateFirstGallery, { passive: true });
+      incoming.querySelectorAll('.reveal').forEach(function(el) {
+        // Galleries show immediately — no observer needed
+        if (el.classList.contains('project-gallery') || el.classList.contains('photography-grid')) {
+          el.classList.add('visible');
+        } else {
+          obs.observe(el);
         }
-      }
+      });
     });
 
     // Update nav logo state
@@ -2396,6 +2395,15 @@ function navLogoClick() {
   /* updateNavLogo is called directly inside showPage/_showMain and openProject/_doOpenProject */
   // Init on load
   updateNavLogo();
+})();
+
+// Dynamic footer year
+(function() {
+  var el = document.getElementById('footer-year');
+  if (el) {
+    var y = new Date().getFullYear();
+    el.innerHTML = '&#169; ' + y + ' Zeyu Wang';
+  }
 })();
 </script>
 </body>
