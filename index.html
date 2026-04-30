@@ -360,7 +360,7 @@ footer {
 .about-slide .tool-logo-img.wide { width:88px; height:30px; }
 .about-slide .tool-logo-img.adobe { height:36px; width:36px; }
 .about-slide .tool-logo-img.color { height:36px; width:72px; }
-.about-slide .tool-logo-name { font-size:.52rem; }
+.about-slide .tool-logo-name { font-size:.65rem; }
 .about-slide .s-title { margin-bottom:2rem; }
 .about-dots {
   position:fixed;
@@ -656,7 +656,8 @@ footer {
     align-items:center;
     padding:.9rem 1.4rem;
   }
-  .nav-logo { font-size:.85rem; }
+  .nav-logo { font-size:1rem; }
+  .tool-logo-name { font-size:.65rem; }
   .nav-hamburger {
     display:flex !important;
     flex-direction:column;
@@ -688,13 +689,14 @@ footer {
   .nav-links.open { max-height:300px; }
   .nav-links li { border-bottom:1px solid rgba(255,255,255,.05); }
   .nav-links a {
-    font-size:.82rem;
+    font-size:.95rem;
     display:block;
     padding:.85rem 1.4rem;
   }
   section { padding:5rem 1.5rem; }
   #hero { padding:7rem 1.5rem 4rem; }
   .projects-grid { grid-template-columns:1fr; }
+  .project-name { font-size:1.15rem; }
   .about-bio { grid-template-columns:1fr; gap:3rem; }
   .bio-right { max-width:260px; }
   /* About page: mobile-first stacked layout (stable and fully readable) */
@@ -826,8 +828,11 @@ footer {
   }
   .work-item { grid-template-columns:1fr; gap:.4rem; }
   .work-tag { display:none; }
-  .project-page-topnav {
-    padding:4.8rem 1.5rem .8rem;
+  .app-project-title,
+  .app-project-meta,
+  .app-project-desc {
+    -webkit-tap-highlight-color: transparent;
+    cursor: default;
   }
   .project-page-bottomnav {
     padding:1.6rem 1.5rem 3rem;
@@ -860,6 +865,7 @@ footer {
     width:min(260px, 68vw);
     margin:1.1rem auto 1.4rem;
     align-self:center;
+    padding-left:0;
   }
   .app-project-section.with-poster .app-project-desc { order:4; }
   .app-project-section.with-poster .project-page-divider { order:5; }
