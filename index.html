@@ -58,6 +58,7 @@ nav.hidden { transform:translateY(-100%); }
   position:relative; overflow:hidden;
 }
 .hero-video-wrap { position:absolute; inset:0; z-index:0; overflow:hidden; }
+#hero-canvas { position:absolute; inset:0; width:100%; height:100%; display:block; }
 .hero-video-wrap iframe {
   position:absolute; top:50%; left:50%;
   width:177.78vh; min-width:100%; height:100%; min-height:56.25vw;
@@ -1131,7 +1132,7 @@ footer {
 
 <section id="hero">
     <div class="hero-video-wrap">
-      <iframe src="https://player.vimeo.com/video/1175312383?autoplay=1&muted=1&loop=1&background=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      <canvas id="hero-canvas"></canvas>
     </div>
   <div class="hero-overlay"></div>
   <div class="hero-body">
@@ -2425,6 +2426,432 @@ function navLogoClick() {
     el.innerHTML = '&#169; ' + y + ' Zeyu Wang';
   }
 })();
+</script>
+<!-- Point cloud hero -->
+<script>
+window.addEventListener('load', function(){
+  var canvas = document.getElementById('hero-canvas');
+  if(!canvas) return;
+  var gl = canvas.getContext('webgl',{antialias:true,alpha:false}) || canvas.getContext('experimental-webgl',{antialias:true,alpha:false});
+  if(!gl) return;
+
+  var W, H;
+  function resize(){
+    W = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
+    H = canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
+    gl.viewport(0,0,W,H);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // ── Shaders ───────────────────────────────────────────────
+  var VS = [
+    'attribute vec3 aOrig;',
+    'attribute vec3 aVel;',
+    'attribute float aPhase;',
+    'attribute float aSize;',
+    'attribute float aFreed;',
+    'uniform mat4 uMVP;',
+    'uniform float uTime;',
+    'uniform float uBreath;',
+    'varying float vAlpha;',
+    'void main(){',
+    '  float t = uTime;',
+    '  vec3 p;',
+    '  if(aFreed > 0.0){',
+    '    float age = t - aFreed;',
+    '    float maxDist = 1.1;',
+    '    float speed = 0.012;',
+    '    float traveled = min(age * speed, maxDist);',
+    '    vec3 dir = length(aVel) > 0.001 ? normalize(aVel) : vec3(0.0,1.0,0.0);',
+    '    float wander = sin(age*0.7 + aPhase)*0.12 + cos(age*0.4 + aPhase*1.3)*0.06;',
+    '    p = aOrig + dir * (traveled + wander);',
+    '    vAlpha = 0.72 + sin(age*0.5 + aPhase)*0.08;',
+    '  } else {',
+    '    float breath = 1.0 + uBreath * sin(t*0.55 + aPhase) * 0.022;',
+    '    float micro  = sin(t*1.3 + aPhase*2.1)*0.004 + cos(t*0.9+aPhase)*0.003;',
+    '    p = aOrig * (breath + micro);',
+    '    vAlpha = 0.80 + uBreath * 0.12;',
+    '  }',
+    '  vec4 mv = uMVP * vec4(p, 1.0);',
+    '  gl_PointSize = max(2.0, aSize * (400.0 / -mv.z));',
+    '  gl_Position = mv;',
+    '}'
+  ].join('\n');
+
+  var FS = [
+    'precision mediump float;',
+    'varying float vAlpha;',
+    'void main(){',
+    '  vec2 c = gl_PointCoord - 0.5;',
+    '  if(dot(c,c) > 0.25) discard;',
+    '  float a = vAlpha * (1.0 - dot(c,c)*3.2);',
+    '  gl_FragColor = vec4(1.0, 1.0, 1.0, a);',
+    '}'
+  ].join('\n');
+
+  function mkShader(type, src){
+    var s = gl.createShader(type);
+    gl.shaderSource(s,src); gl.compileShader(s); return s;
+  }
+  var prog = gl.createProgram();
+  gl.attachShader(prog, mkShader(gl.VERTEX_SHADER, VS));
+  gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+
+  var aOrig  = gl.getAttribLocation(prog,'aOrig');
+  var aVel   = gl.getAttribLocation(prog,'aVel');
+  var aPhase = gl.getAttribLocation(prog,'aPhase');
+  var aSize  = gl.getAttribLocation(prog,'aSize');
+  var aFreed = gl.getAttribLocation(prog,'aFreed');
+  var uMVP   = gl.getUniformLocation(prog,'uMVP');
+  var uTime  = gl.getUniformLocation(prog,'uTime');
+  var uBreath= gl.getUniformLocation(prog,'uBreath');
+
+  // ── Parse OBJ ────────────────────────────────────────────
+  var N = 0;
+  var origArr, velArr, phaseArr, sizeArr, freedArr;
+  var bufOrig, bufVel, bufPhase, bufSize, bufFreed;
+
+  function buildCloud(pts){
+    var MAX = 25000;
+    var total = pts.length/3;
+    var out = [];
+    if(total > MAX){
+      var step = total/MAX;
+      for(var i=0;i<MAX;i++){
+        var idx=Math.floor(i*step)*3;
+        out.push(pts[idx],pts[idx+1],pts[idx+2]);
+      }
+    } else { out = pts; }
+    N = out.length/3;
+
+    // center & normalize
+    var mn=[Infinity,Infinity,Infinity], mx2=[-Infinity,-Infinity,-Infinity];
+    for(var i=0;i<N;i++) for(var j=0;j<3;j++){
+      mn[j]=Math.min(mn[j],out[i*3+j]); mx2[j]=Math.max(mx2[j],out[i*3+j]);
+    }
+    var cx=(mn[0]+mx2[0])/2, cy=(mn[1]+mx2[1])/2, cz=(mn[2]+mx2[2])/2;
+    var sc=1.4/Math.max(mx2[0]-mn[0],mx2[1]-mn[1],mx2[2]-mn[2]);
+
+    origArr  = new Float32Array(N*3);
+    velArr   = new Float32Array(N*3);
+    phaseArr = new Float32Array(N);
+    sizeArr  = new Float32Array(N);
+    freedArr = new Float32Array(N);
+
+    for(var i=0;i<N;i++){
+      origArr[i*3]  =(out[i*3]  -cx)*sc;
+      origArr[i*3+1]=(out[i*3+1]-cy)*sc;
+      origArr[i*3+2]=(out[i*3+2]-cz)*sc;
+      // random drift velocity for when freed
+      velArr[i*3]  =(Math.random()-.5)*0.8;
+      velArr[i*3+1]=(Math.random()-.5)*0.4 + 0.15; // slight upward bias
+      velArr[i*3+2]=(Math.random()-.5)*0.8;
+      phaseArr[i]=Math.random()*Math.PI*2;
+      sizeArr[i]=3.2+Math.random()*1.6;
+      freedArr[i]=0;
+    }
+
+    function mkBuf(data, attr, size){
+      var b=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER,b);
+      gl.bufferData(gl.ARRAY_BUFFER,data,gl.DYNAMIC_DRAW);
+      gl.enableVertexAttribArray(attr);
+      gl.vertexAttribPointer(attr,size,gl.FLOAT,false,0,0);
+      return b;
+    }
+    bufOrig =mkBuf(origArr, aOrig, 3);
+    bufVel  =mkBuf(velArr,  aVel,  3);
+    bufPhase=mkBuf(phaseArr,aPhase,1);
+    bufSize =mkBuf(sizeArr, aSize, 1);
+    bufFreed=mkBuf(freedArr,aFreed,1);
+  }
+
+  function parseOBJ(text){
+    var pts=[];
+    var lines=text.split('\n');
+    for(var i=0;i<lines.length;i++){
+      var l=lines[i];
+      if(l.charCodeAt(0)===118 && l.charCodeAt(1)===32){
+        var p=l.split(/\s+/);
+        var x=+p[1],y=+p[2],z=+p[3];
+        if(!isNaN(x)&&!isNaN(y)&&!isNaN(z)) pts.push(x,y,z);
+      }
+    }
+    return pts;
+  }
+
+  // load model
+  var urls = [
+    'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/models/myself.obj',
+    'https://cdn.jsdelivr.net/gh/Keroseny/zeyuwang@main/images/models/myself.obj'
+  ];
+  function tryLoad(i){
+    if(i>=urls.length){ buildFallback(); return; }
+    fetch(urls[i]).then(function(r){
+      if(!r.ok) throw 0;
+      return r.text();
+    }).then(function(text){
+      var pts=parseOBJ(text);
+      if(pts.length<9) throw 0;
+      buildCloud(pts);
+    }).catch(function(){ tryLoad(i+1); });
+  }
+  function buildFallback(){
+    var pts=[];
+    for(var i=0;i<20000;i++){
+      var phi=Math.acos(1-2*(i+.5)/20000);
+      var th=Math.PI*(1+Math.sqrt(5))*i;
+      var r=0.9+Math.random()*0.06;
+      pts.push(r*Math.sin(phi)*Math.cos(th), r*Math.cos(phi)*1.2, r*Math.sin(phi)*Math.sin(th)*0.85);
+    }
+    buildCloud(pts);
+  }
+  tryLoad(0);
+
+  // ── Matrix math ───────────────────────────────────────────
+  function m4(){ return new Float32Array(16); }
+  function identity(m){ for(var i=0;i<16;i++) m[i]=0; m[0]=m[5]=m[10]=m[15]=1; return m; }
+  function mul(o,a,b){
+    for(var i=0;i<4;i++) for(var j=0;j<4;j++){
+      o[j*4+i]=0; for(var k=0;k<4;k++) o[j*4+i]+=a[k*4+i]*b[j*4+k];
+    } return o;
+  }
+  function rotXm(m,a){ identity(m); var c=Math.cos(a),s=Math.sin(a); m[5]=c;m[6]=s;m[9]=-s;m[10]=c; return m; }
+  function rotYm(m,a){ identity(m); var c=Math.cos(a),s=Math.sin(a); m[0]=c;m[2]=-s;m[8]=s;m[10]=c; return m; }
+  function persp(m,fov,asp,n,f){ identity(m); var t=Math.tan(fov/2); m[0]=1/(asp*t);m[5]=1/t;m[10]=(f+n)/(n-f);m[11]=-1;m[14]=2*f*n/(n-f);m[15]=0; return m; }
+  function trans(m,z){ identity(m); m[14]=z; return m; }
+
+  var rotY=0.4, rotX=-0.15, dY=0, dX=0, velY=0, velX=0;
+  var dragging=false, lastX=0, lastY=0;
+
+  // ── Mouse interaction ─────────────────────────────────────
+  // mouse in NDC for disruption
+  var clickNDC = null; // only set on click, not hover
+  var activeBlast = null; // {ndc, frame, maxFrames, maxR}
+  var isHovering = false;   // mouse over model (not just canvas)
+  var currentZ = -2.4;      // smooth camera Z
+  var targetZ  = -2.4;
+  var mouseCanvasNDC = null; // raw mouse NDC over canvas
+
+  // Rotation drag
+  canvas.addEventListener('mousedown',function(e){ dragging=true; lastX=e.clientX; lastY=e.clientY; });
+  window.addEventListener('mouseup',function(){ dragging=false; });
+  window.addEventListener('mousemove',function(e){
+    if(dragging){
+      dY+=(e.clientX-lastX)*0.0012;
+      dX+=(e.clientY-lastY)*0.0008;
+      lastX=e.clientX; lastY=e.clientY;
+    }
+    var r=canvas.getBoundingClientRect();
+    if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+      mouseCanvasNDC={
+        x:(e.clientX-r.left)/r.width*2-1,
+        y:-((e.clientY-r.top)/r.height*2-1)
+      };
+    } else {
+      mouseCanvasNDC=null;
+      isHovering=false;
+    }
+  });
+
+  // Click = explode
+  canvas.addEventListener('click',function(e){
+    var r=canvas.getBoundingClientRect();
+    var nx=(e.clientX-r.left)/r.width*2-1;
+    var ny=-((e.clientY-r.top)/r.height*2-1);
+    clickNDC={x:nx,y:ny};
+  });
+
+  // touch
+  var touchMoved=false;
+  canvas.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    dragging=true;
+    touchMoved=false;
+    lastX=e.touches[0].clientX;
+    lastY=e.touches[0].clientY;
+  },{passive:false});
+  window.addEventListener('touchend',function(e){
+    dragging=false;
+    if(!touchMoved && e.changedTouches.length>0){
+      var t=e.changedTouches[0];
+      var r=canvas.getBoundingClientRect();
+      var nx=(t.clientX-r.left)/r.width*2-1;
+      var ny=-((t.clientY-r.top)/r.height*2-1);
+      clickNDC={x:nx,y:ny};
+    }
+  });
+  canvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    touchMoved=true;
+    dY+=(e.touches[0].clientX-lastX)*0.003;
+    dX+=(e.touches[0].clientY-lastY)*0.002;
+    lastX=e.touches[0].clientX; lastY=e.touches[0].clientY;
+  },{passive:false});
+
+  // ── Free particles near mouse ─────────────────────────────
+  var RADIUS_NDC = 0.12; // explosion radius in NDC space
+  var freedTime = new Float32Array(25001); // track per-particle freed clock
+  var clock = 0;
+
+  function disruptNearMouse(ndc){ sustainedDisrupt(ndc, RADIUS_NDC, 1.0); }
+
+  function sustainedDisrupt(ndc, radius, progress){
+    if(!ndc || !origArr || N===0) return;
+    var mx=ndc.x, my=ndc.y;
+    var cy=Math.cos(rotY),sy=Math.sin(rotY);
+    var cx2=Math.cos(rotX),sx=Math.sin(rotX);
+    var asp=W/H, tanF=Math.tan(0.85/2);
+
+    // Pass 1: find frontmost Z in current radius
+    var maxFz = -Infinity;
+    for(var i=0;i<N;i++){
+      if(freedArr[i]>0) continue;
+      var ox=origArr[i*3],oy=origArr[i*3+1],oz=origArr[i*3+2];
+      var rx=cy*ox+sy*oz,rz=-sy*ox+cy*oz;
+      var fx=rx,fy=cx2*oy-sx*rz,fz=sx*oy+cx2*rz;
+      var tz=fz+currentZ; if(tz>=0) continue;
+      var inv=1/(-tz);
+      var ndcx=(fx*inv)/(asp*tanF),ndcy=(fy*inv)/tanF;
+      var dx=(ndcx-mx)*asp,dy=ndcy-my;
+      var dist2=dx*dx+dy*dy;
+      if(dist2 < radius*radius && fz>maxFz) maxFz=fz;
+    }
+    if(maxFz===-Infinity) return;
+
+    // Pass 2: probabilistic release based on distance and progress
+    var Z_SLICE = 0.15;
+    var updated=false;
+    for(var i=0;i<N;i++){
+      if(freedArr[i]>0) continue;
+      var ox=origArr[i*3],oy=origArr[i*3+1],oz=origArr[i*3+2];
+      var rx=cy*ox+sy*oz,rz=-sy*ox+cy*oz;
+      var fx=rx,fy=cx2*oy-sx*rz,fz=sx*oy+cx2*rz;
+      var tz=fz+currentZ; if(tz>=0) continue;
+      if(fz < maxFz - Z_SLICE) continue;
+      var inv=1/(-tz);
+      var ndcx=(fx*inv)/(asp*tanF),ndcy=(fy*inv)/tanF;
+      var dx=(ndcx-mx)*asp,dy=ndcy-my;
+      var dist2=dx*dx+dy*dy;
+      if(dist2 > radius*radius) continue;
+      // probability: higher at center, lower at edge, modulated by progress
+      var normDist=Math.sqrt(dist2)/radius;
+      var prob=(1.0-normDist*0.7)*0.018*(0.15+progress*0.85);
+      if(Math.random()>prob) continue;
+      freedArr[i]=t;
+      // fly outward from click point in model space
+      // unproject click NDC to approximate model-space center
+      var clickX = mx * asp * Math.tan(0.85/2) * (-currentZ);
+      var clickY = my * Math.tan(0.85/2) * (-currentZ);
+      var clickZ = 0.0;
+      var dx2=ox-clickX, dy2=oy-clickY, dz2=oz-clickZ;
+      var dlen=Math.sqrt(dx2*dx2+dy2*dy2+dz2*dz2)||1;
+      var spd=0.12+Math.random()*0.22;
+      var spread=0.3;
+      velArr[i*3]  =(dx2/dlen+(Math.random()-0.5)*spread)*spd;
+      velArr[i*3+1]=(dy2/dlen+(Math.random()-0.5)*spread)*spd;
+      velArr[i*3+2]=(dz2/dlen+(Math.random()-0.5)*spread)*spd;
+      updated=true;
+    }
+    if(updated){
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufFreed);
+      gl.bufferData(gl.ARRAY_BUFFER,freedArr,gl.DYNAMIC_DRAW);
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufVel);
+      gl.bufferData(gl.ARRAY_BUFFER,velArr,gl.DYNAMIC_DRAW);
+    }
+  }
+
+  // ── Render ────────────────────────────────────────────────
+  var rXm=m4(),rYm=m4(),trm=m4(),tmp=m4(),prm=m4(),mvp=m4(),mvp2=m4();
+  var t=0, breath=0;
+
+  function frame(){
+    t+=0.014;
+    breath = 0.5+0.5*Math.sin(t*0.38); // 0-1 slow breath
+
+    // physics inertia: accumulate velocity, apply strong damping
+    if(dragging){
+      velY = velY*0.3 + dY*0.7;
+      velX = velX*0.3 + dX*0.7;
+    } else {
+      velY *= 0.94;
+      velX *= 0.94;
+    }
+    rotY += velY + 0.0004; // auto-rotate added directly to angle, not velocity
+    rotX += velX;
+    dY=0; dX=0; // consumed each frame
+
+    // hover: check if mouse is over any particle
+    if(mouseCanvasNDC && origArr && N>0){
+      var hx=mouseCanvasNDC.x, hy=mouseCanvasNDC.y;
+      var cy2=Math.cos(rotY),sy2=Math.sin(rotY),cx3=Math.cos(rotX),sx2=Math.sin(rotX);
+      var asp2=W/H,tanF2=Math.tan(0.85/2);
+      var found=false;
+      var step=Math.max(1,Math.floor(N/800)); // sample subset for perf
+      for(var i=0;i<N&&!found;i+=step){
+        if(freedArr[i]>0) continue;
+        var ox=origArr[i*3],oy=origArr[i*3+1],oz=origArr[i*3+2];
+        var rx=cy2*ox+sy2*oz,rz2=-sy2*ox+cy2*oz;
+        var fx=rx,fy=cx3*oy-sx2*rz2,fz=sx2*oy+cx3*rz2;
+        var tz=fz+currentZ; if(tz>=0) continue;
+        var inv=1/(-tz);
+        var px=(fx*inv)/(asp2*tanF2),py=(fy*inv)/tanF2;
+        var ddx=(px-hx)*asp2,ddy=py-hy;
+        if(ddx*ddx+ddy*ddy<0.05*0.05) found=true;
+      }
+      isHovering=found;
+    } else {
+      isHovering=false;
+    }
+
+    // explode on click — sustained blast process
+    if(clickNDC){
+      activeBlast = {ndc: clickNDC, frame: 0, maxFrames: 180, maxR: RADIUS_NDC};
+      clickNDC = null;
+    }
+    if(activeBlast){
+      var bf = activeBlast.frame / activeBlast.maxFrames; // 0→1
+      var blastR = activeBlast.maxR * Math.sqrt(bf + 0.05); // expanding radius
+      sustainedDisrupt(activeBlast.ndc, blastR, bf);
+      activeBlast.frame++;
+      if(activeBlast.frame > activeBlast.maxFrames) activeBlast = null;
+    }
+
+    gl.clearColor(0,0,0,1);
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+
+    // smooth camera zoom on hover
+    targetZ = isHovering ? -2.15 : -2.4;
+    currentZ += (targetZ - currentZ) * 0.04;
+    persp(prm,0.85,W/H,0.01,20);
+    trans(trm, currentZ);
+    rotXm(rXm,rotX);
+    rotYm(rYm,rotY);
+    mul(tmp,rXm,rYm);
+    mul(mvp,trm,tmp);
+    mul(mvp2,prm,mvp);
+
+    gl.uniformMatrix4fv(uMVP,false,mvp2);
+    gl.uniform1f(uTime,t);
+    gl.uniform1f(uBreath,breath);
+
+    if(N>0){
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufOrig);  gl.vertexAttribPointer(aOrig, 3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufVel);   gl.vertexAttribPointer(aVel,  3,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufPhase); gl.vertexAttribPointer(aPhase,1,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufSize);  gl.vertexAttribPointer(aSize, 1,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER,bufFreed); gl.vertexAttribPointer(aFreed,1,gl.FLOAT,false,0,0);
+      gl.drawArrays(gl.POINTS,0,N);
+    }
+    requestAnimationFrame(frame);
+  }
+  frame();
+});
 </script>
 </body>
 </html>
