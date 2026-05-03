@@ -903,9 +903,16 @@ footer {
   .hero-video-wrap {
     position:relative;
     width:100%;
-    padding-top:56.25%; /* 16:9 */
+    padding-top:112.5%; /* 2x of 16:9 */
     flex-shrink:0;
     margin-top:3.5rem;
+  }
+  #hero-canvas {
+    position:absolute;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
   }
   .hero-video-wrap iframe {
     position:absolute;
@@ -2460,12 +2467,17 @@ window.addEventListener('load', function(){
     '  vec3 p;',
     '  if(aFreed > 0.0){',
     '    float age = t - aFreed;',
-    '    float maxDist = 1.1;',
-    '    float speed = 0.012;',
-    '    float traveled = min(age * speed, maxDist);',
-    '    vec3 dir = length(aVel) > 0.001 ? normalize(aVel) : vec3(0.0,1.0,0.0);',
-    '    float wander = sin(age*0.7 + aPhase)*0.12 + cos(age*0.4 + aPhase*1.3)*0.06;',
-    '    p = aOrig + dir * (traveled + wander);',
+    '    vec3 d = length(aVel) > 0.001 ? normalize(aVel) : vec3(0.0,1.0,0.0);',
+    // flow field: initial direction blends into curl-like sinusoidal flow
+    '    float blend = min(age * 0.04, 1.0);',
+    '    float s = age * 0.28 + aPhase;',
+    '    vec3 flow;',
+    '    flow.x = sin(s*0.7)*cos(s*0.3+1.1)*0.9 + cos(s*0.5+aPhase)*0.4;',
+    '    flow.y = cos(s*0.6+0.8)*sin(s*0.4+2.1)*0.8 + sin(s*0.35+aPhase*1.3)*0.35;',
+    '    flow.z = sin(s*0.5+1.7)*cos(s*0.45+aPhase*0.7)*0.7;',
+    '    vec3 motion = mix(d, normalize(flow+d*0.5), blend);',
+    '    float dist = min(age * 0.012, 1.1);',
+    '    p = aOrig + motion * dist;',
     '    vAlpha = 0.72 + sin(age*0.5 + aPhase)*0.08;',
     '  } else {',
     '    float breath = 1.0 + uBreath * sin(t*0.55 + aPhase) * 0.022;',
@@ -2704,7 +2716,7 @@ window.addEventListener('load', function(){
     var mx=ndc.x, my=ndc.y;
     var cy=Math.cos(rotY),sy=Math.sin(rotY);
     var cx2=Math.cos(rotX),sx=Math.sin(rotX);
-    var asp=W/H, tanF=Math.tan(0.85/2);
+    var asp=W/H, curFov=asp<0.85?0.85/asp:0.85, tanF=Math.tan(curFov/2);
 
     // Pass 1: find frontmost Z in current radius
     var maxFz = -Infinity;
@@ -2744,8 +2756,8 @@ window.addEventListener('load', function(){
       freedArr[i]=t;
       // fly outward from click point in model space
       // unproject click NDC to approximate model-space center
-      var clickX = mx * asp * Math.tan(0.85/2) * (-currentZ);
-      var clickY = my * Math.tan(0.85/2) * (-currentZ);
+      var clickX = mx * asp * Math.tan(curFov/2) * (-currentZ);
+      var clickY = my * Math.tan(curFov/2) * (-currentZ);
       var clickZ = 0.0;
       var dx2=ox-clickX, dy2=oy-clickY, dz2=oz-clickZ;
       var dlen=Math.sqrt(dx2*dx2+dy2*dy2+dz2*dz2)||1;
@@ -2788,7 +2800,7 @@ window.addEventListener('load', function(){
     if(mouseCanvasNDC && origArr && N>0){
       var hx=mouseCanvasNDC.x, hy=mouseCanvasNDC.y;
       var cy2=Math.cos(rotY),sy2=Math.sin(rotY),cx3=Math.cos(rotX),sx2=Math.sin(rotX);
-      var asp2=W/H,tanF2=Math.tan(0.85/2);
+      var asp2=W/H,curFov2=asp2<0.85?0.85/asp2:0.85,tanF2=Math.tan(curFov2/2);
       var found=false;
       var step=Math.max(1,Math.floor(N/800)); // sample subset for perf
       for(var i=0;i<N&&!found;i+=step){
@@ -2828,7 +2840,9 @@ window.addEventListener('load', function(){
     // smooth camera zoom on hover
     targetZ = isHovering ? -2.15 : -2.4;
     currentZ += (targetZ - currentZ) * 0.04;
-    persp(prm,0.85,W/H,0.01,20);
+    var asp = W/H;
+    var fov = asp < 0.85 ? 0.85 / asp : 0.85; // wider FOV on portrait to keep model visible
+    persp(prm, fov, asp, 0.01, 20);
     trans(trm, currentZ);
     rotXm(rXm,rotX);
     rotYm(rYm,rotY);
@@ -2846,6 +2860,8 @@ window.addEventListener('load', function(){
       gl.bindBuffer(gl.ARRAY_BUFFER,bufPhase); gl.vertexAttribPointer(aPhase,1,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ARRAY_BUFFER,bufSize);  gl.vertexAttribPointer(aSize, 1,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ARRAY_BUFFER,bufFreed); gl.vertexAttribPointer(aFreed,1,gl.FLOAT,false,0,0);
+      gl.drawArrays(gl.POINTS,0,N);
+
       gl.drawArrays(gl.POINTS,0,N);
     }
     requestAnimationFrame(frame);
