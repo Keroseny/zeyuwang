@@ -2545,7 +2545,8 @@ window.addEventListener('load', function(){
       mn[j]=Math.min(mn[j],out[i*3+j]); mx2[j]=Math.max(mx2[j],out[i*3+j]);
     }
     var cx=(mn[0]+mx2[0])/2, cy=(mn[1]+mx2[1])/2, cz=(mn[2]+mx2[2])/2;
-    var sc=1.4/Math.max(mx2[0]-mn[0],mx2[1]-mn[1],mx2[2]-mn[2]);
+    var scBase = window.innerWidth <= 900 ? 1.9 : 1.4;
+    var sc=scBase/Math.max(mx2[0]-mn[0],mx2[1]-mn[1],mx2[2]-mn[2]);
 
     origArr  = new Float32Array(N*3);
     velArr   = new Float32Array(N*3);
