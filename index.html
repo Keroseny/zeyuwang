@@ -629,6 +629,9 @@ footer {
 .project-gallery.lycosia-grid img {
   margin-bottom:0;
 }
+.project-gallery.invisible-grid img {
+  aspect-ratio:3/2; object-fit:cover;
+}
 .project-gallery.lycosia-grid .gallery-video-fullrow {
   grid-column:1 / -1;
   margin-bottom:0;
@@ -1104,8 +1107,9 @@ footer {
   column-span:all;
   width:100%; display:block;
   margin-bottom:4px;
-  aspect-ratio:21/9;
-  object-fit:cover;
+  height:auto;
+  aspect-ratio:unset;
+  object-fit:initial;
   background-color:#1c1c1c;
 }
 .photography-grid .photo-tall {
@@ -1203,7 +1207,7 @@ footer {
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/PEEP%20BOX/render01.png" alt="PEEP BOX">
       <div class="project-info">
         <div class="project-name">PEEP BOX</div>
-        <div class="project-year">2025</div>
+        <div class="project-year">Interactive Installation Designer &nbsp;·&nbsp; 2025</div>
       </div>
     </div>
     <div class="project-card reveal" onclick="openProject('lycosia')" style="cursor:pointer;">
@@ -1226,7 +1230,7 @@ footer {
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/installation_cover.jpg" alt="Installation">
       <div class="project-info">
         <div class="project-name">15 Minutes &amp; Section</div>
-        <div class="project-year">2020</div>
+        <div class="project-year">Interactive Installation Designer &nbsp;·&nbsp; 2020</div>
       </div>
     </div>
 
@@ -1234,7 +1238,7 @@ footer {
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png" alt="App Design">
       <div class="project-info">
         <div class="project-name">Perfumen &amp; Petradise</div>
-        <div class="project-year">2020</div>
+        <div class="project-year">UX/UI Designer &nbsp;·&nbsp; 2020</div>
       </div>
     </div>
 
@@ -1242,7 +1246,7 @@ footer {
       <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="Hands">
       <div class="project-info">
         <div class="project-name">Hands</div>
-        <div class="project-year">2020</div>
+        <div class="project-year">Photographer &nbsp;·&nbsp; 2020</div>
       </div>
     </div>
   </div>
@@ -1554,7 +1558,7 @@ footer {
     <div class="app-project-title">Altéra</div>
     <div class="app-project-meta">Live Visual Performance &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Dec 2025–Apr 2026</div>
     <p class="app-project-desc"><em>Altéra</em> (<a href="https://www.instagram.com/altera.eu" target="_blank" rel="noopener" class="ig-link">@altera.eu</a>) is a sonic and visual project presented at Circolo Amelia (<a href="https://www.instagram.com/circoloamelia" target="_blank" rel="noopener" class="ig-link">@circoloamelia</a>) in Milan, born from the desire to cross thresholds between music and art, presence and absence, body and space. It is not a collective or an alias, but an environment: a place where musical research intertwines with visual gestures, installations, and ephemeral forms of contemporaneity.</p>
-    <p class="app-project-desc" style="margin-top:1.2rem;">Rooted in deep listening and ambient aesthetics, Altéra expands toward deconstructed electronics, broken rhythms, micro-textures, and hybrid forms between club culture and sound art. As resident VJs, Zeyu Wang and Giovanni Lo Castro develop and perform live visual systems for Altéra's events, creating temporary audiovisual environments that respond to the sonic experience and extend the project's threshold-based language through real-time visual composition.</p>
+    <p class="app-project-desc" style="margin-top:1.2rem;">Rooted in deep listening and ambient aesthetics, <em>Altéra</em> expands toward deconstructed electronics, broken rhythms, micro-textures, and hybrid forms between club culture and sound art. As resident VJs, Zeyu Wang and Giovanni Lo Castro develop and perform live visual systems for <em>Altéra</em>'s events, creating temporary audiovisual environments that respond to the sonic experience and extend the project's threshold-based language through real-time visual composition.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Art direction music: Alessandro Baroncini (<a href="https://www.instagram.com/alessandrobaroncini_" target="_blank" rel="noopener" class="ig-link">@alessandrobaroncini_</a>) &nbsp;·&nbsp; Enrico Caldini (<a href="https://www.instagram.com/gabsphere" target="_blank" rel="noopener" class="ig-link">@gabsphere</a>) &nbsp;·&nbsp; Luca Scarpato (<a href="https://www.instagram.com/lucascarpa7" target="_blank" rel="noopener" class="ig-link">@lucascarpa7</a>) &nbsp;·&nbsp; Philip Kylberg (<a href="https://www.instagram.com/philip.kylberg" target="_blank" rel="noopener" class="ig-link">@philip.kylberg</a>) &nbsp;·&nbsp; Tommaso Faloci (<a href="https://www.instagram.com/saint__seiya__" target="_blank" rel="noopener" class="ig-link">@saint__seiya__</a>) &nbsp;·&nbsp; Art direction installations &amp; caveau: Enrico Caldini &nbsp;·&nbsp; Philip Kylberg &nbsp;·&nbsp; Tommaso Faloci &nbsp;·&nbsp; Resident VJs: Zeyu Wang &nbsp;·&nbsp; Giovanni Lo Castro (<a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">@giovanni.lo.castro</a>)</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1727,24 +1731,26 @@ footer {
       <div class="project-page-divider"></div>
     </div>
     <div class="project-page-poster-wrap reveal">
-      <img loading="lazy" src="https://i.ibb.co/WN08NW6T/cover.jpg" alt="In-visible Gaze Poster">
+      <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/01.jpg" alt="In-visible Gaze Poster">
     </div>
   </div>
-  <div class="project-gallery reveal appdesign-first-gallery">
-    <img loading="lazy" src="https://i.ibb.co/cX3yQ5s3/1.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/Z6gZ0K15/2.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/7JPFHpZw/4.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/1GT4D1hv/5.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/PfLNm6S/6.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/7Dy1vvW/2.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/Zzb5JM5K/7.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/JjgtNJzF/8.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/VpYqTjqc/9.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/vCyjSJpB/10.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/TBx6jj4X/14.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/v4CHPMn2/11.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/27Vhzjkt/12.jpg" alt="">
-    <img loading="lazy" src="https://i.ibb.co/dw0Ybz5D/13.jpg" alt="">
+  <div class="project-gallery reveal appdesign-first-gallery invisible-grid">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/10.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/16.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/03.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/14.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/08.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/01.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/09.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/02.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/15.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/07.png" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/06.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/12.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/05.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/04.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/13.jpg" alt="">
+    <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Invisible_gaze/gif1.gif" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('duna2')">previous.</button>
@@ -1991,6 +1997,7 @@ footer {
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" alt="">
     <img loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" alt="">
     <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" alt="">
+    <img loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/ChatGPT01.png" alt="">
   </div>
   <div class="project-page-bottomnav">
     <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
