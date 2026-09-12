@@ -1,0 +1,53 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/altera",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/duna",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/in-visible-gaze",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/peep-box",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/lycosia",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/lucus-angitiae",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/installation",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/ui-design",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/works",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/experience",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/index.html"
+    }
+  ]
+}
