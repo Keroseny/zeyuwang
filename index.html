@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zeyu Wang</title>
+<title>Zeyu Wang — Visual &amp; Interaction Designer</title>
 <meta name="description" content="Zeyu Wang — Visual and interaction designer based in Milan, Italy. Working across visual art, new media, and live performance, with a focus on liminal conditions and perceptual thresholds.">
 <meta property="og:title" content="Zeyu Wang">
 <meta property="og:description" content="Visual and interaction designer based in Milan, Italy. Generative systems, machine learning, and interactive visual environments.">
@@ -784,7 +784,7 @@ footer {
   #about-slide-0 .cv-btn {
     padding:.5rem 1.2rem;
     font-size:.68rem;
-    border-width:1.5px;
+    border-width:1px;
     letter-spacing:.03em;
     line-height:1.2;
     white-space:nowrap;
@@ -841,7 +841,7 @@ footer {
   .project-page-topnav-btn {
     padding:.5rem 1.2rem;
     font-size:.68rem;
-    border-width:1.5px;
+    border-width:1px;
   }
   .project-gallery {
     columns:1;
@@ -868,7 +868,7 @@ footer {
     display:contents;
   }
   .app-project-section.with-poster .app-project-title { order:1; }
-  .app-project-section.with-poster .app-project-meta { order:2; }
+  .app-project-section.with-poster .project-facts { order:2; }
   .app-project-section.with-poster .project-page-poster-wrap {
     order:3;
     grid-column:auto;
@@ -933,7 +933,7 @@ footer {
     animation:none;
     padding:.55rem 1.6rem;
     font-size:.75rem;
-    border-width:1.5px;
+    border-width:1px;
   }
 }
 
@@ -1150,8 +1150,121 @@ footer {
   background:#111; color:#fff; font:inherit; cursor:pointer; z-index:3;
 }
 
-#project-page-ying .ying-gallery { columns:1; max-width:900px; }
-#project-page-ying .ying-gallery img { width:100%; height:auto; object-fit:contain; }
+
+/* Direct artwork galleries share the existing project grid and hover animations. */
+#projects .art-card { aspect-ratio:auto; align-self:start; }
+#projects .art-card img { width:100%; height:auto; display:block; }
+#projects .art-wide { grid-column:1 / -1; }
+#projects .art-card.art-peek img { filter:grayscale(0%); transform:scale(1.04); }
+#projects .art-card.art-peek .project-info { background:rgba(0,0,0,.35); }
+#projects .art-card.art-peek .project-name,
+#projects .art-card.art-peek .project-year { opacity:1; transform:translateY(0); }
+#artwork-viewer {
+  position:fixed; inset:0; margin:auto; padding:0; border:1px solid rgba(255,255,255,.06);
+  width:calc(100vw - 4rem); max-width:1500px; max-height:calc(100dvh - 3rem);
+  background:rgba(0,0,0,.1); color:#fff; overflow:auto;
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+}
+#artwork-viewer::backdrop { background:rgba(0,0,0,.45); }
+.artwork-toolbar { display:flex; justify-content:flex-end; padding:1rem 1.5rem 0; }
+.artwork-close { border:0; padding:.5rem; background:none; color:rgba(255,255,255,.7); font:inherit; font-size:.8rem; cursor:pointer; }
+.artwork-close:hover { color:#e63030; }
+.artwork-close:focus-visible { outline:1px solid #e63030; }
+.artwork-viewer-body { display:grid; grid-template-columns:minmax(0,1fr) 230px; align-items:center; gap:2rem; padding:1.5rem 2rem 2rem; }
+.artwork-image-area { min-width:0; display:flex; justify-content:center; align-items:center; }
+#artwork-full-image { display:block; width:auto; height:auto; max-width:100%; max-height:calc(100dvh - 10rem); object-fit:contain; filter:none; }
+.artwork-details { min-width:0; }
+#artwork-title { font-size:1.65rem; font-weight:700; margin:0 0 1.25rem; }
+.artwork-details p { font-size:.9rem; line-height:1.8; color:rgba(255,255,255,.65); margin:0 0 .8rem; }
+.artwork-details .artwork-note { font-size:.75rem; color:rgba(255,255,255,.4); }
+#artwork-viewer [hidden] { display:none; }
+@media(max-width:900px) {
+  #artwork-viewer { width:calc(100vw - 1rem); max-height:calc(100dvh - 1rem); }
+  .artwork-viewer-body { grid-template-columns:minmax(0,1fr); gap:1.5rem; padding:1rem; }
+  #artwork-full-image { max-height:65dvh; }
+  .artwork-toolbar { padding:.5rem .75rem 0; }
+}
+
+/* Balanced photography masonry: native image proportions, no empty grid rows. */
+#projects .projects-grid.photo-masonry { display:block; position:relative; }
+#projects .photo-masonry .art-card { position:absolute; }
+#artwork-viewer[open] { animation:artwork-enter .55s cubic-bezier(.16,1,.3,1) both; }
+#artwork-viewer[open]::backdrop { animation:artwork-backdrop-in .5s ease both; }
+#artwork-viewer[open] .artwork-details { animation:artwork-details-in .55s .12s cubic-bezier(.16,1,.3,1) both; }
+#artwork-viewer.artwork-closing { animation:artwork-exit .28s cubic-bezier(.4,0,1,1) both; pointer-events:none; }
+#artwork-viewer.artwork-closing::backdrop { animation:artwork-backdrop-out .28s ease both; }
+@keyframes artwork-enter { from {opacity:0; transform:translateY(22px) scale(.96)} to {opacity:1; transform:none} }
+@keyframes artwork-exit { from {opacity:1; transform:none} to {opacity:0; transform:translateY(12px) scale(.97)} }
+@keyframes artwork-backdrop-in { from {opacity:0} to {opacity:1} }
+@keyframes artwork-backdrop-out { from {opacity:1} to {opacity:0} }
+@keyframes artwork-details-in { from {opacity:0; transform:translateY(12px)} to {opacity:1; transform:none} }
+@media(prefers-reduced-motion:reduce) {
+ #artwork-viewer[open], #artwork-viewer[open]::backdrop, #artwork-viewer[open] .artwork-details {animation:none;}
+}
+
+
+/* Shared outline actions: About me, project navigation, Close and CV links. */
+.hero-cta, .project-page-topnav-btn, .artwork-close, .cv-btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  box-sizing:border-box; border:1px solid rgba(255,255,255,.35); border-radius:0;
+  padding:.55rem 1.6rem;
+  font-family:Helvetica, Arial, sans-serif; font-size:.75rem; font-weight:400;
+  line-height:1.4; letter-spacing:.05em; text-transform:none; text-decoration:none;
+  color:rgba(255,255,255,.7); background:rgba(0,0,0,.35);
+  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  cursor:pointer;
+  transition:background-color .25s ease, color .25s ease, border-color .25s ease;
+}
+.hero-cta:hover, .project-page-topnav-btn:hover, .artwork-close:hover, .cv-btn:hover {
+  background:#e63030; color:#fff; border-color:#e63030;
+}
+.hero-cta:focus-visible, .project-page-topnav-btn:focus-visible, .artwork-close:focus-visible, .cv-btn:focus-visible {
+  outline:1px solid #e63030; outline-offset:4px;
+}
+@media(max-width:900px) {
+  .hero-cta, .project-page-topnav-btn, .artwork-close { min-height:44px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .hero-cta, .project-page-topnav-btn, .artwork-close, .cv-btn { transition:none; }
+}
+
+
+/* Works tabs remain available within the Works section only. */
+#projects .project-filters {
+ position:sticky; top:var(--works-nav-offset,0px); z-index:90;
+ padding:.75rem 1rem; border-bottom:1px solid transparent;
+ transition:top .4s cubic-bezier(.4,0,.2,1), background-color .25s, border-color .25s;
+ scroll-padding-inline:1rem;
+}
+#projects .project-filters.is-stuck {
+ background:rgba(0,0,0,.1); border-bottom-color:rgba(255,255,255,.06);
+ backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+}
+.project-facts {
+ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem 2rem;
+ margin:1rem 0 2rem; padding:1.2rem 0;
+ border-top:1px solid rgba(255,255,255,.1); border-bottom:1px solid rgba(255,255,255,.1);
+}
+.project-fact { min-width:0; }
+.project-fact.fact-wide {grid-column:1/-1;}
+.project-facts dt {font-size:.65rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:rgba(255,255,255,.4); margin-bottom:.35rem;}
+.project-facts dd {font-size:.85rem; line-height:1.65; color:rgba(255,255,255,.75); margin:0;}
+@media(max-width:900px) {
+ #projects .project-filters {padding:.6rem .5rem;}
+ .project-facts {gap:.9rem 1rem;}
+}
+@media(prefers-reduced-motion:reduce){#projects .project-filters {transition:none;}}
+
+
+.project-facts {display:block;}
+.project-facts-basics {display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1.25rem 2rem;}
+.project-facts-contribution {display:grid;grid-template-columns:2fr 3fr;gap:1.25rem 2rem;margin-top:1.25rem;}
+@media(max-width:600px){
+ .project-facts-basics {grid-template-columns:1fr 1fr;gap:1rem;}
+ .project-facts-basics .project-fact:first-child {grid-column:1/-1;}
+ .project-facts-contribution {grid-template-columns:1fr;gap:1rem;}
+}
+
 </style>
 </head>
 <body>
@@ -1166,7 +1279,7 @@ footer {
     </button>
   </div>
   <ul class="nav-links" id="nav-links">
-    <li><a href="#" onclick="showPage('main','projects');closeMobileNav();return false;">projects</a></li>
+    <li><a href="#" onclick="showPage('main','projects');closeMobileNav();return false;">works</a></li>
     <li><a href="#" onclick="showPage('main','experience');closeMobileNav();return false;">experience</a></li>
     <li><a href="#" onclick="showPage('about', null);closeMobileNav();return false;">about</a></li>
     <li><a href="#" onclick="showPage('main','contact');closeMobileNav();return false;">contact</a></li>
@@ -1187,7 +1300,7 @@ footer {
 </section>
 
 <section id="projects">
-  <h2 class="s-title reveal">projects</h2>
+  <h2 class="s-title reveal">works</h2>
   <div class="project-filters reveal" role="group" aria-label="Filter projects by category">
     <button type="button" class="project-filter" data-filter="live" aria-pressed="true">Live Visual</button>
     <button type="button" class="project-filter" data-filter="installation" aria-pressed="false">Installation</button>
@@ -1256,22 +1369,61 @@ footer {
       </div>
     </div>
 
-    <div class="project-card reveal" style="display:none; cursor:pointer;" data-category="photography" onclick="openProject('photography')" role="button" tabindex="0" aria-label="Open Hands">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" srcset="data:image/webp;base64,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 480w, data:image/webp;base64,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 960w, https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg 7879w" sizes="(max-width:900px) calc(100vw - 6rem), (max-width:1396px) calc((100vw - 7.5rem) / 2), 638px" width="7879" height="3049" alt="Hands">
-      <div class="project-info">
-        <div class="project-name">Hands</div>
-        <div class="project-year">Photography &nbsp;·&nbsp; 2020</div>
-      </div>
+    <div class="project-card reveal art-card art-wide" data-category="photography" data-art="photo-1" style="display:none;" onclick="openArtwork('photo-1', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" width="7879" height="3049" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-2" style="display:none;" onclick="openArtwork('photo-2', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" width="4002" height="2668" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-3" style="display:none;" onclick="openArtwork('photo-3', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" width="2223" height="2218" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-4" style="display:none;" onclick="openArtwork('photo-4', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" width="2417" height="1613" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-5" style="display:none;" onclick="openArtwork('photo-5', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp" width="7205" height="6192" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-6" style="display:none;" onclick="openArtwork('photo-6', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp" width="6092" height="8122" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-7" style="display:none;" onclick="openArtwork('photo-7', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" width="1843" height="1382" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-8" style="display:none;" onclick="openArtwork('photo-8', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" width="5445" height="3630" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-9" style="display:none;" onclick="openArtwork('photo-9', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" width="8256" height="6192" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-10" style="display:none;" onclick="openArtwork('photo-10', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" width="3777" height="2518" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-11" style="display:none;" onclick="openArtwork('photo-11', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" width="5580" height="3139" alt="Photograph, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="photography" data-art="photo-12" style="display:none;" onclick="openArtwork('photo-12', event)" role="button" tabindex="0" aria-label="View photograph, 2026">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/ChatGPT01.png" width="1448" height="1086" alt="Photograph, 2026">
+      <div class="project-info"><div class="project-year">2026</div></div>
+    </div>
+    <div class="project-card reveal art-card" data-category="painting" data-art="ying" style="display:none;" onclick="openArtwork('ying', event)" role="button" tabindex="0" aria-label="View 影, painting, 2024">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/painting/ying.png" width="1024" height="1536" alt="影 — acrylic on canvas, 2024">
+      <div class="project-info"><div class="project-name">影</div><div class="project-year">Painting &nbsp;·&nbsp; 2024</div></div>
     </div>
 
-    <!-- Painting: 影 -->
-    <div class="project-card reveal" style="display:none; cursor:pointer;" data-category="painting" onclick="openProject('ying')" role="button" tabindex="0" aria-label="Open 影">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/painting/ying.png" width="1024" height="1536" alt="影 — acrylic painting in red, gray and black">
-      <div class="project-info">
-        <div class="project-name">影</div>
-        <div class="project-year">Painting &nbsp;·&nbsp; 2024</div>
-      </div>
-    </div>
+
+
   </div>
 
   </div>
@@ -1567,7 +1719,7 @@ footer {
   </div>
     <div class="app-project-section reveal">
     <div class="app-project-title">Altéra</div>
-    <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Visual &amp; Interaction Designer &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Dec 2025–Apr 2026</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Live visual performance · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>Dec 2025–Apr 2026</dd></div><div class="project-fact"><dt>Location</dt><dd>Milan, Italy</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Real-time visual system development, interactive implementation &amp; live performance</dd></div><div class="project-fact"><dt>Visual collaborator</dt><dd>Giovanni Lo Castro — visual concept &amp; scenographic direction</dd></div></div></dl>
     <p class="app-project-desc"><a href="https://www.instagram.com/altera.eu" target="_blank" rel="noopener" class="ig-link">Altéra</a> is a sonic and visual project presented at <a href="https://www.instagram.com/circoloamelia" target="_blank" rel="noopener" class="ig-link">Circolo Amelia</a> in Milan, born from the desire to cross thresholds between music and art, presence and absence, body and space. It is not a collective or an alias, but an environment: a place where musical research intertwines with visual gestures, installations, and ephemeral forms of contemporaneity.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Rooted in deep listening and ambient aesthetics, <a href="https://www.instagram.com/altera.eu" target="_blank" rel="noopener" class="ig-link">Altéra</a> expands toward deconstructed electronics, broken rhythms, micro-textures, and hybrid forms between club culture and sound art. As resident visual artists, <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> and <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> collaborate on the live visual direction and performance for <a href="https://www.instagram.com/altera.eu" target="_blank" rel="noopener" class="ig-link">Altéra</a>'s events, creating temporary audiovisual environments that respond to the sonic experience. Within this collaboration, Zeyu focuses on the development and interactive implementation of TouchDesigner-based real-time visual systems, while Giovanni contributes to the visual concept and scenographic direction. Together, their work extends Altéra's threshold-based language through live image composition and spatial perception.</p>
     <p class="app-project-desc meta-text" style="margin-top:1.2rem;">Art direction music: <a href="https://www.instagram.com/alessandrobaroncini_" target="_blank" rel="noopener" class="ig-link">Alessandro Baroncini</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/gabsphere" target="_blank" rel="noopener" class="ig-link">Enrico Caldini</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/lucascarpa7" target="_blank" rel="noopener" class="ig-link">Luca Scarpato</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/philip.kylberg" target="_blank" rel="noopener" class="ig-link">Philip Kylberg</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/saint__seiya__" target="_blank" rel="noopener" class="ig-link">Tommaso Faloci</a> &nbsp;·&nbsp; Art direction installations &amp; caveau: <a href="https://www.instagram.com/gabsphere" target="_blank" rel="noopener" class="ig-link">Enrico Caldini</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/philip.kylberg" target="_blank" rel="noopener" class="ig-link">Philip Kylberg</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/saint__seiya__" target="_blank" rel="noopener" class="ig-link">Tommaso Faloci</a> &nbsp;·&nbsp; Resident visual artists: <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> &nbsp;·&nbsp; <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a></p>
@@ -1616,7 +1768,7 @@ footer {
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">Duna</div>
-      <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Visual &amp; Interaction Designer &nbsp;·&nbsp; Sofia, Bulgaria &nbsp;·&nbsp; 2025–2026</div>
+      <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Live visual performance · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>2025–2026</dd></div><div class="project-fact"><dt>Location</dt><dd>Sofia, Bulgaria</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Real-time visual systems &amp; live visuals</dd></div><div class="project-fact"><dt>Visual collaborator</dt><dd>Giovanni Lo Castro — co-visual artist</dd></div></div></dl>
       <p class="app-project-desc"><a href="https://www.instagram.com/duna_____________" target="_blank" rel="noopener" class="ig-link">Duna</a> is an independent label and curatorial platform founded by Simone Scardino (Conceptual), bridging club culture with contemporary art. It treats experimental electronic music as a medium for critical exploration, fostering an evolving international network of underground artists.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Since 2025, <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> and <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> have collaborated with <a href="https://www.instagram.com/duna_____________" target="_blank" rel="noopener" class="ig-link">Duna</a> as visual artists, developing real-time visual systems for its events. Their work responds to the sonic, architectural, and spatial conditions of each venue, integrating live image-making with light, atmosphere, and collective presence.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Across multiple editions, the collaboration explores how moving images can operate as a temporary spatial layer, expanding the event into a multi-sensory environment shaped by sound, rhythm, and perception.</p>
@@ -1692,7 +1844,7 @@ footer {
     <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">In-visible Gaze</div>
-      <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Visual &amp; Interaction Designer &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Jul 10, 2025</div>
+      <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Live visual performance · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>Jul 10, 2025</dd></div><div class="project-fact"><dt>Location</dt><dd>Milan, Italy</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Interaction design &amp; live visuals</dd></div><div class="project-fact"><dt>Visual collaborator</dt><dd>Giovanni Lo Castro — direction &amp; co-visual artist</dd></div></div></dl>
       <p class="app-project-desc">Conceived and directed by <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> and presented at <a href="https://www.instagram.com/section80.bar" target="_blank" rel="noopener" class="ig-link">Section 80</a> in Milan, In-visible Gaze is a live visual performance that translates clinical data into a profound sensory experience. The sonic landscape features a “sonification of the invisible” crafted by <a href="https://www.instagram.com/iako000" target="_blank" rel="noopener" class="ig-link">Iako</a> and <a href="https://www.instagram.com/nvcnt" target="_blank" rel="noopener" class="ig-link">Novecento</a>, utilizing voice and organic percussion to interpret the rhythmic flow of the images.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Acting as the interaction visual artist, I collaborated with <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni</a> to translate this concept into a live deconstruction of machine vision. By employing hacked cameras and redirected sensors, we stripped surveillance devices of their traditional control functions, repurposing them into performative tools. This responsive visual environment exposes the audience to an automated vision that observes them without belonging to them, immersing the viewer in a sensing observatory where the act of seeing becomes a tactile and visceral experience.</p>
       <p class="app-project-desc meta-text" style="margin-top:1.2rem;">Direction: <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> &nbsp;·&nbsp; Sound: <a href="https://www.instagram.com/iako000" target="_blank" rel="noopener" class="ig-link">Iako</a> &amp; <a href="https://www.instagram.com/nvcnt" target="_blank" rel="noopener" class="ig-link">Novecento</a> &nbsp;·&nbsp; Visual: <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> &amp; <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> &nbsp;·&nbsp; Curators: <a href="https://www.instagram.com/bbmonteleone" target="_blank" rel="noopener" class="ig-link">Benedetta Monteleone</a> &amp; <a href="https://www.instagram.com/quarta2445" target="_blank" rel="noopener" class="ig-link">Alessandro Quarta</a></p>
@@ -1734,7 +1886,7 @@ footer {
   </div>
   <div class="app-project-section reveal">
     <div class="app-project-title">PEEP BOX</div>
-    <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Interactive Installation Designer &nbsp;·&nbsp; Milan, Italy &nbsp;·&nbsp; Mar 2025</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Interactive installation · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>Mar 2025</dd></div><div class="project-fact"><dt>Location</dt><dd>Milan, Italy</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Interactive Installation Designer</dd></div><div class="project-fact"><dt>Collaborator</dt><dd>Mehdi El Ouazzani</dd></div></div></dl>
     <p class="app-project-desc">Created in collaboration with <a href="https://www.instagram.com/medi_imedici" target="_blank" rel="noopener" class="ig-link">Mehdi El Ouazzani</a>, PEEP BOX is an interactive installation that explores the opaque "black box" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the work takes the form of a physical liminal tunnel. Inside, an automated AI system continuously translates real-time camera feeds into text descriptions on one end, and regenerates that text back into distorted images on the other.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Because viewers can only observe one screen at a time through designated windows, they are forced to physically move back and forth between the two ends to piece together the machine's internal computational logic. By placing the audience in a continuous loop of observing and being observed, PEEP BOX serves as a powerful spatial metaphor for the cognitive gap between human perception and rapid technological development.</p>
     <div class="project-page-divider"></div>
@@ -1770,7 +1922,7 @@ footer {
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">Lycosìa</div>
-      <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Visual &amp; Interaction Designer &nbsp;·&nbsp; Schwäbisch Gmünd, Germany &nbsp;·&nbsp; Nov 22, 2024</div>
+      <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Audiovisual performance · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>Nov 22, 2024</dd></div><div class="project-fact"><dt>Location</dt><dd>Schwäbisch Gmünd, Germany</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Real-time visual environment</dd></div><div class="project-fact"><dt>Visual collaborator</dt><dd>Giovanni Lo Castro — co-visual artist</dd></div></div></dl>
       <p class="app-project-desc"><a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">Etere</a> is a project by <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> that brings together contemporary art, digital technology, and traditional goldsmithing to explore forgotten mysticisms, folkloric traditions, and ancestral forms. Within this framework, Lycosìa was presented at <a href="https://www.instagram.com/gmuenderkunstverein" target="_blank" rel="noopener" class="ig-link">Gmünder Kunstverein</a> in Schwäbisch Gmünd, in collaboration with <a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">Conceptual</a> and <a href="https://www.instagram.com/sina_kraft" target="_blank" rel="noopener" class="ig-link">Sina</a>. Inspired by Southern Italian Tarantismo, the performance merges ancient ritual with AI and multimedia technology to explore post-human, interspecies transformation.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">Acting as visual artists, <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> and <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> crafted the real-time visual environment, translating sound and physical movement into an evolving digital landscape.</p>
       <p class="app-project-desc meta-text" style="margin-top:1.2rem;">Sound: <a href="https://www.instagram.com/conceptual.2020" target="_blank" rel="noopener" class="ig-link">Conceptual</a> &nbsp;·&nbsp; Vocal: <a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">Greta Mariani</a> &nbsp;·&nbsp; Movement: <a href="https://www.instagram.com/sina_kraft" target="_blank" rel="noopener" class="ig-link">Sina</a> &nbsp;·&nbsp; Visual: <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> &amp; <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> &nbsp;·&nbsp; Costume: <a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">Francesco Canali</a></p>
@@ -1812,7 +1964,7 @@ footer {
   <!-- App 1: Perfumen -->
   <div class="app-project-section reveal">
     <div class="app-project-title">Perfumen</div>
-    <div class="app-project-meta">Solo Project &nbsp;·&nbsp; UX/UI Designer &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Mobile app design · Solo project</dd></div><div class="project-fact"><dt>Date</dt><dd>2020</dd></div><div class="project-fact"><dt>Location</dt><dd>Nanjing, China</dd></div></div></dl>
     <p class="app-project-desc">Perfumen is an innovative mobile experience that bridges the gap between online convenience and offline sensory exploration in fragrance shopping. The app empowers users to intuitively blend their desired scent notes or even translate their uploaded photos into personalized fragrance profiles. To eliminate the uncertainty of online purchasing, Perfumen offers same-day delivery of custom concoction samples. Coupled with personalized gifting services like bespoke bottle engraving, it transforms perfume shopping into a seamless and highly customized journey.</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1829,7 +1981,7 @@ footer {
   <!-- App 2: Petradise -->
   <div class="app-project-section reveal app-project-gap-top">
     <div class="app-project-title">Petradise</div>
-    <div class="app-project-meta">Solo Project &nbsp;·&nbsp; UX/UI Designer &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Mobile app design · Solo project</dd></div><div class="project-fact"><dt>Date</dt><dd>2020</dd></div><div class="project-fact"><dt>Location</dt><dd>Nanjing, China</dd></div></div></dl>
     <p class="app-project-desc">Petradise is a compassionate mobile ecosystem that bridges the gap between the finality of pet loss and the enduring bond of companionship. The app empowers users to coordinate bespoke memorial services and interact with AI-driven “digital twins” that preserve the essence of their departed pets. To support the healing journey, Petradise utilizes intelligent filtering to recommend adoption matches based on the original pet’s unique traits and history. Coupled with personalized ritual planning, it transforms the grieving process into a supportive and hope-filled bridge toward new beginnings.</p>
     <div class="project-page-divider"></div>
   </div>
@@ -1859,7 +2011,7 @@ footer {
   <!-- Work 1: 15 minutes -->
   <div class="app-project-section reveal">
     <div class="app-project-title">15 Minutes</div>
-    <div class="app-project-meta">Solo Project &nbsp;·&nbsp; Interactive Installation Designer &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Interactive installation · Solo project</dd></div><div class="project-fact"><dt>Date</dt><dd>2020</dd></div><div class="project-fact"><dt>Location</dt><dd>Nanjing, China</dd></div></div></dl>
     <p class="app-project-desc">Drawing from Andy Warhol's prophecy of "15 minutes of fame," this interactive installation visualizes the ruthless and fleeting lifecycle of modern information consumption. Placed at a dining table—a daily site of digital consumption—the audience uses keyboard-like buttons to simulate online social behaviors. These actions trigger directed laser lights, representing the public gaze, camera lenses, and intense social discourse.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">As the lasers focus on a suspended red helium balloon, the accumulated "attention" (heat) violently pops it, scattering its red sand to mark the climax of a viral event. Yet, this fame is short-lived; white sand continually pours from above, gradually and silently burying the red remnants. This physical process serves as a poetic metaphor for how new data relentlessly overwrites old information, shifting the audience's role from passive bystanders to active catalysts in the media machine.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Just as Marshall McLuhan famously posited that "the medium is an extension of man," this installation transforms our intangible digital interactions into a visceral physical reality. It reminds us that while we actively shape the media landscape, we are simultaneously consumed, monitored, and reshaped by it.</p>
@@ -1875,7 +2027,7 @@ footer {
   <!-- Work 2: Section -->
   <div class="app-project-section reveal app-project-gap-top">
     <div class="app-project-title">Section</div>
-    <div class="app-project-meta">Solo Project &nbsp;·&nbsp; Interactive Installation Designer &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Interactive installation · Solo project</dd></div><div class="project-fact"><dt>Date</dt><dd>2020</dd></div><div class="project-fact"><dt>Location</dt><dd>Nanjing, China</dd></div></div></dl>
     <p class="app-project-desc">Section is an interactive installation that explores the profound relationship between human presence, physical space, and the fluidity of time. By slicing and overlaying linear timelines, the work poetically restores different temporal moments into a singular spatial experience.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">The installation centers around a circular projection initially displaying cinematic quotes about time. When a viewer approaches the projection to read, a Kinect sensor detects their presence: the text instantly vanishes, and the viewer's silhouette is silently recorded into the system's database, capturing them as a slice of the present moment to be met by future strangers.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">The true cross-temporal encounter, however, emerges in absence. When the installation detects no human activity for over 15 seconds, the text dissolves, replaced by the blurred silhouettes of past visitors previously recorded by the system. These historical traces randomly combine and visually overlap, allowing strangers from different moments to poetically intersect within the exact same physical coordinates.</p>
@@ -1910,7 +2062,7 @@ footer {
   <div class="app-project-section reveal with-poster">
     <div class="project-text-col">
       <div class="app-project-title">Lucus Angitiae</div>
-      <div class="app-project-meta">Collaborative Project &nbsp;·&nbsp; Visual Designer &nbsp;·&nbsp; Sansepolcro, Italy &nbsp;·&nbsp; May 29, 2024</div>
+      <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Audiovisual performance · Collaborative project</dd></div><div class="project-fact"><dt>Date</dt><dd>May 29, 2024</dd></div><div class="project-fact"><dt>Location</dt><dd>Sansepolcro, Italy</dd></div></div><div class="project-facts-contribution"><div class="project-fact"><dt>Role</dt><dd>Immersive projection design</dd></div><div class="project-fact"><dt>Visual collaborator</dt><dd>Giovanni Lo Castro — co-visual artist</dd></div></div></dl>
       <p class="app-project-desc"><a href="https://www.instagram.com/etere.xyz" target="_blank" rel="noopener" class="ig-link">Etere</a> is a project by <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> that brings together contemporary art, digital technology, and traditional goldsmithing to explore forgotten mysticisms, folkloric traditions, and ancestral forms. Presented within the context of the Anti-Uroboros collection launch in Sansepolcro, Lucus Angitiae draws inspiration from the goddess Angitia and the Festa dei Serpari in Cocullo, Abruzzo. The project bridges esoteric symbolism and ancient goldsmith traditions, merging collective memory and nature into an audiovisual ritual.</p>
       <p class="app-project-desc" style="margin-top:1.2rem;">As visual artists, <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> and <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> designed the immersive projections, weaving archival documentary footage of the Festa dei Serpari into an evolving digital landscape to amplify the performance's ritualistic atmosphere.</p>
       <p class="app-project-desc meta-text" style="margin-top:1.2rem;">Voice and Sound: <a href="https://www.instagram.com/gretaaam" target="_blank" rel="noopener" class="ig-link">Greta Mariani</a> &amp; Eathan &nbsp;·&nbsp; Visual: <a href="https://www.instagram.com/Marcellowzy" target="_blank" rel="noopener" class="ig-link">Zeyu Wang</a> &amp; <a href="https://www.instagram.com/giovanni.lo.castro" target="_blank" rel="noopener" class="ig-link">Giovanni Lo Castro</a> &nbsp;·&nbsp; Mask Design: <a href="https://www.instagram.com/francesco_canali" target="_blank" rel="noopener" class="ig-link">Francesco Canali</a> &nbsp;·&nbsp; Styling: <a href="https://www.instagram.com/zoe.mariani" target="_blank" rel="noopener" class="ig-link">Zoe Mariani</a></p>
@@ -1940,58 +2092,6 @@ footer {
     <button class="project-page-topnav-btn prev" onclick="openProject('lycosia')">previous.</button>
     <button class="project-page-topnav-btn next" onclick="openProject('installation')">next.</button>
 </div>
-</div>
-
-<!-- PROJECT PAGE: Photography -->
-<div id="project-page-photography" style="display:none;">
-  <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('ying')">next.</button>
-  </div>
-  <div class="app-project-section reveal">
-    <div class="app-project-title">Hands</div>
-    <div class="app-project-meta">Solo Project &nbsp;·&nbsp; Photographer &nbsp;·&nbsp; Nanjing, China &nbsp;·&nbsp; 2020</div>
-    <div class="project-page-divider"></div>
-  </div>
-      <div class="photography-grid reveal">
-    <img decoding="async" loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp" alt="">
-    <img decoding="async" loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" alt="">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" alt="">
-    <img decoding="async" loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" alt="">
-    <img decoding="async" loading="lazy" class="photo-full" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/ChatGPT01.png" alt="">
-  </div>
-  <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('appdesign')">previous.</button>
-    <button class="project-page-topnav-btn next" onclick="openProject('ying')">next.</button>
-  </div>
-</div>
-
-<!-- PROJECT PAGE: 影 -->
-<div id="project-page-ying" style="display:none;">
-  <div class="project-page-topnav reveal">
-    <button class="project-page-topnav-btn prev" onclick="openProject('photography')">previous.</button>
-    <div></div>
-  </div>
-  <div class="app-project-section reveal">
-    <div class="app-project-title">影</div>
-    <div class="app-project-meta">Painting &nbsp;·&nbsp; 4 May 2024</div>
-    <p class="app-project-desc">Acrylic on canvas<br>Approx. 30 × 20 cm (H × W) — dimensions to be confirmed.</p>
-    <div class="project-page-divider"></div>
-  </div>
-  <div class="project-gallery ying-gallery reveal">
-    <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/painting/ying.png" width="1024" height="1536" alt="影 — acrylic on canvas, 2024. Red and gray-white textured brushwork on a black background.">
-  </div>
-  <div class="project-page-bottomnav">
-    <button class="project-page-topnav-btn prev" onclick="openProject('photography')">previous.</button>
-    <div></div>
-  </div>
 </div>
 
 <script>
@@ -2056,6 +2156,7 @@ var projectFilter = 'live';
 var projectReturnY = null;
 function applyProjectFilter(category) {
   projectFilter = category;
+  document.querySelectorAll('#projects .art-peek').forEach(function(card) { card.classList.remove('art-peek'); });
   var section = document.getElementById('projects');
   section.querySelectorAll('.project-filter').forEach(function(button) {
     setCategorySelected(button, button.dataset.filter === category);
@@ -2074,6 +2175,7 @@ function applyProjectFilter(category) {
       }
     }
   });
+  if (window.layoutPhotography) window.layoutPhotography();
 }
 document.querySelectorAll('#projects .project-filter').forEach(function(button) {
   button.addEventListener('click', function() {
@@ -2503,39 +2605,6 @@ window.addEventListener('scroll', function() {
   navAs.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + active); });
 }, { passive: true });
 
-/* ── Photography lazy load fade-in ──────────────────────── */
-(function(){
-  function initPhotoFade() {
-    var grid = document.querySelector('.photography-grid');
-    if (!grid) return;
-    var imgs = grid.querySelectorAll('img');
-    imgs.forEach(function(img) {
-      if (img.complete && img.naturalWidth > 0) {
-        img.classList.add('loaded');
-      } else {
-        img.addEventListener('load', function() {
-          img.classList.add('loaded');
-        });
-        img.addEventListener('error', function() {
-          img.classList.add('loaded'); /* show even on error */
-        });
-      }
-    });
-  }
-  /* Run when photography page opens */
-  var _orig = window.openProject;
-  if (typeof _orig === 'function') {
-    window.openProject = function(id) {
-      _orig(id);
-      if (id === 'photography') {
-        setTimeout(initPhotoFade, 50);
-      }
-    };
-  }
-  /* Also run on page load in case directly navigated */
-  document.addEventListener('DOMContentLoaded', initPhotoFade);
-})();
-
 /* ── Nav logo state management ──────────────────────────── */
 function updateNavLogo() {
   var logo = document.getElementById('nav-logo-link');
@@ -2593,13 +2662,16 @@ if (poster && poster.hasAttribute('onclick')) {
 })();
 </script>
 <script>
-// Hash routes work both as a downloaded HTML file and on static hosting.
+// Clean paths on hosting; hash fallback for downloaded HTML previews.
 (function() {
   var openView = window.openProject;
   var showView = window.showPage;
   var routeSerial = 0;
   var routes = {altera:'live', duna:'live', invisible:'live', peepbox:'installation', lycosia:'live', lucus:'live', installation:'installation', appdesign:'ui', photography:'photography', ying:'painting'};
-  var baseTitle = document.title;
+  var baseTitle = 'Zeyu Wang — Visual & Interaction Designer';
+  var localPreview = location.protocol === 'file:';
+  var slugs = {altera:'altera',duna:'duna',invisible:'in-visible-gaze',peepbox:'peep-box',lycosia:'lycosia',lucus:'lucus-angitiae',installation:'installation',appdesign:'ui-design'};
+  var pathIds = {}; Object.keys(slugs).forEach(function(id){pathIds[slugs[id]]=id;});
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function stateSnapshot() {
     return {site:true, hash:location.hash, filter:projectFilter, experience:experienceCategory, y:window.scrollY, aboutY:document.getElementById('about-page').scrollTop, returnY:projectReturnY};
@@ -2607,15 +2679,15 @@ if (poster && poster.hasAttribute('onclick')) {
   function remember() { history.replaceState(stateSnapshot(), '', location.href); }
   function writeRoute(hash, state) {
     remember();
-    if (location.hash !== hash) history.pushState(Object.assign({site:true,hash:hash,filter:projectFilter,experience:experienceCategory,y:0,returnY:projectReturnY}, state || {}), '', hash || location.pathname + location.search);
+    if (new URL(hash || (localPreview ? location.pathname : '/'),location.href).href !== location.href) history.pushState(Object.assign({site:true,hash:hash,filter:projectFilter,experience:experienceCategory,y:0,returnY:projectReturnY}, state || {}), '', hash || (localPreview ? location.pathname : '/'));
   }
-  function projectHash(id) { return '#project/' + id; }
-  function mainHash(section) { return section ? '#' + section + (section === 'projects' ? '?category='+projectFilter : '') : ''; }
+  function projectHash(id) { return localPreview ? '#project/' + id : '/' + slugs[id]; }
+  function mainHash(section) { return section ? (localPreview ? '#'+section : '/'+(section==='projects'?'works':section)) + (section === 'projects' ? '?category='+projectFilter : '') : (localPreview ? '' : '/'); }
   function updateTitle(id) {
     if (!id) { document.title = baseTitle; return; }
     var page = document.getElementById(id === 'duna' ? 'project-page' : 'project-page-'+id);
     var title = page && page.querySelector('.app-project-title, .project-page-title');
-    document.title = (title ? title.textContent.trim() : id) + ' — ' + baseTitle;
+    document.title = (id==='appdesign'?'UI Design':id==='installation'?'Interactive Installations':title ? title.textContent.trim() : id) + ' | Zeyu Wang';
   }
   function restoreLater(state, serial) {
     if (!state || !state.site) return;
@@ -2626,6 +2698,11 @@ if (poster && poster.hasAttribute('onclick')) {
     }, 420);
   }
   window.openProject = function(id) {
+    if (id === 'photography' || id === 'ying') {
+      window.showPage('main','projects');
+      window.applyProjectFilter(id === 'ying' ? 'painting' : 'photography');
+      return;
+    }
     if (!Object.prototype.hasOwnProperty.call(routes,id)) return;
     ++routeSerial;
     var main = document.getElementById('main-page');
@@ -2638,9 +2715,10 @@ if (poster && poster.hasAttribute('onclick')) {
     ++routeSerial;
     var fromProject = Array.from(document.querySelectorAll('[id^="project-page"]')).some(function(el) {return el.style.display === 'block';});
     if (page === 'main' && !section && fromProject) section = 'projects';
-    writeRoute(page === 'about' ? '#about' : mainHash(section));
+    writeRoute(page === 'about' ? mainHash('about') : mainHash(section));
     showView(page,section);
     updateTitle(null);
+    if(page==='about')document.title='About | Zeyu Wang';
   };
   window.closeProject = function() { window.showPage('main','projects'); };
   // Keep a selected category in the current URL without adding history entries for every click.
@@ -2653,21 +2731,27 @@ if (poster && poster.hasAttribute('onclick')) {
   };
   function readRoute(state) {
     var serial = ++routeSerial;
-    var bits = location.hash.slice(1).split('?');
+    var bits = (location.hash ? location.hash.slice(1) : location.pathname.replace(/^\/|\/$/g,'')+location.search).split('?');
     var path = bits[0];
+    if(path==='works')path='projects';
     var params = new URLSearchParams(bits[1] || '');
-    var id = path.indexOf('project/') === 0 ? path.slice(8) : null;
+    var id = path.indexOf('project/') === 0 ? path.slice(8) : pathIds[path] || null;
     var filter = params.get('category') || (state && state.filter) || (id && routes[id]) || 'live';
     if (['live','installation','ui','photography','painting'].indexOf(filter)<0) filter='live';
     filterView(filter);
     if (state && state.experience) toggleWorksSection(state.experience);
     projectReturnY = state && state.returnY !== undefined ? state.returnY : null;
-    if (id && Object.prototype.hasOwnProperty.call(routes,id)) {
+    if (id === 'photography' || id === 'ying') {
+      filterView(id === 'ying' ? 'painting' : 'photography');
+      projectReturnY = null;
+      showView('main','projects'); updateTitle(null);
+    } else if (id && Object.prototype.hasOwnProperty.call(routes,id)) {
       openView(id); updateTitle(id);
     } else {
       if (!state) projectReturnY = null;
       showView(path === 'about' ? 'about' : 'main', ['projects','experience','contact'].indexOf(path)>=0 ? path : null);
       updateTitle(null);
+      if(path==='about')document.title='About | Zeyu Wang';
     }
     restoreLater(state,serial);
   }
@@ -2679,7 +2763,7 @@ if (poster && poster.hasAttribute('onclick')) {
   });
   // Push/replaceState do not trigger hashchange; mark the hash before every normal navigation.
   window.addEventListener('pagehide',remember);
-  if (location.hash) readRoute(null);
+  if (location.hash || (!localPreview && location.pathname!=='/' && location.pathname!=='/index.html')) readRoute(null);
   else history.replaceState(stateSnapshot(), '', location.href);
 })();
 
@@ -3137,6 +3221,163 @@ if (poster && poster.hasAttribute('onclick')) {
   tick();
 })();
 </script>
+
+<dialog id="artwork-viewer" aria-labelledby="artwork-title">
+  <div class="artwork-toolbar"><button type="button" class="artwork-close" onclick="closeArtwork()" aria-label="Close image viewer">close.</button></div>
+  <div class="artwork-viewer-body">
+    <div class="artwork-image-area"><img id="artwork-full-image" decoding="async" alt=""></div>
+    <div class="artwork-details">
+      <h2 id="artwork-title"></h2>
+      <p id="artwork-date"></p>
+      <p id="artwork-medium"></p>
+      <p id="artwork-camera"></p>
+      <p id="artwork-lens"></p>
+      <p id="artwork-location"></p>
+      <p id="artwork-dimensions"></p>
+      <p id="artwork-note" class="artwork-note"></p>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(function(){
+  var artworks = [{"id": "photo-1", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg", "year": "2020", "width": 7879, "height": 3049, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-2", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg", "year": "2020", "width": 4002, "height": 2668, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-3", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg", "year": "2020", "width": 2223, "height": 2218, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-4", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg", "year": "2020", "width": 2417, "height": 1613, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-5", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp", "year": "2020", "width": 7205, "height": 6192, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-6", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp", "year": "2020", "width": 6092, "height": 8122, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-7", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg", "year": "2020", "width": 1843, "height": 1382, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-8", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg", "year": "2020", "width": 5445, "height": 3630, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-9", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp", "year": "2020", "width": 8256, "height": 6192, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-10", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png", "year": "2020", "width": 3777, "height": 2518, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-11", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg", "year": "2020", "width": 5580, "height": 3139, "title": "Hands", "date": "2020", "camera": "NIKON D810", "lens": "24–70 mm", "location": "Nanjing, China"}, {"id": "photo-12", "category": "photography", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/ChatGPT01.png", "year": "2026", "width": 1448, "height": 1086}, {"id": "ying", "category": "painting", "src": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/painting/ying.png", "title": "影", "year": "2024", "date": "May 2024", "medium": "Acrylic on canvas", "dimensions": "Approx. 30 × 20 cm (H × W)", "note": "Dimensions to be confirmed.", "width": 1024, "height": 1536}];
+  var viewer = document.getElementById('artwork-viewer');
+  var image = document.getElementById('artwork-full-image');
+  var returnFocus = null;
+  var oldOverflow = '';
+  var oldPadding = '';
+  var closeTimer = null;
+  function field(id, value) {
+    var el = document.getElementById(id);
+    el.textContent = value || ''; el.hidden = !value;
+  }
+  window.openArtwork = function(id, event) {
+    var work = artworks.find(function(item) { return item.id === id; });
+    if (!work || viewer.open) return;
+    var card = document.querySelector('[data-art="'+id+'"]');
+    // On touch: one tap reveals the caption, a second tap opens the full image.
+    if (event && event.detail !== 0 && window.matchMedia('(hover:none)').matches && card && !card.classList.contains('art-peek')) {
+      document.querySelectorAll('#projects .art-peek').forEach(function(el) {el.classList.remove('art-peek');});
+      card.classList.add('art-peek'); return;
+    }
+    returnFocus = card || document.activeElement;
+    image.src = work.src;
+    image.alt = work.title ? work.title+' — '+(work.medium || 'Photograph, '+work.year) : 'Photograph, '+work.year;
+    image.width = work.width; image.height = work.height;
+    field('artwork-title',work.title || work.year);
+    field('artwork-date',work.title ? work.date : '');
+    field('artwork-medium',work.medium);
+    field('artwork-camera',work.camera);
+    field('artwork-lens',work.lens);
+    field('artwork-location',work.location);
+    field('artwork-dimensions',work.dimensions);
+    field('artwork-note',work.note);
+    oldOverflow = document.body.style.overflow;
+    oldPadding = document.body.style.paddingRight;
+    var scrollbar = innerWidth-document.documentElement.clientWidth;
+    document.body.style.overflow='hidden';
+    if (scrollbar>0) document.body.style.paddingRight=scrollbar+'px';
+    viewer.classList.remove('artwork-closing');
+    viewer.style.willChange='transform, opacity';
+    viewer.showModal(); viewer.scrollTop=0;
+  };
+  function restoreArtworkPage(){
+    if (viewer.open) return;
+    clearTimeout(closeTimer); closeTimer=null;
+    viewer.style.removeProperty('will-change');
+    viewer.classList.remove('artwork-closing');
+    document.body.style.overflow=oldOverflow;
+    document.body.style.paddingRight=oldPadding;
+    image.removeAttribute('src');
+    if(returnFocus && returnFocus.isConnected) returnFocus.focus({preventScroll:true});
+  }
+  window.closeArtwork = function(){
+    if (!viewer.open || closeTimer!==null) return;
+    function finish(){viewer.close();restoreArtworkPage();}
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches){finish();return;}
+    viewer.style.willChange='transform, opacity';
+    viewer.classList.add('artwork-closing');
+    closeTimer=setTimeout(finish,280);
+  };
+  viewer.addEventListener('animationend',function(e){if(e.target===viewer)viewer.style.removeProperty('will-change');});
+  viewer.addEventListener('close',restoreArtworkPage);
+  viewer.addEventListener('cancel',function(event){ event.preventDefault(); closeArtwork(); });
+  var outsideDown=false;
+  viewer.addEventListener('pointerdown',function(e){outsideDown=e.target===viewer && outside(e);});
+  viewer.addEventListener('click',function(e){if(outsideDown && e.target===viewer && outside(e)) closeArtwork(); outsideDown=false;});
+  function outside(e){var r=viewer.getBoundingClientRect();return e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom;}
+  window.addEventListener('popstate',closeArtwork);
+  window.addEventListener('hashchange',closeArtwork);
+})();
+</script>
+
+<script>
+(function(){
+  var grid=document.querySelector('#projects .projects-grid');
+  var cards=Array.from(grid.querySelectorAll('[data-category="photography"]'));
+  var previousWidth=0;
+  window.layoutPhotography=function(){
+    var active=projectFilter==='photography';
+    grid.classList.toggle('photo-masonry',active);
+    cards.forEach(function(c){c.style.removeProperty('width');c.style.removeProperty('left');c.style.removeProperty('top');});
+    grid.style.removeProperty('height');
+    if(!active || !grid.clientWidth) return;
+    var width=grid.clientWidth, gap=parseFloat(getComputedStyle(grid).columnGap)||24;
+    var mobile=matchMedia('(max-width:900px)').matches;
+    var colWidth=mobile?width:(width-gap)/2;
+    function h(c,w){var im=c.querySelector('img');return w*Number(im.getAttribute('height'))/Number(im.getAttribute('width'));}
+    function put(c,x,y,w){c.style.width=w+'px';c.style.left=x+'px';c.style.top=y+'px';}
+    var top=0;
+    var wide=cards.filter(function(c){return c.classList.contains('art-wide');});
+    var rest=cards.filter(function(c){return !c.classList.contains('art-wide');});
+    wide.forEach(function(c){put(c,0,top,width);top+=h(c,width)+gap;});
+    if(mobile){rest.forEach(function(c){put(c,0,top,width);top+=h(c,width)+gap;});grid.style.height=Math.max(0,top-gap)+'px';return;}
+    // Find the closest column totals, including gutters, without cropping any image.
+    var heights=rest.map(function(c){return h(c,colWidth)+gap;});
+    var total=heights.reduce(function(a,b){return a+b;},0), best=Infinity, mask=0;
+    for(var bits=1;bits<(1<<rest.length)-1;bits++){
+      var left=0;for(var j=0;j<rest.length;j++)if(bits&(1<<j))left+=heights[j];
+      var delta=Math.abs(total-2*left);if(delta<best){best=delta;mask=bits;}
+    }
+    var bottoms=[top,top];
+    rest.forEach(function(c,i){var col=(mask&(1<<i))?0:1;put(c,col*(colWidth+gap),bottoms[col],colWidth);bottoms[col]+=heights[i];});
+    grid.style.height=(Math.max.apply(null,bottoms)-gap)+'px';
+  };
+  new ResizeObserver(function(){var w=grid.clientWidth;if(w!==previousWidth){previousWidth=w;layoutPhotography();}}).observe(grid);
+  layoutPhotography();
+})();
+</script>
+
+
+<script>
+(function(){
+ var nav=document.querySelector('nav'), tabs=document.querySelector('#projects .project-filters');
+ var title=document.querySelector('#projects > .s-title'), pending=false;
+ function update(){
+  pending=false;
+  var offset=nav.classList.contains('hidden')?0:nav.offsetHeight;
+  tabs.style.setProperty('--works-nav-offset',offset+'px');
+  var start=title.getBoundingClientRect().bottom+parseFloat(getComputedStyle(title).marginBottom);
+  tabs.classList.toggle('is-stuck',start<=offset);
+ }
+ function schedule(){if(!pending){pending=true;requestAnimationFrame(update);}}
+ new ResizeObserver(schedule).observe(nav);
+ new MutationObserver(schedule).observe(nav,{attributes:true,attributeFilter:['class']});
+ window.addEventListener('scroll',schedule,{passive:true});
+ window.addEventListener('resize',schedule,{passive:true});
+ tabs.addEventListener('click',function(e){
+  var button=e.target.closest('.project-filter');if(!button)return;
+  // Keep the tabs and first works in view when a long gallery is replaced.
+  var offset=nav.classList.contains('hidden')?0:nav.offsetHeight;
+  var start=title.getBoundingClientRect().bottom+parseFloat(getComputedStyle(title).marginBottom);
+  if(start<offset) window.scrollTo({top:window.scrollY+start-offset,behavior:'instant'});
+  schedule();
+ });
+ update();
+})();
+</script>
+
 </body>
 </html>
 
