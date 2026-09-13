@@ -3,51 +3,59 @@
   "rewrites": [
     {
       "source": "/altera",
-      "destination": "/index.html"
+      "destination": "/pages/altera.html"
     },
     {
       "source": "/duna",
-      "destination": "/index.html"
+      "destination": "/pages/duna.html"
     },
     {
       "source": "/in-visible-gaze",
-      "destination": "/index.html"
+      "destination": "/pages/in-visible-gaze.html"
     },
     {
       "source": "/peep-box",
-      "destination": "/index.html"
+      "destination": "/pages/peep-box.html"
     },
     {
       "source": "/lycosia",
-      "destination": "/index.html"
+      "destination": "/pages/lycosia.html"
     },
     {
       "source": "/lucus-angitiae",
-      "destination": "/index.html"
+      "destination": "/pages/lucus-angitiae.html"
     },
     {
-      "source": "/installation",
-      "destination": "/index.html"
+      "source": "/15-minutes",
+      "destination": "/pages/15-minutes.html"
+    },
+    {
+      "source": "/section",
+      "destination": "/pages/section.html"
     },
     {
       "source": "/ui-design",
-      "destination": "/index.html"
+      "destination": "/pages/ui-design.html"
     },
     {
       "source": "/works",
-      "destination": "/index.html"
+      "destination": "/pages/works.html"
     },
     {
       "source": "/about",
-      "destination": "/index.html"
+      "destination": "/pages/about.html"
     },
     {
       "source": "/experience",
-      "destination": "/index.html"
+      "destination": "/pages/experience.html"
     },
     {
       "source": "/contact",
-      "destination": "/index.html"
+      "destination": "/pages/contact.html"
+    },
+    {
+      "source": "/installation",
+      "destination": "/pages/15-minutes.html"
     }
   ]
 }
