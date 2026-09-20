@@ -1269,6 +1269,25 @@ footer {
 
 a.project-card {display:block;color:inherit;text-decoration:none;}
 .work-editions {font-size:.85em;opacity:.75;}
+
+/* One fixed WebGL layer shared by the main-page sections. */
+#home-cloud-layer {position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;visibility:hidden;}
+#home-cloud-layer #hero-canvas {position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transform:translateZ(0);}
+body.home-cloud-visible #home-cloud-layer {visibility:visible;}
+body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;}
+#main-page {position:relative;z-index:1;pointer-events:none;}
+#main-page #projects, #main-page .hero-cta {pointer-events:auto;}
+#main-page .hero-body {pointer-events:none;}
+#main-page-bottom {position:relative;z-index:1;}
+
+
+
+/* Scroll fade is separate from the existing first-visit entrance animations. */
+#hero .hero-chrome-timer {position:absolute;inset:0;z-index:2;pointer-events:none;}
+#hero .hero-chrome-timer, #hero .hero-body {opacity:var(--hero-chrome-opacity,1);}
+#hero.hero-chrome-hidden .hero-chrome-timer,
+#hero.hero-chrome-hidden .hero-body {visibility:hidden;}
+#main-page #hero.hero-chrome-hidden .hero-cta {pointer-events:none;}
 </style>
 </head>
 <body>
@@ -1297,7 +1316,7 @@ a.project-card {display:block;color:inherit;text-decoration:none;}
       <canvas id="hero-canvas"></canvas>
     </div>
   <div class="hero-overlay"></div>
-  <div id="birth-timer" aria-label="Seconds since birth"></div>
+  <div class="hero-chrome-timer"><div id="birth-timer" aria-label="Seconds since birth"></div></div>
   <div class="hero-body">
     <button onclick="if(document.getElementById('about-page').style.display!=='none'&&document.getElementById('about-page').classList.contains('active')){location.reload();}else{showPage('about',null);}return false;" class="hero-cta">about me</button>
   </div>
@@ -2774,14 +2793,46 @@ if(location.protocol==='file:'){
 (function(){
   var canvas = document.getElementById('hero-canvas');
   if(!canvas) return;
+  var layer=document.createElement('div');
+  layer.id='home-cloud-layer'; layer.setAttribute('aria-hidden','true');
+  document.body.prepend(layer); layer.appendChild(canvas);
+  var hero=document.getElementById('hero');
+  var main=document.getElementById('main-page');
+  var about=document.getElementById('about-page');
+  var reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+  var mainVisible=false, interactive=false, targetMix=0, sceneMix=0;
+  var targetAngle=0, scrollAngle=0;
+  function resetInput(){
+    if(pointerId!==null && canvas.hasPointerCapture(pointerId))canvas.releasePointerCapture(pointerId);
+    pointerId=null;dragging=false;mouseCanvasNDC=null;isHovering=false;
+    clickNDC=null;activeBlast=null;dX=0;dY=0;velX=0;velY=0;
+  }
+  function refreshScene(){
+    var dialog=document.getElementById('artwork-viewer');
+    mainVisible=main.style.display!=='none' && !about.classList.contains('active');
+    var blocked=!!(dialog && dialog.open);
+    var nextInteractive=mainVisible && scrollY<=24 && !blocked;
+    if(interactive && !nextInteractive)resetInput();
+    interactive=nextInteractive;
+    var fadeDistance=Math.max(200,hero.offsetHeight*.75);
+    targetMix=Math.max(0,Math.min(1,(scrollY-24)/fadeDistance));
+    var range=Math.max(1,document.documentElement.scrollHeight-innerHeight);
+    targetAngle=reduceMotion.matches?0:Math.max(0,Math.min(1,scrollY/range))*Math.PI;
+    document.body.classList.toggle('home-cloud-visible',mainVisible);
+    document.body.classList.toggle('home-cloud-interactive',interactive);
+    heroVisible=mainVisible && !blocked;
+    syncLoop();
+  }
   var gl = canvas.getContext('webgl',{antialias:true,alpha:false}) || canvas.getContext('experimental-webgl',{antialias:true,alpha:false});
   if(!gl) return;
 
   var W, H;
   function resize(){
-    W = canvas.width = canvas.parentElement.offsetWidth || window.innerWidth;
-    H = canvas.height = canvas.parentElement.offsetHeight || window.innerHeight;
+    var scale=Math.min(1,1600/window.innerWidth);
+    W = canvas.width = Math.round(window.innerWidth*scale);
+    H = canvas.height = Math.round(window.innerHeight*scale);
     gl.viewport(0,0,W,H);
+    if(typeof syncLoop==='function' && typeof raf==='number')refreshScene();
   }
   resize();
   window.addEventListener('resize', resize);
@@ -2863,7 +2914,7 @@ if(location.protocol==='file:'){
   var bufOrig, bufVel, bufPhase, bufSize, bufFreed;
 
   function buildCloud(pts){
-    var MAX = 25000;
+    var MAX = window.innerWidth<=900 ? 12000 : 25000;
     var total = pts.length/3;
     var out = [];
     if(total > MAX){
@@ -2916,6 +2967,7 @@ if(location.protocol==='file:'){
     bufPhase=mkBuf(phaseArr,aPhase,1);
     bufSize =mkBuf(sizeArr, aSize, 1);
     bufFreed=mkBuf(freedArr,aFreed,1);
+    refreshScene();
   }
 
   function parseOBJ(text){
@@ -2988,6 +3040,7 @@ if(location.protocol==='file:'){
   // Vertical touch scrolling belongs to the page; horizontal dragging rotates the model.
   var pointerId = null, startX = 0, startY = 0, moved = false;
   canvas.addEventListener('pointerdown', function(e) {
+    if (!interactive) return;
     if (!e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0)) return;
     pointerId = e.pointerId; moved = false;
     startX = lastX = e.clientX; startY = lastY = e.clientY;
@@ -2995,6 +3048,7 @@ if(location.protocol==='file:'){
     canvas.setPointerCapture(e.pointerId);
   });
   canvas.addEventListener('pointermove', function(e) {
+    if (!interactive) return;
     var r = canvas.getBoundingClientRect();
     if (e.pointerType === 'mouse') {
       mouseCanvasNDC = {x:(e.clientX-r.left)/r.width*2-1,y:-((e.clientY-r.top)/r.height*2-1)};
@@ -3010,6 +3064,7 @@ if(location.protocol==='file:'){
     lastX = e.clientX; lastY = e.clientY;
   });
   canvas.addEventListener('pointerup', function(e) {
+    if (!interactive) return;
     if (e.pointerId !== pointerId) return;
     if (!moved) {
       var r = canvas.getBoundingClientRect();
@@ -3099,6 +3154,17 @@ if(location.protocol==='file:'){
   var fixedStep = 1000 / 60;
   var heroVisible = false;
   function simulate(){
+    var easing=reduceMotion.matches?1:.12;
+    sceneMix+=(targetMix-sceneMix)*easing;
+    scrollAngle+=(targetAngle-scrollAngle)*easing;
+    if(Math.abs(targetMix-sceneMix)<.0005)sceneMix=targetMix;
+    if(Math.abs(targetAngle-scrollAngle)<.0005)scrollAngle=targetAngle;
+    if(!interactive || reduceMotion.matches){
+      targetZ=-2.4-sceneMix*.65;
+      currentZ+=(targetZ-currentZ)*.12;
+      if(Math.abs(targetZ-currentZ)<.0005)currentZ=targetZ;
+      return;
+    }
     t+=0.014;
     breath = 0.5+0.5*Math.sin(t*0.38); // 0-1 slow breath
 
@@ -3161,6 +3227,8 @@ if(location.protocol==='file:'){
     accumulator += Math.min(now - lastTime, 100);
     lastTime = now;
     while (accumulator >= fixedStep) { simulate(); accumulator -= fixedStep; }
+    canvas.style.opacity=String(1-sceneMix*.82);
+    canvas.style.filter=sceneMix>.001?'blur('+(sceneMix*3).toFixed(2)+'px)':'none';
     gl.clearColor(0,0,0,1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND);
@@ -3172,7 +3240,7 @@ if(location.protocol==='file:'){
     persp(prm, fov, asp, 0.01, 20);
     trans(trm, currentZ);
     rotXm(rXm,rotX);
-    rotYm(rYm,rotY);
+    rotYm(rYm,rotY+scrollAngle);
     mul(tmp,rXm,rYm);
     mul(mvp,trm,tmp);
     mul(mvp2,prm,mvp);
@@ -3189,7 +3257,9 @@ if(location.protocol==='file:'){
       gl.bindBuffer(gl.ARRAY_BUFFER,bufFreed); gl.vertexAttribPointer(aFreed,1,gl.FLOAT,false,0,0);
       gl.drawArrays(gl.POINTS,0,N);
     }
-    raf = requestAnimationFrame(frame);
+    var unsettled=Math.abs(targetMix-sceneMix)>.0005 || Math.abs(targetAngle-scrollAngle)>.0005 || Math.abs(targetZ-currentZ)>.0005;
+    if((interactive && !reduceMotion.matches) || dragging || activeBlast || unsettled)raf=requestAnimationFrame(frame);
+    else lastTime=null;
   }
   function syncLoop() {
     if (heroVisible && !document.hidden) {
@@ -3200,11 +3270,45 @@ if(location.protocol==='file:'){
       dragging = false; mouseCanvasNDC = null;
     }
   }
-  new IntersectionObserver(function(entries) {
-    heroVisible = entries[0].isIntersecting && entries[0].intersectionRatio > 0;
-    syncLoop();
-  }, {threshold:.001}).observe(canvas);
-  document.addEventListener('visibilitychange', syncLoop);
+  // Wake only for scroll/resize/view changes; settled background frames stop.
+  var sceneTick=0;
+  function queueScene(){if(!sceneTick)sceneTick=requestAnimationFrame(function(){sceneTick=0;refreshScene();});}
+  window.addEventListener('scroll',queueScene,{passive:true});
+  new ResizeObserver(queueScene).observe(document.getElementById('projects'));
+  new ResizeObserver(queueScene).observe(document.getElementById('main-page-bottom'));
+  new MutationObserver(queueScene).observe(main,{attributes:true,attributeFilter:['style','class']});
+  new MutationObserver(queueScene).observe(about,{attributes:true,attributeFilter:['style','class']});
+  // The dialog is defined later in the document.
+  function watchDialog(){var d=document.getElementById('artwork-viewer');if(d)new MutationObserver(queueScene).observe(d,{attributes:true,attributeFilter:['open']});}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',watchDialog,{once:true});else watchDialog();
+  document.addEventListener('visibilitychange',refreshScene);
+  reduceMotion.addEventListener('change',refreshScene);
+  refreshScene();
+})();
+</script>
+<!-- Hero controls follow the first 30% of hero scrolling. -->
+<script>
+(function(){
+  var hero=document.getElementById('hero');
+  var controls=hero.querySelector('.hero-body');
+  var timer=hero.querySelector('.hero-chrome-timer');
+  var pending=0;
+  function update(){
+    pending=0;
+    if(!hero.offsetHeight)return;
+    var progress=Math.max(0,Math.min(1,-hero.getBoundingClientRect().top/(hero.offsetHeight*.3)));
+    var opacity=1-progress*progress*(3-2*progress);
+    hero.style.setProperty('--hero-chrome-opacity',String(opacity));
+    var hidden=progress>=1;
+    hero.classList.toggle('hero-chrome-hidden',hidden);
+    controls.inert=hidden;
+    if(hidden){timer.setAttribute('aria-hidden','true');}else{timer.removeAttribute('aria-hidden');}
+  }
+  function queue(){if(!pending)pending=requestAnimationFrame(update);}
+  window.addEventListener('scroll',queue,{passive:true});
+  window.addEventListener('resize',queue,{passive:true});
+  new ResizeObserver(queue).observe(hero);
+  update();
 })();
 </script>
 <!-- Birth timer -->
@@ -3215,8 +3319,14 @@ if(location.protocol==='file:'){
   // 1997-12-19 00:00:00 Beijing time (UTC+8) = 1997-12-18 16:00:00 UTC
   var birth = Date.UTC(1997, 11, 18, 16, 0, 0);
   function tick(){
-    var secs = Math.floor((Date.now() - birth) / 1000);
-    el.textContent = secs.toLocaleString('en-US');
+    var now = Date.now();
+    var secs = Math.floor((now - birth) / 1000);
+    // Calendar age in the same UTC+8 timezone as the birth timestamp.
+    var today = new Date(now + 8 * 60 * 60 * 1000);
+    var age = today.getUTCFullYear() - 1997;
+    if(today.getUTCMonth() < 11 || (today.getUTCMonth() === 11 && today.getUTCDate() < 19)) age--;
+    el.textContent = secs.toLocaleString('en-US') + '/GEN. ' + age;
+    el.setAttribute('aria-label', secs.toLocaleString('en-US') + ' seconds since birth; age ' + age);
     setTimeout(tick, 1000 - (Date.now() % 1000));
   }
   tick();
