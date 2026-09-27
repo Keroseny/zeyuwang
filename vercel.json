@@ -38,6 +38,10 @@
       "destination": "/pages/ui-design.html"
     },
     {
+      "source": "/missing-parts",
+      "destination": "/pages/missing-parts.html"
+    },
+    {
       "source": "/works",
       "destination": "/pages/works.html"
     },
