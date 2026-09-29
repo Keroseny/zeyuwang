@@ -12,11 +12,11 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://wangzeyu.vercel.app/missing-parts">
 <link rel="canonical" href="https://wangzeyu.vercel.app/missing-parts">
-<meta property="og:image" content="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI26062201.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI25081801.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Public Remains | Zeyu Wang">
 <meta name="twitter:description" content="Public Remains is an ongoing photographic archive of bicycles left behind across Milan, often after theft, dismantling, or prolonged abandonment.">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI26062201.jpg">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI25081801.jpg">
 <style>
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; }
@@ -306,13 +306,13 @@ section { padding:12rem 3rem; }
 .social-row { display:flex; gap:1.4rem; justify-content:center; }
 .soc {
   width:42px; height:42px; border-radius:50%;
-  border:2px solid rgba(255,255,255,.5);
-  background:rgba(0,0,0,0.35);
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  border:2px solid transparent;
+  background:transparent;
   display:flex; align-items:center; justify-content:center;
   text-decoration:none; transition:all .25s;
 }
-.soc:hover { border-color:#fff; background:rgba(255,255,255,.06); }
+.soc:hover { border-color:#e63030; background:#e63030; }
+.soc:focus-visible { outline:1px solid #e63030; outline-offset:4px; }
 .soc svg { width:17px; height:17px; fill:rgba(255,255,255,.55); }
 .soc:hover svg { fill:#fff; }
 footer {
@@ -431,6 +431,7 @@ footer {
 #project-page-appdesign,
 #project-page-fifteen,
 #project-page-section,
+#project-page-hands,
 #project-page-photography {
   display:none;
   min-height:100vh;
@@ -1018,7 +1019,7 @@ footer {
   position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%);
   width:64px; height:64px; border-radius:50%;
-  background:rgba(0,0,0,.7); border:2px solid rgba(255,255,255,.8);
+  background:transparent; border:2px solid transparent;
   display:flex; align-items:center; justify-content:center;
   font-size:1.4rem; color:#fff; pointer-events:none;
   transition:background .3s, border-color .3s;
@@ -1045,16 +1046,17 @@ footer {
 .gallery-video-wrap:hover .gallery-btn-group { opacity:1; }
 .gallery-btn {
   display:inline-block;
-  border:1px solid rgba(255,255,255,.5);
+  border:1px solid transparent;
   padding:.35rem 1rem;
   font-size:.65rem; font-weight:400; letter-spacing:.1em;
-  color:rgba(255,255,255,.7); background:rgba(0,0,0,.6);
+  color:rgba(255,255,255,.7); background:transparent;
   cursor:pointer; font-family:Helvetica, Arial, sans-serif;
   text-decoration:none;
   transition:border-color .2s, color .2s, background .2s;
   white-space:nowrap;
 }
-.gallery-btn:hover { color:#e63030; border-color:#e63030; background:rgba(0,0,0,.8); }
+.gallery-btn:hover { color:#fff; border-color:#e63030; background:#e63030; }
+.gallery-btn:focus-visible { outline:1px solid #e63030; outline-offset:4px; }
 
 /* Photography gallery: CSS grid, no gaps or empty spaces */
 .photography-grid {
@@ -1154,13 +1156,15 @@ footer {
 
 
 /* Direct artwork galleries share the existing project grid and hover animations. */
-#projects .art-card { aspect-ratio:auto; align-self:start; }
-#projects .art-card img { width:100%; height:auto; display:block; }
+#projects .art-card, #project-page-hands .art-card { aspect-ratio:auto; align-self:start; }
+#projects .art-card img, #project-page-hands .art-card img { width:100%; height:auto; display:block; }
 #projects .art-wide { grid-column:1 / -1; }
 #projects .art-card.art-peek img { filter:grayscale(0%); transform:scale(1.04); }
 #projects .art-card.art-peek .project-info { background:rgba(0,0,0,.35); }
 #projects .art-card.art-peek .project-name,
 #projects .art-card.art-peek .project-year { opacity:1; transform:translateY(0); }
+#project-page-hands .hands-photo { cursor:default; overflow:hidden; }
+#project-page-hands .hands-photo img { filter:none; transform:none; transition:none; }
 #artwork-viewer {
   position:fixed; inset:0; margin:auto; padding:0; border:1px solid rgba(255,255,255,.06);
   width:calc(100vw - 4rem); max-width:1500px; max-height:calc(100dvh - 3rem);
@@ -1188,8 +1192,10 @@ footer {
 }
 
 /* Balanced photography masonry: native image proportions, no empty grid rows. */
-#projects .projects-grid.photo-masonry { display:block; position:relative; }
-#projects .photo-masonry .art-card { position:absolute; }
+#projects .projects-grid.photo-masonry, #project-page-hands .photo-masonry { display:block; position:relative; }
+#projects .photo-masonry .project-card, #project-page-hands .photo-masonry .art-card { position:absolute; }
+.hands-gallery { padding:0 3rem 4rem; }
+@media(max-width:900px) { .hands-gallery { padding:0 1.5rem 2rem; } }
 #artwork-viewer[open] { animation:artwork-enter .55s cubic-bezier(.16,1,.3,1) both; }
 #artwork-viewer[open]::backdrop { animation:artwork-backdrop-in .5s ease both; }
 #artwork-viewer[open] .artwork-details { animation:artwork-details-in .55s .12s cubic-bezier(.16,1,.3,1) both; }
@@ -1205,15 +1211,15 @@ footer {
 }
 
 
-/* Shared outline actions: About me, project navigation, Close and CV links. */
+/* Shared text-only actions; transparent borders preserve hit areas and layout. */
 .hero-cta, .project-page-topnav-btn, .artwork-close, .cv-btn {
   display:inline-flex; align-items:center; justify-content:center;
-  box-sizing:border-box; border:1px solid rgba(255,255,255,.35); border-radius:0;
+  box-sizing:border-box; border:1px solid transparent; border-radius:0;
   padding:.55rem 1.6rem;
   font-family:Helvetica, Arial, sans-serif; font-size:.75rem; font-weight:400;
   line-height:1.4; letter-spacing:.05em; text-transform:none; text-decoration:none;
-  color:rgba(255,255,255,.7); background:rgba(0,0,0,.35);
-  backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+  color:rgba(255,255,255,.7); background:transparent;
+  backdrop-filter:none; -webkit-backdrop-filter:none;
   cursor:pointer;
   transition:background-color .25s ease, color .25s ease, border-color .25s ease;
 }
@@ -1260,6 +1266,7 @@ footer {
 
 .project-facts {display:block;}
 .project-facts-basics {display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:1.25rem 2rem;}
+#project-page-hands .project-facts-basics .project-fact:last-child {grid-column:1/-1;}
 .project-facts-contribution {display:grid;grid-template-columns:2fr 3fr;gap:1.25rem 2rem;margin-top:1.25rem;}
 @media(max-width:600px){
  .project-facts-basics {grid-template-columns:1fr 1fr;gap:1rem;}
@@ -1333,7 +1340,7 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
   </div>
   <div class="projects-grid">
     <a class="project-card reveal bici-project-card" data-category="photography" href="/missing-parts" data-project="bici" onclick="return followProjectLink(event, 'bici')" aria-label="Open Public Remains">
-      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI26062201.jpg" alt="A bicycle documented in Milan — Public Remains" width="1600" height="900">
+      <img loading="lazy" decoding="async" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI25081801.jpg" alt="A bicycle documented in Milan — Public Remains" width="1600" height="900">
       <div class="project-info"><div class="project-name">Public Remains</div><div class="project-year">Photographic archive · 2022–ongoing</div></div>
     </a>
     <a class="project-card reveal" data-category="live" href="/altera" data-project="altera" onclick="return followProjectLink(event, 'altera')" style="cursor:pointer;" aria-label="Open Altéra">
@@ -1397,50 +1404,10 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
       </div>
     </a>
 
-    <div class="project-card reveal art-card art-wide" data-category="photography" data-art="photo-1" style="display:none;" onclick="openArtwork('photo-1', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" width="7879" height="3049" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-2" style="display:none;" onclick="openArtwork('photo-2', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" width="4002" height="2668" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-3" style="display:none;" onclick="openArtwork('photo-3', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" width="2223" height="2218" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-4" style="display:none;" onclick="openArtwork('photo-4', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" width="2417" height="1613" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-5" style="display:none;" onclick="openArtwork('photo-5', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp" width="7205" height="6192" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-6" style="display:none;" onclick="openArtwork('photo-6', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp" width="6092" height="8122" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-7" style="display:none;" onclick="openArtwork('photo-7', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" width="1843" height="1382" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-8" style="display:none;" onclick="openArtwork('photo-8', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" width="5445" height="3630" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-9" style="display:none;" onclick="openArtwork('photo-9', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" width="8256" height="6192" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-10" style="display:none;" onclick="openArtwork('photo-10', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" width="3777" height="2518" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
-    <div class="project-card reveal art-card" data-category="photography" data-art="photo-11" style="display:none;" onclick="openArtwork('photo-11', event)" role="button" tabindex="0" aria-label="View Hands, photograph, 2020">
-      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" width="5580" height="3139" alt="Photograph, 2020">
-      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">2020</div></div>
-    </div>
+    <a class="project-card reveal" data-category="photography" href="/hands" data-project="hands" onclick="return followProjectLink(event, 'hands')" aria-label="Open Hands">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" width="7879" height="3049" alt="Hands, photographic series, 2020">
+      <div class="project-info"><span class="project-name">Hands</span><div class="project-year">Photography · 2020</div></div>
+    </a>
     <div class="project-card reveal art-card" data-category="photography" data-art="photo-12" style="display:none;" onclick="openArtwork('photo-12', event)" role="button" tabindex="0" aria-label="View photograph, 2026">
       <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/ChatGPT01.png" width="1448" height="1086" alt="Photograph, 2026">
       <div class="project-info"><div class="project-year">2026</div></div>
@@ -1744,6 +1711,51 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 </div><!-- end #main-page-bottom -->
 
 <!-- PROJECT PAGE: Public Remains -->
+<!-- PROJECT PAGE: Hands -->
+<div id="project-page-hands" style="display:none;">
+  <div class="project-page-topnav reveal"><span></span><button class="project-page-topnav-btn" onclick="showPage('main','projects')">back to works.</button></div>
+  <div class="app-project-section reveal">
+    <div class="app-project-title">Hands</div>
+    <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Photography</dd></div><div class="project-fact"><dt>Date</dt><dd>2020</dd></div><div class="project-fact"><dt>Location</dt><dd>Nanjing, China</dd></div><div class="project-fact"><dt>Equipment</dt><dd>Nikon D810 · 24–70 mm</dd></div></div></dl>
+    <div class="project-page-divider"></div>
+  </div>
+  <div class="hands-gallery"><div class="projects-grid photo-masonry">
+    <div class="hands-photo reveal art-card art-wide" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg" width="7879" height="3049" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p2.jpg" width="4002" height="2668" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p5.jpg" width="2223" height="2218" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p6.jpg" width="2417" height="1613" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p8.webp" width="7205" height="6192" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p4.webp" width="6092" height="8122" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p10.jpg" width="1843" height="1382" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p11.jpg" width="5445" height="3630" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p13.webp" width="8256" height="6192" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p12.png" width="3777" height="2518" alt="Photograph, 2020">
+    </div>
+    <div class="hands-photo reveal art-card" data-category="photography">
+      <img decoding="async" loading="lazy" src="https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p7.jpg" width="5580" height="3139" alt="Photograph, 2020">
+    </div>
+  </div></div>
+  <div class="project-page-bottomnav"><span></span><button class="project-page-topnav-btn" onclick="showPage('main','projects')">back to works.</button></div>
+</div>
 <div id="project-page-bici" style="display:none;">
   <div class="project-page-topnav reveal"><span></span><button class="project-page-topnav-btn" onclick="showPage('main','projects')">back to works.</button></div>
   <div class="app-project-section reveal">
@@ -1758,7 +1770,7 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
     <div class="bici-stage" data-view="gallery">
       <div class="bici-map-panel"><div id="bici-map" aria-label="Map of photographed bicycles"></div><p id="bici-map-status" role="status">Map loads when this project opens.</p></div>
       <div class="bici-detail" aria-live="polite">
-        <button class="bici-main-photo" id="bici-next-image" type="button" aria-label="Show next photograph"><img id="bici-selected-image" alt="" decoding="async"></button>
+        <button class="bici-main-photo" id="bici-next-image" type="button" aria-label="Show next photograph"><img id="bici-selected-image" alt="" decoding="async"><span class="bici-image-counter" id="bici-image-counter" aria-live="polite">1 / 1</span></button>
         <div class="bici-detail-text"><p>Record ID: <span id="bici-id"></span></p><p>Location: <a id="bici-address" target="_blank" rel="noopener noreferrer"></a></p><p>Recorded: <span id="bici-date"></span></p></div>
       </div>
     </div>
@@ -2684,9 +2696,10 @@ if (poster && poster.hasAttribute('onclick')) {
 <script>
 var pageMetadata = {"": {"title": "Zeyu Wang", "description": "Visual and interaction designer based in Milan, Italy. Working across visual art, new media and live performance.", "image": "https://i.ibb.co/KnSkbq5/new-headphoto.png"}, "altera": {"title": "Altéra | Zeyu Wang", "description": "Altéra is a sonic and visual project presented at Circolo Amelia in Milan, born from the desire to cross thresholds between music and art, presence and absence, body and space. It is not a collective or an alias, but an environment: a…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Altera/20260321_ALTERA_006.jpg"}, "duna": {"title": "Duna | Zeyu Wang", "description": "Duna is an independent label and curatorial platform founded by Simone Scardino (Conceptual), bridging club culture with contemporary art. It treats experimental electronic music as a medium for critical exploration, fostering an…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/duna_oscar/DUNA%20OSCAR%20MULERO%20SYBIL-112.jpg"}, "in-visible-gaze": {"title": "In-visible Gaze | Zeyu Wang", "description": "Conceived and directed by Giovanni Lo Castro and presented at Section 80 in Milan, In-visible Gaze is a live visual performance that translates clinical data into a profound sensory experience. The sonic landscape features a…", "image": "https://i.ibb.co/cX3yQ5s3/1.jpg"}, "peep-box": {"title": "PEEP BOX | Zeyu Wang", "description": "Created in collaboration with Mehdi El Ouazzani, PEEP BOX is an interactive installation that explores the opaque \"black box\" mechanisms of Artificial Intelligence. Inspired by pre-cinematic optical devices like the Kinetoscope, the…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/PEEP%20BOX/render01.png"}, "lycosia": {"title": "Lycosìa | Zeyu Wang", "description": "Etere is a project by Giovanni Lo Castro that brings together contemporary art, digital technology, and traditional goldsmithing to explore forgotten mysticisms, folkloric traditions, and ancestral forms. Within this framework, Lycosìa…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/lycosia/lycosia_cover.png"}, "lucus-angitiae": {"title": "Lucus Angitiae | Zeyu Wang", "description": "Etere is a project by Giovanni Lo Castro that brings together contemporary art, digital technology, and traditional goldsmithing to explore forgotten mysticisms, folkloric traditions, and ancestral forms. Presented within the context of…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/LUCUS%20ANGITIAE/p1.jpeg"}, "15-minutes": {"title": "15 Minutes | Zeyu Wang", "description": "Drawing from Andy Warhol's prophecy of \"15 minutes of fame,\" this interactive installation visualizes the ruthless and fleeting lifecycle of modern information consumption. Placed at a dining table—a daily site of digital…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/15_minutes_cover.jpg"}, "section": {"title": "Section | Zeyu Wang", "description": "Section is an interactive installation that explores the profound relationship between human presence, physical space, and the fluidity of time. By slicing and overlaying linear timelines, the work poetically restores different temporal…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/Installation/section_cover.jpg"}, "ui-design": {"title": "UI Design | Zeyu Wang", "description": "Perfumen is an innovative mobile experience that bridges the gap between online convenience and offline sensory exploration in fragrance shopping. The app empowers users to intuitively blend their desired scent notes or even translate…", "image": "https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/app_design/app_cover.png"}, "works": {"title": "Zeyu Wang", "description": "Works by Zeyu Wang: live visuals, interactive installations, UI design, photography and painting.", "image": "https://i.ibb.co/KnSkbq5/new-headphoto.png"}, "about": {"title": "About | Zeyu Wang", "description": "About Zeyu Wang, a visual and interaction designer based in Milan, Italy.", "image": "https://i.ibb.co/KnSkbq5/new-headphoto.png"}, "experience": {"title": "Zeyu Wang", "description": "Professional experience and creative collaborations of Zeyu Wang.", "image": "https://i.ibb.co/KnSkbq5/new-headphoto.png"}, "contact": {"title": "Zeyu Wang", "description": "Contact Zeyu Wang for visual and interaction design collaborations.", "image": "https://i.ibb.co/KnSkbq5/new-headphoto.png"}};
 function refreshPageMetadata(){
- pageMetadata['missing-parts']={title:'Public Remains | Zeyu Wang',description:'Public Remains is an ongoing photographic archive of bicycles left behind across Milan, often after theft, dismantling, or prolonged abandonment.',image:'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI26062201.jpg'};
+ pageMetadata['missing-parts']={title:'Public Remains | Zeyu Wang',description:'Public Remains is an ongoing photographic archive of bicycles left behind across Milan, often after theft, dismantling, or prolonged abandonment.',image:'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/MI25081801.jpg'};
+ pageMetadata.hands={title:'Hands | Zeyu Wang',description:'Hands — a photographic series by Zeyu Wang. Nanjing, China, 2020.',image:'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/photography/p1.jpg'};
  var key=location.pathname.replace(/^\/|\/$/g,'');
- if(location.hash){key=location.hash.slice(1).split('?')[0];if(key.indexOf('project/')===0){key={"altera": "altera", "duna": "duna", "invisible": "in-visible-gaze", "peepbox": "peep-box", "lycosia": "lycosia", "lucus": "lucus-angitiae", "fifteen": "15-minutes", "section": "section", "appdesign": "ui-design", "installation": "15-minutes"}[key.slice(8)]||'';}if(key==='projects')key='works';}
+ if(location.hash){key=location.hash.slice(1).split('?')[0];if(key.indexOf('project/')===0){key={"hands":"hands","bici":"missing-parts","altera": "altera", "duna": "duna", "invisible": "in-visible-gaze", "peepbox": "peep-box", "lycosia": "lycosia", "lucus": "lucus-angitiae", "fifteen": "15-minutes", "section": "section", "appdesign": "ui-design", "installation": "15-minutes"}[key.slice(8)]||'';}if(key==='projects')key='works';}
  if(location.hash.split('?')[0]==='#project/bici')key='missing-parts';
  if(key==='installation')key='15-minutes';
  var data=pageMetadata[key]||pageMetadata[''];if(!pageMetadata[key])key='';
@@ -2714,10 +2727,12 @@ if(location.protocol==='file:'){
   var routeSerial = 0;
   var routes = {altera:'live', duna:'live', invisible:'live', peepbox:'installation', lycosia:'live', lucus:'live', fifteen:'installation', section:'installation', installation:'installation', appdesign:'ui', photography:'photography', ying:'painting'};
   routes.bici = 'photography';
+  routes.hands = 'photography';
   var baseTitle = 'Zeyu Wang';
   var localPreview = location.protocol === 'file:';
   var slugs = {altera:'altera',duna:'duna',invisible:'in-visible-gaze',peepbox:'peep-box',lycosia:'lycosia',lucus:'lucus-angitiae',fifteen:'15-minutes',section:'section',installation:'installation',appdesign:'ui-design'};
   slugs.bici = 'missing-parts';
+  slugs.hands = 'hands';
   var pathIds = {}; Object.keys(slugs).forEach(function(id){pathIds[slugs[id]]=id;});
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   function stateSnapshot() {
@@ -3400,7 +3415,7 @@ if(location.protocol==='file:'){
     var card = document.querySelector('[data-art="'+id+'"]');
     // On touch: one tap reveals the caption, a second tap opens the full image.
     if (event && event.detail !== 0 && window.matchMedia('(hover:none)').matches && card && !card.classList.contains('art-peek')) {
-      document.querySelectorAll('#projects .art-peek').forEach(function(el) {el.classList.remove('art-peek');});
+      document.querySelectorAll('#projects .art-peek, #project-page-hands .art-peek').forEach(function(el) {el.classList.remove('art-peek');});
       card.classList.add('art-peek'); return;
     }
     returnFocus = card || document.activeElement;
@@ -3456,11 +3471,11 @@ if(location.protocol==='file:'){
 
 <script>
 (function(){
-  var grid=document.querySelector('#projects .projects-grid');
-  var cards=Array.from(grid.querySelectorAll('[data-category~="photography"]'));
-  var previousWidth=0;
+  var grids=[document.querySelector('#projects .projects-grid'),document.querySelector('#project-page-hands .projects-grid')];
   window.layoutPhotography=function(){
-    var active=projectFilter==='photography';
+    grids.forEach(function(grid){
+    var cards=Array.from(grid.querySelectorAll('[data-category~="photography"]'));
+    var active=grid.closest('#project-page-hands')?true:projectFilter==='photography';
     grid.classList.toggle('photo-masonry',active);
     cards.forEach(function(c){c.style.removeProperty('width');c.style.removeProperty('left');c.style.removeProperty('top');});
     grid.style.removeProperty('height');
@@ -3485,8 +3500,9 @@ if(location.protocol==='file:'){
     var bottoms=[top,top];
     rest.forEach(function(c,i){var col=(mask&(1<<i))?0:1;put(c,col*(colWidth+gap),bottoms[col],colWidth);bottoms[col]+=heights[i];});
     grid.style.height=(Math.max.apply(null,bottoms)-gap)+'px';
+    });
   };
-  new ResizeObserver(function(){var w=grid.clientWidth;if(w!==previousWidth){previousWidth=w;layoutPhotography();}}).observe(grid);
+  grids.forEach(function(grid){var previousWidth=0;new ResizeObserver(function(){var w=grid.clientWidth;if(w!==previousWidth){previousWidth=w;layoutPhotography();}}).observe(grid);});
   layoutPhotography();
 })();
 </script>
@@ -3531,8 +3547,9 @@ if(location.protocol==='file:'){
 #bici-map-status{position:absolute;bottom:30px;left:16px;right:16px;padding:10px;background:#111d;color:#ddd;font-size:12px;z-index:450;pointer-events:none}
 #bici-map-status:empty{display:none}
 .bici-detail{align-self:start;border:1px solid #ffffff25;border-radius:12px;overflow:hidden;background:rgba(20,20,20,.65);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-.bici-main-photo{display:block;width:100%;margin:0;padding:0;background:#0e0e0e;border:0;cursor:pointer}
-.bici-main-photo img{width:100%;height:auto;display:block}
+.bici-main-photo{position:relative;display:block;width:100%;margin:0;padding:0;background:#0e0e0e;border:0;cursor:pointer;overflow:hidden}
+.bici-main-photo img{width:100%;height:auto;display:block;transition:none}
+.bici-image-counter{position:absolute;right:14px;bottom:14px;padding:5px 8px;border:1px solid #ffffff45;border-radius:999px;background:#0009;color:#fff;font:11px/1 Helvetica,Arial,sans-serif;letter-spacing:.08em;pointer-events:none}
 .bici-detail-text{padding:22px;font:400 13px/1.8 Helvetica,Arial,sans-serif;color:#aaa}
 .bici-detail-text p{margin:0 0 8px;font:inherit;color:inherit;overflow-wrap:anywhere}.bici-detail-text p:last-child{margin-bottom:0}.bici-detail-text a{font:inherit;color:inherit;text-decoration:none;transition:color .2s;cursor:pointer}.bici-detail-text a:hover,.bici-detail-text a:focus-visible{color:#e63030}
 #bici-strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 2px 16px;overscroll-behavior-x:contain;scrollbar-color:#777 #171717}
@@ -3543,8 +3560,8 @@ if(location.protocol==='file:'){
 .bici-pin.is-selected span{background:#e63030;border-color:#e63030}.bici-archive button:focus-visible,.bici-archive a:focus-visible{outline:2px solid #e63030;outline-offset:4px}
 .bici-archive button:disabled{opacity:.3;cursor:default;pointer-events:none}
 #projects .photo-masonry .bici-project-card{position:absolute}
-@media(max-width:760px){.bici-archive{padding:0 1.4rem}.bici-stage{display:block}.bici-views{display:flex;gap:8px}.bici-toolbar{display:flex;margin:0 0 20px}.bici-stage[data-view=gallery] .bici-map-panel{display:none}.bici-stage[data-view=map] .bici-detail{display:none}.bici-map-panel{height:58svh;min-height:360px}.bici-thumb{flex-basis:180px}.bici-thumb img{height:140px}.bici-views [aria-pressed=true]{color:#e63030;border-color:#e63030}}
-@media(prefers-reduced-motion:reduce){.bici-thumb img,.bici-detail-text a{transition:none}}
+@media(max-width:760px){.bici-archive{padding:0 1.4rem}.bici-stage{display:block}.bici-views{display:flex;gap:8px}.bici-toolbar{display:flex;margin:0 0 20px}.bici-stage[data-view=gallery] .bici-map-panel{display:none}.bici-stage[data-view=map] .bici-detail{display:none}.bici-map-panel{height:58svh;min-height:360px}.bici-thumb{flex-basis:180px}.bici-thumb img{height:140px}.bici-views [aria-pressed=true]{color:#e63030;border-color:transparent}.bici-views button:hover{color:#fff;border-color:#e63030}}
+@media(prefers-reduced-motion:reduce){.bici-thumb img,.bici-detail-text a,.bici-main-photo img{transition:none}}
 </style>
 <script>
 (function(){
@@ -3553,38 +3570,58 @@ if(location.protocol==='file:'){
   // Coordinates are [latitude, longitude]. Address matches checked with ArcGIS World Geocoder.
   // Only Tavazzano is an exact photographer-provided pin; other pins identify addresses.
   const records=[
+    {id:'MI24072001',address:'Via Sidney Sonnino 5, 20155 Milano MI, Italy',coords:[45.493473566818,9.148855033775]},
+    {id:'MI24083101',address:'Via Giambattista Bodoni 2, 20155 Milano MI, Italy',coords:[45.493131398919,9.150512381061]},
+    {id:'MI24090501',address:'Viale Monte Ceneri 63, 20155 Milano MI, Italy',coords:[45.490855803449,9.15308308541]},
+    {id:'MI25081801',address:'Piazzale Carlo Maciachini 14, 20159 Milano MI, Italy',coords:[45.498316989047,9.185438011394]},
+    {id:'MI25082001',address:'Piazza Firenze, 20149 Milano MI, Italy',locationQuery:'Chiosco ATM Firenze, Piazza Firenze, Milano, Italy',coordinatePrecision:'square',coords:[45.487682866666,9.156597354478]},
+    {id:'MI25100901',address:'Via Lorenzo Bartolini 42, 20155 Milano MI, Italy',coords:[45.491845405424,9.15265940556]},
+    {id:'MI25111501',address:'Via Mecenate 94, 20138 Milano MI, Italy',coords:[45.45018751428,9.251085077064]},
+    {id:'MI25111502',address:'Via Mecenate 94, 20138 Milano MI, Italy',coords:[45.45018751428,9.251085077064]},
+    {id:'MI26052501',address:'Via 8 Ottobre 2001, 9, 20138 Milano MI, Italy',coordinatePrecision:'street',coords:[45.427098958205,9.251521530374]},
     {id:'MI26061501',address:'Via Varesina 71, 20156 Milan',coords:[45.497818601084,9.144981414613]},
     {id:'MI26062101',address:'Via Guglielmo Marconi 5, 20099 Sesto San Giovanni MI',coords:[45.533506020686,9.230615379862]},
-    {id:'MI26062201',address:'Via Tavazzano, 20155 Milano MI',coords:[45.4921921,9.1480564]},
+    {id:'MI26062201',images:['MI26062201','MI26062202'],address:'Via Tavazzano, 20155 Milano MI',coords:[45.4921921,9.1480564]},
     {id:'MI26091601',address:'Via Bordighera 49, 20142 Milan',coords:[45.438173379802,9.17370336038]}
   ];
   const root=document.getElementById('project-page-bici'),strip=document.getElementById('bici-strip'),stage=root.querySelector('.bici-stage'),status=document.getElementById('bici-map-status');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-  let selected=0,map=null,markers=[],started=false,loading=false;
+  let selected=0,photoIndex=0,map=null,markers=[],started=false,loading=false,suppressNextClick=false;
   function parseDate(id){const m=/^[A-Z]+(\d{2})(\d{2})(\d{2})(\d{2})$/.exec(id);if(!m)throw Error('Invalid bicycle filename: '+id);const y=2000+Number(m[1]),mo=Number(m[2]),d=Number(m[3]),date=new Date(Date.UTC(y,mo-1,d));if(date.getUTCMonth()!==mo-1||date.getUTCDate()!==d)throw Error('Invalid date: '+id);return date;}
-  records.forEach(r=>{r.date=parseDate(r.id).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});r.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/'+r.id+'.jpg';});
+  // Oldest first; same-day records use their stable filename sequence as a tie-breaker.
+  records.sort((a,b)=>parseDate(a.id)-parseDate(b.id)||a.id.localeCompare(b.id));
+  // One index card per city/date; trailing filename digits identify its photos.
+  const groups=new Map();
+  records.forEach(r=>{const key=r.id.slice(0,-2),images=r.images||[r.id];if(groups.has(key)){groups.get(key).images.push(...images);}else{groups.set(key,{...r,archiveId:key,images:[...images]});}});
+  records.splice(0,records.length,...groups.values());
+  records.forEach(r=>{r.images=[...new Set(r.images)].sort();});
+  records.forEach(r=>{r.images=r.images||[r.id];r.date=parseDate(r.id).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});r.srcs=r.images.map(id=>'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/'+id+'.jpg');});
+  function markerOffset(record){const peers=records.filter(r=>r.coords[0]===record.coords[0]&&r.coords[1]===record.coords[1]);return [(peers.indexOf(record)-(peers.length-1)/2)*36,0];}
   function active(){return root.style.display==='block';}
   function params(){return new URLSearchParams(location.protocol==='file:'?(location.hash.split('?')[1]||''):location.search);}
-  function writeSelection(){const u=new URL(location.href);if(location.protocol==='file:'){const p=params();p.set('bike',records[selected].id);u.hash='project/bici?'+p;}else u.searchParams.set('bike',records[selected].id);history.replaceState(history.state,'',u);}
+  function writeSelection(){const u=new URL(location.href),r=records[selected];if(location.protocol==='file:'){const p=params();p.set('bike',r.id);if(r.images.length>1)p.set('image',String(photoIndex+1));else p.delete('image');u.hash='project/bici?'+p;}else{u.searchParams.set('bike',r.id);if(r.images.length>1)u.searchParams.set('image',String(photoIndex+1));else u.searchParams.delete('image');}history.replaceState(history.state,'',u);}
   function setView(view){stage.dataset.view=view;root.querySelectorAll('[data-bici-view]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.biciView===view)));if(map)requestAnimationFrame(()=>map.resize());}
   function select(index,options={}){
-    selected=Math.max(0,Math.min(records.length-1,index));const r=records[selected],img=document.getElementById('bici-selected-image');
-    img.src=r.src;img.alt='Bicycle photographed at '+r.address+' on '+r.date;
-    document.getElementById('bici-id').textContent=r.id;document.getElementById('bici-address').textContent=r.address;document.getElementById('bici-date').textContent=r.date;
-    document.getElementById('bici-address').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.address);
+    const previous=selected;selected=Math.max(0,Math.min(records.length-1,index));const r=records[selected];if(selected!==previous||options.resetImage)photoIndex=0;if(Number.isInteger(options.imageIndex))photoIndex=Math.max(0,Math.min(r.images.length-1,options.imageIndex));showPhoto();
+    const img=document.getElementById('bici-selected-image');
+    document.getElementById('bici-id').textContent=r.archiveId;document.getElementById('bici-address').textContent=r.address;document.getElementById('bici-date').textContent=r.date;
+    document.getElementById('bici-address').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(r.locationQuery||r.address);
     strip.querySelectorAll('button').forEach((b,i)=>b.setAttribute('aria-pressed',String(i===selected)));
     if(options.scroll){const b=strip.children[selected];strip.scrollTo({left:b.offsetLeft-strip.offsetLeft,behavior:reduce.matches?'instant':'smooth'});}
     markers.forEach((m,i)=>{const el=m.getElement();if(el){el.classList.toggle('is-selected',i===selected);el.setAttribute('aria-pressed',String(i===selected));}});
     if(map&&options.pan)map.flyTo({center:[r.coords[1],r.coords[0]],zoom:16,duration:reduce.matches?0:800});
     if(options.write)writeSelection();
   }
+  function showPhoto(){const r=records[selected],img=document.getElementById('bici-selected-image'),counter=document.getElementById('bici-image-counter');if(!r)return;img.src=r.srcs[photoIndex];img.alt='Bicycle photographed at '+r.address+' on '+r.date+' — image '+(photoIndex+1)+' of '+r.images.length;counter.textContent=(photoIndex+1)+' / '+r.images.length;}
+  function nextPhoto(){const r=records[selected];if(!r||r.images.length<2)return;photoIndex=(photoIndex+1)%r.images.length;showPhoto();writeSelection();}
+  function previousPhoto(){const r=records[selected];if(!r||r.images.length<2)return;photoIndex=(photoIndex-1+r.images.length)%r.images.length;showPhoto();writeSelection();}
   function overview(){if(!map)return;const bounds=new maplibregl.LngLatBounds();records.forEach(r=>bounds.extend([r.coords[1],r.coords[0]]));map.fitBounds(bounds,{padding:38,maxZoom:14,duration:reduce.matches?0:800});}
   function initMap(){if(map){map.resize();return;}if(loading)return;loading=true;status.textContent='Loading map…';
     function ready(){loading=false;if(!window.maplibregl){status.textContent='Map unavailable. Photos and location links remain available.';return;}
       map=new maplibregl.Map({container:'bici-map',style:'https://tiles.openfreemap.org/styles/dark',center:[9.185,45.485],zoom:11.5,attributionControl:false,cooperativeGestures:true});
       map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
       map.addControl(new maplibregl.AttributionControl({compact:true}));
-      markers=records.map((r,i)=>{const el=document.createElement('button');el.type='button';el.className='bici-pin';el.title=r.id+' — '+r.address;el.setAttribute('aria-label','View photograph '+r.id);el.innerHTML='<span>'+String(i+1).padStart(2,'0')+'</span>';el.onclick=()=>{select(i,{scroll:true,write:true,pan:true});setView('gallery');};return new maplibregl.Marker({element:el,anchor:'center'}).setLngLat([r.coords[1],r.coords[0]]).addTo(map);});
+      markers=records.map((r,i)=>{const el=document.createElement('button');el.type='button';el.className='bici-pin';el.title=r.id+' — '+r.address;el.setAttribute('aria-label','View photograph '+r.id);el.innerHTML='<span>'+String(i+1).padStart(2,'0')+'</span>';el.onclick=()=>{select(i,{scroll:true,write:true,pan:true});setView('gallery');};return new maplibregl.Marker({element:el,anchor:'center',offset:markerOffset(r)}).setLngLat([r.coords[1],r.coords[0]]).addTo(map);});
       map.once('load',()=>{status.textContent='';overview();select(selected);});
       map.on('error',e=>{if(e&&e.error)status.textContent='Some map data could not load. Click the address to open its location.';});
       new ResizeObserver(()=>{if(active())map.resize();}).observe(document.getElementById('bici-map'));
@@ -3593,13 +3630,19 @@ if(location.protocol==='file:'){
     const css=document.createElement('link');css.rel='stylesheet';css.href='https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.css';document.head.appendChild(css);
     const script=document.createElement('script');script.src='https://unpkg.com/maplibre-gl@5/dist/maplibre-gl.js';script.onload=ready;script.onerror=()=>{loading=false;status.textContent='Map unavailable. Reopen this project to retry, or click the address.';script.remove();};document.head.appendChild(script);
   }
-  function begin(){if(!active())return;if(!started){started=true;records.forEach((r,i)=>{const b=document.createElement('button');b.type='button';b.className='bici-thumb';b.setAttribute('aria-label',r.id+', '+r.date+', '+r.address);const img=document.createElement('img');img.src=r.src;img.alt='Bicycle at '+r.address;img.loading='lazy';img.decoding='async';const text=document.createElement('span');text.textContent=r.id+' / '+r.date;b.append(img,text);b.onclick=()=>{select(i,{write:true,pan:true});};b.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();const n=Math.max(0,Math.min(records.length-1,i+(e.key==='ArrowRight'?1:-1)));strip.children[n].focus();select(n,{write:true,pan:true,scroll:true});}});strip.appendChild(b);});}
-    const index=records.findIndex(r=>r.id===params().get('bike'));select(index<0?selected:index);initMap();
+  function begin(){if(!active())return;if(!started){started=true;records.forEach((r,i)=>{const b=document.createElement('button');b.type='button';b.className='bici-thumb';b.setAttribute('aria-label',r.archiveId+', '+r.date+', '+r.address);const img=document.createElement('img');img.src=r.srcs[0];img.alt='Bicycle at '+r.address;img.loading='lazy';img.decoding='async';const text=document.createElement('span');text.textContent=r.archiveId;b.append(img,text);b.onclick=()=>{select(i,{write:true,pan:true,scroll:true,resetImage:true});};strip.appendChild(b);});}
+    const p=params(),bike=p.get('bike'),index=records.findIndex(r=>r.archiveId===bike||r.images.includes(bike));
+    const legacyImage=index<0?0:Math.max(0,records[index].images.indexOf(bike));
+    const requested=Number(p.get('image')),imageNumber=p.has('image')&&Number.isInteger(requested)&&requested>0?requested-1:legacyImage;
+    select(index<0?selected:index,{imageIndex:index<0?0:imageNumber});initMap();
   }
   root.querySelectorAll('[data-bici-view]').forEach(b=>b.onclick=()=>setView(b.dataset.biciView));
   const nextImage=document.getElementById('bici-next-image');
-  nextImage.onclick=()=>select((selected+1)%records.length,{write:true,pan:true,scroll:true});
+  nextImage.onclick=()=>{if(suppressNextClick){suppressNextClick=false;return;}nextPhoto();};
   nextImage.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();nextImage.click();}});
+  let touchStartX=0,touchStartY=0,touchActive=false;
+  nextImage.addEventListener('touchstart',e=>{const t=e.changedTouches[0];touchStartX=t.clientX;touchStartY=t.clientY;touchActive=true;},{passive:true});
+  nextImage.addEventListener('touchend',e=>{if(!touchActive)return;touchActive=false;const t=e.changedTouches[0],dx=t.clientX-touchStartX,dy=t.clientY-touchStartY;if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){suppressNextClick=true;if(dx<0)nextPhoto();else previousPhoto();setTimeout(()=>{suppressNextClick=false;},450);}} ,{passive:true});
   new MutationObserver(()=>{if(active())begin();}).observe(root,{attributes:true,attributeFilter:['style']});
   window.addEventListener('popstate',()=>{setTimeout(begin,250);});window.addEventListener('hashchange',()=>setTimeout(begin,250));begin();
 })();

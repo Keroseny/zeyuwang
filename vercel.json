@@ -42,6 +42,10 @@
       "destination": "/pages/missing-parts.html"
     },
     {
+      "source": "/hands",
+      "destination": "/pages/hands.html"
+    },
+    {
       "source": "/works",
       "destination": "/pages/works.html"
     },
