@@ -2880,7 +2880,7 @@ if(location.protocol==='file:'){
   var targetAngle=0, scrollAngle=0;
   function resetInput(){
     var captured=pointerId;
-    pointerId=null;dragging=false;dX=0;dY=0;velX=0;velY=0;clearHover();
+    pointerId=null;dragging=false;tapBurst=null;tapMoved=true;dX=0;dY=0;velX=0;velY=0;clearHover();
     if(captured!==null && canvas.hasPointerCapture(captured))canvas.releasePointerCapture(captured);
   }
   function refreshScene(){
@@ -3134,6 +3134,8 @@ if(location.protocol==='file:'){
   var dragging=false,dragType='',lastX=0,lastY=0,startX=0,startY=0,dX=0,dY=0,velX=0,velY=0;
   var brushClock=0,freeIndices=[],cloudScale=1;
   var HOVER_DELAY_MS=500,DWELL_SLOP_PX=6;
+  var tapBurst=null,tapMoved=false,tapStarted=0,tapScrollY=0;
+  var TAP_MAX_MS=450,TAP_SLOP_PX=8;
 
   function clearHover(){pointerPosition=null;dwellAnchor=null;dwellSince=0;hoverEngaged=false;isHovering=false;}
   function rememberHover(e){
@@ -3147,7 +3149,9 @@ if(location.protocol==='file:'){
     if(interactive&&!reduceMotion.matches&&e.isPrimary&&e.pointerType!=='touch'&&!e.buttons&&pointerId===null)rememberHover(e);
   },{passive:true});
   canvas.addEventListener('pointerdown',function(e){
-    if(!interactive||!e.isPrimary||e.button>0)return;
+    if(!e.isPrimary){if(e.pointerType==='touch'){tapMoved=true;tapBurst=null;}return;}
+    if(!interactive||e.button>0)return;
+    tapBurst=null;tapMoved=false;tapStarted=performance.now();tapScrollY=scrollY;
     clearHover();pointerId=e.pointerId;dragType=e.pointerType;
     startX=lastX=e.clientX;startY=lastY=e.clientY;dragging=e.pointerType!=='touch';
     dX=0;dY=0;canvas.setPointerCapture(e.pointerId);
@@ -3157,6 +3161,7 @@ if(location.protocol==='file:'){
     if(e.pointerId===pointerId){
       clearHover();
       var dx=e.clientX-startX,dy=e.clientY-startY;
+      if(Math.hypot(dx,dy)>TAP_SLOP_PX)tapMoved=true;
       if(dragType==='touch'&&!dragging&&Math.abs(dx)>7&&Math.abs(dx)>Math.abs(dy))dragging=true;
       if(dragging){dY+=(e.clientX-lastX)*(dragType==='touch'?.003:.0012);dX+=(e.clientY-lastY)*(dragType==='touch'?.002:.0008);}
       lastX=e.clientX;lastY=e.clientY;
@@ -3164,8 +3169,13 @@ if(location.protocol==='file:'){
   },{passive:true});
   canvas.addEventListener('pointerup',function(e){
     if(e.pointerId!==pointerId)return;
+    var isTap=e.pointerType==='touch'&&interactive&&!reduceMotion.matches&&!dragging&&!tapMoved&&performance.now()-tapStarted<=TAP_MAX_MS&&Math.hypot(e.clientX-startX,e.clientY-startY)<=TAP_SLOP_PX&&Math.abs(scrollY-tapScrollY)<4;
     pointerId=null;dragging=false;clearHover();
     if(canvas.hasPointerCapture(e.pointerId))canvas.releasePointerCapture(e.pointerId);
+    if(isTap){
+      var r=canvas.getBoundingClientRect();
+      tapBurst={point:{x:(e.clientX-r.left)/r.height*2-r.width/r.height,y:1-(e.clientY-r.top)/r.height*2},start:t,duration:.85};
+    }
     if(interactive&&e.pointerType!=='touch'&&!reduceMotion.matches)rememberHover(e);
   },{passive:true});
   canvas.addEventListener('pointercancel',resetInput,{passive:true});
@@ -3174,8 +3184,11 @@ if(location.protocol==='file:'){
   window.addEventListener('blur',resetInput);
 
   // Erode the current visible surface, then expose and erode the next layer.
-  function erodeHover(dt){
-    if(!origArr||!N||!pointerPosition||pointerId!==null||dragging||performance.now()-dwellSince<HOVER_DELAY_MS)return;
+  function erodeHover(dt,burst){
+    if(!origArr||!N||pointerId!==null||dragging)return;
+    if(!burst&&(!pointerPosition||performance.now()-dwellSince<HOVER_DELAY_MS))return;
+    var point=burst?burst.point:pointerPosition;
+    var pulse=burst?Math.sin(Math.PI*Math.max(0,Math.min(1,(t-burst.start)/burst.duration))):0;
     var cy=Math.cos(rotY+scrollAngle),sy=Math.sin(rotY+scrollAngle),cx=Math.cos(rotX),sx=Math.sin(rotX);
     var asp=W/H,fov=asp<.85?.85/asp:.85,tanF=Math.tan(fov/2),minX=Infinity,maxX=-Infinity;
     for(var i=0;i<N;i++){
@@ -3188,10 +3201,10 @@ if(location.protocol==='file:'){
       minX=Math.min(minX,projected[k]);maxX=Math.max(maxX,projected[k]);
     }
     var ramp=Math.max(0,Math.min(1,(performance.now()-dwellSince-HOVER_DELAY_MS)/2500));
-    var radius=Math.max(.018,(maxX-minX)*.06),front=-Infinity,candidates=[];
+    var radius=Math.max(.018,(maxX-minX)*(burst?.075:.06)),front=-Infinity,candidates=[];
     for(var i=0;i<N;i++){
       if(freedArr[i]>0)continue;
-      var k=i*3,dx=projected[k]-pointerPosition.x,dy=projected[k+1]-pointerPosition.y,d2=dx*dx+dy*dy;
+      var k=i*3,dx=projected[k]-point.x,dy=projected[k+1]-point.y,d2=dx*dx+dy*dy;
       var angle=Math.atan2(dy,dx);
       // A feathered, irregular influence field: no circular cutout boundary.
       var edge=1+.23*Math.sin(angle*3+t*.09)+.16*Math.sin(angle*5-t*.07)+.12*Math.sin(origArr[k]*31+origArr[k+1]*23);
@@ -3199,16 +3212,15 @@ if(location.protocol==='file:'){
       var weight=Math.exp(-distance*distance*2.2);
       if(weight>.0002){candidates.push({i:i,falloff:weight});if(weight>.15)front=Math.max(front,projected[k+2]);}
     }
-    isHovering=candidates.length>0;
-    if(isHovering)hoverEngaged=true;
+    if(!burst){isHovering=candidates.length>0;if(isHovering)hoverEngaged=true;}
     var updated=false;
     for(var j=0;j<candidates.length;j++){
       var c=candidates[j],i=c.i,k=i*3;
       var depthWeight=front===-Infinity?1:Math.exp(-Math.max(0,front-projected[k+2]-.07*cloudScale)/(cloudScale*.12));
-      var rate=(.22+1.50*ramp)*c.falloff*depthWeight;
+      var rate=(burst?3.2*pulse:(.22+1.50*ramp))*c.falloff*depthWeight;
       if(Math.random()>1-Math.exp(-rate*dt))continue;
       // Both emission and initial velocity grow linearly from 0.5 to 3 seconds.
-      var force=(.035+.14*ramp)*(.85+Math.random()*.30)*cloudScale;
+      var force=(burst?(.055+.055*pulse):(.035+.14*ramp))*(.85+Math.random()*.30)*cloudScale;
       var jitter=force*.12;
       velArr[k]=normalArr[k]*force+(Math.random()-.5)*jitter;
       velArr[k+1]=normalArr[k+1]*force+(Math.random()-.5)*jitter;
@@ -3293,7 +3305,10 @@ if(location.protocol==='file:'){
     dX=0;dY=0;
     brushClock+=fixedStep/1000;
     if(brushClock>=1/30){
-      if(pointerPosition)erodeHover(Math.min(brushClock,.06));
+      if(tapBurst){
+        if(t-tapBurst.start<tapBurst.duration)erodeHover(Math.min(brushClock,.06),tapBurst);
+        else tapBurst=null;
+      }else if(pointerPosition)erodeHover(Math.min(brushClock,.06));
       else isHovering=false;
       brushClock=0;
     }
