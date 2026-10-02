@@ -46,6 +46,10 @@
       "destination": "/pages/hands.html"
     },
     {
+      "source": "/untitled",
+      "destination": "/pages/untitled.html"
+    },
+    {
       "source": "/works",
       "destination": "/pages/works.html"
     },
