@@ -3623,13 +3623,16 @@ if(location.protocol==='file:'){
 <script>
 (function(){
   'use strict';
-  // Add records here. The basename is the stable ID: CITY + YYMMDD + sequence.
+  // Add records here. The basename is the stable ID: CITY + YYMMDD or YYYYMMDD + sequence.
   // Coordinates are [latitude, longitude]. Address matches checked with ArcGIS World Geocoder.
   // Only Tavazzano is an exact photographer-provided pin; other pins identify addresses.
   const records=[
     {id:'MI24072001',address:'Via Sidney Sonnino 5, 20155 Milano MI, Italy',coords:[45.493473566818,9.148855033775]},
     {id:'MI24083101',address:'Via Giambattista Bodoni 2, 20155 Milano MI, Italy',coords:[45.493131398919,9.150512381061]},
     {id:'MI24090501',address:'Viale Monte Ceneri 63, 20155 Milano MI, Italy',coords:[45.490855803449,9.15308308541]},
+    {id:'MI2024101201',address:'Piazzale Carlo Archinto 4, 20159 Milan, Italy',coords:[45.487894595362,9.187510185497]},
+    {id:'MI2024102401',address:'Via Lorenzo Bartolini 39, 20155 Milan, Italy',coords:[45.491763011316,9.152483888507]},
+    {id:'MI2024103001',address:'Via Tavazzano 6, 20155 Milan, Italy',coords:[45.492592987368,9.148370972438]},
     {id:'MI25081801',address:'Piazzale Carlo Maciachini 14, 20159 Milano MI, Italy',coords:[45.498316989047,9.185438011394]},
     {id:'MI25082001',address:'Piazza Firenze, 20149 Milano MI, Italy',locationQuery:'Chiosco ATM Firenze, Piazza Firenze, Milano, Italy',coordinatePrecision:'square',coords:[45.487682866666,9.156597354478]},
     {id:'MI25100901',address:'Via Lorenzo Bartolini 42, 20155 Milano MI, Italy',coords:[45.491845405424,9.15265940556]},
@@ -3644,12 +3647,13 @@ if(location.protocol==='file:'){
   const root=document.getElementById('project-page-bici'),strip=document.getElementById('bici-strip'),stage=root.querySelector('.bici-stage'),status=document.getElementById('bici-map-status');
   const reduce=matchMedia('(prefers-reduced-motion: reduce)');
   let selected=0,photoIndex=0,map=null,markers=[],started=false,loading=false,suppressNextClick=false;
-  function parseDate(id){const m=/^[A-Z]+(\d{2})(\d{2})(\d{2})(\d{2})$/.exec(id);if(!m)throw Error('Invalid bicycle filename: '+id);const y=2000+Number(m[1]),mo=Number(m[2]),d=Number(m[3]),date=new Date(Date.UTC(y,mo-1,d));if(date.getUTCMonth()!==mo-1||date.getUTCDate()!==d)throw Error('Invalid date: '+id);return date;}
+  function parseDate(id){const m=/^[A-Z]+(\d{4}|\d{2})(\d{2})(\d{2})(\d{2})$/.exec(id);if(!m)throw Error('Invalid bicycle filename: '+id);const y=m[1].length===4?Number(m[1]):2000+Number(m[1]),mo=Number(m[2]),d=Number(m[3]),date=new Date(Date.UTC(y,mo-1,d));if(date.getUTCFullYear()!==y||date.getUTCMonth()!==mo-1||date.getUTCDate()!==d)throw Error('Invalid date: '+id);return date;}
+  function archiveKey(id){const date=parseDate(id);return id.match(/^[A-Z]+/)[0]+String(date.getUTCFullYear()).slice(-2)+String(date.getUTCMonth()+1).padStart(2,'0')+String(date.getUTCDate()).padStart(2,'0');}
   // Oldest first; same-day records use their stable filename sequence as a tie-breaker.
   records.sort((a,b)=>parseDate(a.id)-parseDate(b.id)||a.id.localeCompare(b.id));
   // One index card per city/date; trailing filename digits identify its photos.
   const groups=new Map();
-  records.forEach(r=>{const key=r.id.slice(0,-2),images=r.images||[r.id];if(groups.has(key)){groups.get(key).images.push(...images);}else{groups.set(key,{...r,archiveId:key,images:[...images]});}});
+  records.forEach(r=>{const key=archiveKey(r.id),images=r.images||[r.id];if(groups.has(key)){groups.get(key).images.push(...images);}else{groups.set(key,{...r,archiveId:key,images:[...images]});}});
   records.splice(0,records.length,...groups.values());
   records.forEach(r=>{r.images=[...new Set(r.images)].sort();});
   records.forEach(r=>{r.images=r.images||[r.id];r.date=parseDate(r.id).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric',timeZone:'UTC'});r.srcs=r.images.map(id=>'https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/bici/'+id+'.jpg');});
