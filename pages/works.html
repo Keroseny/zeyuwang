@@ -3625,19 +3625,22 @@ if(location.protocol==='file:'){
   'use strict';
   // Add records here. The basename is the stable ID: CITY + YYMMDD or YYYYMMDD + sequence.
   // Coordinates are [latitude, longitude]. Address matches checked with ArcGIS World Geocoder.
-  // Only Tavazzano is an exact photographer-provided pin; other pins identify addresses.
+  // Photographer-provided GPS is preserved; other pins identify geocoded addresses.
   const records=[
     {id:'MI24072001',address:'Via Sidney Sonnino 5, 20155 Milano MI, Italy',coords:[45.493473566818,9.148855033775]},
     {id:'MI24083101',address:'Via Giambattista Bodoni 2, 20155 Milano MI, Italy',coords:[45.493131398919,9.150512381061]},
     {id:'MI24090501',address:'Viale Monte Ceneri 63, 20155 Milano MI, Italy',coords:[45.490855803449,9.15308308541]},
+    {id:'MI24100701',address:'Via Fratelli Lumière 6, 20127 Milan, Italy',locationQuery:'45.49158333333333,9.211944444444443',coords:[45.49158333333333,9.211944444444443]},
     {id:'MI2024101201',address:'Piazzale Carlo Archinto 4, 20159 Milan, Italy',coords:[45.487894595362,9.187510185497]},
     {id:'MI2024102401',address:'Via Lorenzo Bartolini 39, 20155 Milan, Italy',coords:[45.491763011316,9.152483888507]},
     {id:'MI2024103001',address:'Via Tavazzano 6, 20155 Milan, Italy',coords:[45.492592987368,9.148370972438]},
     {id:'MI25081801',address:'Piazzale Carlo Maciachini 14, 20159 Milano MI, Italy',coords:[45.498316989047,9.185438011394]},
     {id:'MI25082001',address:'Piazza Firenze, 20149 Milano MI, Italy',locationQuery:'Chiosco ATM Firenze, Piazza Firenze, Milano, Italy',coordinatePrecision:'square',coords:[45.487682866666,9.156597354478]},
+    {id:'MI25090601',address:'Via Giovanni Battista Morgagni, 20129 Milan, Italy',locationQuery:'45.479222222222226,9.212888888888887',coordinatePrecision:'gps',coords:[45.479222222222226,9.212888888888887]},
     {id:'MI25100901',address:'Via Lorenzo Bartolini 42, 20155 Milano MI, Italy',coords:[45.491845405424,9.15265940556]},
     {id:'MI25111501',address:'Via Mecenate 94, 20138 Milano MI, Italy',coords:[45.45018751428,9.251085077064]},
     {id:'MI25111502',address:'Via Mecenate 94, 20138 Milano MI, Italy',coords:[45.45018751428,9.251085077064]},
+    {id:'MI25121501',address:'Viale Monte Ceneri 74, 20155 Milan, Italy',locationQuery:'45.49066666666667,9.152111111111111',coordinatePrecision:'gps',coords:[45.49066666666667,9.152111111111111]},
     {id:'MI26052501',address:'Via 8 Ottobre 2001, 9, 20138 Milano MI, Italy',coordinatePrecision:'street',coords:[45.427098958205,9.251521530374]},
     {id:'MI26061501',address:'Via Varesina 71, 20156 Milan',coords:[45.497818601084,9.144981414613]},
     {id:'MI26062101',address:'Via Guglielmo Marconi 5, 20099 Sesto San Giovanni MI',coords:[45.533506020686,9.230615379862]},
