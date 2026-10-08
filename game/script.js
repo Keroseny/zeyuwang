@@ -462,7 +462,12 @@ function startBombCaptchaCountdown() {
     card.classList.add(success ? 'is-defused' : 'is-exploded');
     status.textContent = success ? 'Bomb defused. You saved yourself.' : expired ? 'Time’s up. The bomb exploded.' : 'Incorrect. The bomb exploded.';
     setTimeout(function() {
-      if (success) { window.location.href = 'https://wangzeyu.vercel.app/'; return; }
+      if (success) {
+        if (window.parent !== window) {
+          window.parent.postMessage({type:'humans-game-complete'}, window.location.origin);
+        } else { window.location.href = 'https://wangzeyu.vercel.app/'; }
+        return;
+      }
       card.classList.add('hidden');
       document.getElementById('loading').classList.remove('hidden');
       setTimeout(function() {

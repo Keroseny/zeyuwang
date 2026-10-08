@@ -2,6 +2,10 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
+      "source": "/humans-vs-machines",
+      "destination": "/pages/humans-vs-machines.html"
+    },
+    {
       "source": "/altera",
       "destination": "/pages/altera.html"
     },
