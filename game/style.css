@@ -1,0 +1,906 @@
+body {
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  margin: 0;
+  position: relative; 
+}
+
+#background-image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('images/menubackground.png') no-repeat center center fixed;
+  background-size: cover;
+  z-index: -1;
+}
+
+.opacity30 {
+  opacity: 0.3;
+}
+
+.content {
+  display: flex;
+  align-items: center; 
+  justify-content: center;
+  height: 100%; 
+}
+
+  .container {
+    text-align: center; 
+    padding: 20px; 
+    border-radius: 10px; 
+  }
+  
+  h1 {
+    font-size: 48px; 
+    margin-bottom: 20px; 
+    color: #ffffff; 
+  }
+  
+  #game-subtitle {
+    font-size: 20px; 
+    text-align: center; 
+    margin-top: 0px; 
+    margin-bottom: 30px; 
+    color: #ffffff; 
+  }
+  
+  .menu {
+    display: flex; 
+    flex-direction: column; 
+  }
+  
+  button {
+    padding: 10px 20px; 
+    font-size: 18px; 
+    cursor: pointer; 
+    margin-bottom: 10px; 
+    color: #ffffff; 
+    background-color: rgba(0, 0, 0, 0.5); 
+  }
+  
+  /* 隐藏元素 */
+  .hidden {
+    display: none;
+  }
+  
+  /* ----------------------------------------------------------加载动画样式 */
+  #loading:not(.hidden) {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    z-index: 100;
+  }
+  .spinner {
+    box-sizing: border-box;
+    width: 36px;
+    height: 36px;
+    border: 3px solid #dfe4e8;
+    border-top-color: #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .recaptcha-container {
+    box-sizing: border-box;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(304px, calc(100vw - 24px));
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid #d3d3d3;
+    border-radius: 3px;
+    background: #fafafa;
+    color: #202020;
+    box-shadow: 0 1px 4px #00000016;
+    font: 14px/1.3 Arial, sans-serif;
+    z-index: 2;
+  }
+  .verification-label { display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left; }
+  .verification-control { position: relative; width: 28px; height: 28px; flex: 0 0 28px; }
+  #not-robot-checkbox { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; z-index: 1; }
+  .verification-mark { position: absolute; inset: 0; box-sizing: border-box; border: 2px solid #b2b2b2; border-radius: 3px; background: #fff; }
+  #not-robot-checkbox:focus-visible + .verification-mark { outline: 2px solid #4285f4; outline-offset: 4px; }
+  [data-state="checking"] .verification-mark { border: 3px solid #dce6ef; border-top-color: #4285f4; border-radius: 50%; background: transparent; animation: spin .85s linear infinite; }
+  [data-state="verified"] .verification-mark { border: 0; background: transparent; }
+  [data-state="verified"] .verification-mark::after { content: ''; position: absolute; left: 7px; top: 0; width: 11px; height: 23px; border: solid #43a047; border-width: 0 3px 3px 0; transform: rotate(42deg); }
+  [data-state="checking"] .verification-label, [data-state="verified"] .verification-label, #not-robot-checkbox:disabled { cursor: default; }
+  .verification-brand { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; gap: 2px; }
+  .verification-name { color: #555; font-size: 10px; }
+  .verification-terms { color: #666; font-size: 8px; white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .spinner, [data-state="checking"] .verification-mark { animation: none; }
+  }
+
+  .hiding {
+    display: none;
+  }
+  
+  /* ----------------------------------------------------------文字captcha样式 */
+  .text-captcha-container {/* test蓝色提示框 */
+    background-color: #3498db;
+    color: white;
+    padding: 10px;
+    padding-top: 15px; 
+    padding-bottom: 15px; 
+    font-size: 18px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+  }
+  
+  .recaptcha-input {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .input-submit-wrapper {
+    display: flex;
+    align-items: stretch;
+    height: 32px;
+    width: 100%;
+  }
+  
+  #text-captcha-input {
+    flex-grow: 1;
+    height: 100%;
+    margin-right: 0;
+    border: 1px solid #ccc;
+    border-right: none;
+    padding: 0 5px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-sizing: border-box;
+  }
+  
+  #submit-text-captcha { /* 标准按钮样式 */
+    background-color: #3498db;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    box-sizing: border-box;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .shake {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-5px);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(5px);
+    }
+  }
+  
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Sliding puzzle, scoped so later challenges retain their original styles. */
+#slider-captcha { width: min(360px, calc(100vw - 40px)); margin: auto; }
+.slider-captcha-wrapper { position: relative; box-sizing: border-box; width: 100%; padding: 5px; border: 1px solid #d3d3d3; border-radius: 2px; background: white; color: #343944; box-shadow: 0 2px 7px #0000001a; text-align: left; }
+.puzzle-challenge-main { padding: 16px 15px; }
+.slider-captcha-control { position: relative; width: 100%; aspect-ratio: 2 / 1; overflow: hidden; border-radius: 5px; user-select: none; }
+#slider-captcha-bg { position: absolute; inset: 0; background-size: 100% 100%; }
+.slider-captcha-piece { position: absolute; top: 36.190476%; left: 0; width: 21.904762%; height: 30.476190%; background-size: 100% 100%; z-index: 1; }
+.puzzle-slider { position: relative; height: 52px; margin-top: 10px; }
+.slider-captcha-track { position: absolute; top: 16px; left: 0; width: 100%; height: 19px; background: #e1e4ea; border-radius: 20px; box-shadow: inset 0 2px 3px #00000012; }
+#slider-captcha-handle { position: absolute; top: 0; left: 0; width: 82px; max-width: 27%; height: 52px; margin: 0; padding: 0; border: 0; border-radius: 40px; color: white; background: #4285df; box-shadow: none; cursor: grab; touch-action: none; user-select: none; }
+#slider-captcha-handle:hover { background: #3578cc; }
+#slider-captcha-handle svg { display: block; width: 26px; height: 26px; margin: auto; fill: none; stroke: currentColor; stroke-width: 3; }
+#slider-captcha-handle:active { cursor: grabbing; }
+#slider-captcha-handle:focus-visible { outline: 2px solid #365de2; outline-offset: 3px; }
+#slider-captcha-handle:disabled { cursor: default; }
+.puzzle-footer { display: flex; align-items: center; gap: 12px; min-height: 36px; margin: 5px -5px -5px; padding: 10px 12px; border-top: 1px solid #ddd; color: #707070; }
+.puzzle-footer svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+#slider-captcha.is-resetting .slider-captcha-piece, #slider-captcha.is-resetting #slider-captcha-handle { transition: left .25s ease-out; }
+#puzzle-loading:not(.hidden) { position: absolute; inset: 0; display: grid; place-items: center; background: #ffffffaa; z-index: 4; border-radius: 0 0 4px 4px; }
+#puzzle-taunt:not(.hidden) { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; height: 100%; margin: 0; padding: 12px; border: 0; border-radius: 0 0 4px 4px; background: #ffffff45; z-index: 5; cursor: pointer; }
+#puzzle-taunt img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+#puzzle-taunt:focus-visible { outline: 3px solid #637ffa; outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { #slider-captcha.shake { animation: none; } #slider-captcha.is-resetting .slider-captcha-piece, #slider-captcha.is-resetting #slider-captcha-handle { transition: none; } }
+
+/* Wally verification card. */
+#image-select-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); margin: auto; padding: 5px; border: 1px solid #d3d3d3; border-radius: 2px; background: #fff; box-shadow: 0 2px 7px #0000001a; text-align: left; }
+.wally-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 16px; background: #4285df; color: white; }
+.wally-heading span { display: block; font: 12px/1.5 Arial, sans-serif; }
+.wally-heading strong { display: block; margin: 1px 0 5px; font: 700 28px/1.1 Arial, sans-serif; }
+#image-select-captcha #wally-img { width: 68px; height: 68px; object-fit: contain; flex-shrink: 0; }
+#image-select-captcha .captcha-images { box-sizing: border-box; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; padding: 0; margin: 5px 0 0; width: 100%; }
+#image-select-captcha .captcha-cell { position: relative; display: block; width: 100%; height: auto; aspect-ratio: 1; margin: 0; padding: 0; border: 0; border-radius: 0; background: #fff; overflow: hidden; touch-action: manipulation; }
+#image-select-captcha .captcha-img { display: block; width: 100%; height: 100%; object-fit: contain; transition: transform .15s ease; }
+#image-select-captcha .captcha-cell[aria-pressed="true"] .captcha-img { transform: scale(.82); }
+#image-select-captcha .captcha-cell[aria-pressed="true"]::after { content: '✓'; position: absolute; top: 3px; left: 3px; width: 21px; height: 21px; border: 2px solid white; border-radius: 50%; background: #267ce5; color: white; text-align: center; font: 700 16px/21px Arial, sans-serif; }
+#image-select-captcha .captcha-cell:focus-visible { outline: 2px solid #267ce5; outline-offset: -2px; }
+#wally-status { margin: 0; color: #c1392b; font: 12px/1.4 Arial, sans-serif; }
+#wally-status:not(:empty) { padding: 8px 10px; }
+.wally-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 5px -5px -5px; padding: 10px 12px; border-top: 1px solid #ddd; }
+#verify-wally { margin: 0; padding: 0 20px; height: 36px; border: 0; border-radius: 2px; background: #4285df; color: white; font: 600 12px/36px Arial, sans-serif; }
+#verify-wally:hover { background: #3578cc; }
+#verify-wally:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+@media (max-height: 600px) { #image-select-captcha { max-height: calc(100svh - 24px); overflow-y: auto; } }
+@media (prefers-reduced-motion: reduce) { #image-select-captcha .captcha-img { transition: none; } }
+/* ----------------------------------------------------------图片选择captcha样式 */
+.image-select-container {
+  width: calc(3 * 160px + 2 * 6px);
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+  top: -6px;
+  left: 0; /* 将元素居中 */
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  margin: 0 auto; /* 在页面中居中显示 */
+}
+
+.captcha-images {
+  display: flex;
+  flex-wrap: wrap; /* 允许它们换行 */
+  justify-content: center; /* 在元素之间添加空间以平均分布它们 */
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 6px;
+  margin: 0 auto; /* 在页面居中 */
+}
+
+.next-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.captcha-cell {/* 图片选择captcha的图片 */
+  width: 160px;
+  height: 160px;
+  margin: 6px 6px 6px 0
+}
+
+.captcha-img {
+  max-width: 100%; 
+  height: auto; 
+}
+
+.next-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 0;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#wally-img {
+  width: 120px;
+  height: 120px;
+}
+
+#youaresobad-img:hover,
+.captcha-img:hover {
+  cursor: pointer;
+}
+
+/* ----------------------------------------------------------旋转captcha样式 */
+.rotate-captcha-container {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.rotate-captcha-bg {
+  width: 410px;  
+  height: 410px; 
+  background-color: white;
+  position: relative;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.rotate-captcha-img {
+  width: 300px;
+  height: 300px;
+}
+
+.rotate-btn, #rotate-next-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%; 
+}
+
+.rotate-btn-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: -20px; 
+}
+
+.next-btn-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+/* Inertial rotation challenge. */
+#rotate-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); padding: 20px; margin: auto; background: white; border: 1px solid #d3d3d3; border-radius: 3px; box-shadow: 0 2px 7px #0000001a; }
+#rotate-captcha .rotate-captcha-container { padding: 0; background: none; color: #202020; text-align: left; font: 600 16px/1.4 Arial, sans-serif; }
+#rotate-captcha .rotate-captcha-bg { width: min(100%, 220px); height: auto; aspect-ratio: 1; margin: 24px auto; border-radius: 50%; overflow: hidden; }
+#rotate-captcha .rotate-captcha-img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; pointer-events: none; }
+#rotation-track { position: relative; height: 52px; border-radius: 30px; background: #f1f2f4; }
+#rotation-handle { position: absolute; top: 2px; left: 0; width: 48px; height: 48px; padding: 0; margin: 0; border: 0; border-radius: 50%; background: #526dff; color: white; cursor: grab; touch-action: none; box-shadow: 0 2px 6px #526dff44; }
+#rotation-handle svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 3; vertical-align: middle; }
+#rotation-handle:active { cursor: grabbing; }
+#rotation-handle.returning { transition: left .22s ease-out; }
+#rotation-handle:focus-visible { outline: 2px solid #245fbd; outline-offset: 3px; }
+#rotation-status { min-height: 32px; margin: 12px 0; color: #c1392b; font: 12px/1.4 Arial, sans-serif; text-align: left; }
+.rotation-footer { display: flex; justify-content: flex-end; }
+#rotate-captcha #rotate-next-btn { display: block; width: auto; height: 36px; padding: 0 20px; margin: 0; border: 0; border-radius: 2px; background: #4285df; color: white; font: 600 12px/36px Arial, sans-serif; }
+#rotate-captcha #rotate-next-btn:hover { background: #3578cc; }
+#rotate-captcha #rotate-next-btn:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { #rotation-handle.returning { transition: none; } }
+
+/* Shared visual language with the Wally header and verification button. */
+#rotate-captcha { padding: 5px; }
+#rotate-captcha .rotate-captcha-container { padding: 18px 16px; background: #4285df; color: white; border-radius: 0; }
+#rotate-captcha .rotate-captcha-container span { display: block; font: 12px/1.5 Arial, sans-serif; }
+#rotate-captcha .rotate-captcha-container strong { display: block; margin: 1px 0 5px; font: 700 28px/1.1 Arial, sans-serif; }
+#rotation-track { margin: 0 15px; }
+#rotation-handle { background: #4285df; box-shadow: 0 2px 6px #4285df44; }
+#rotation-status { margin: 12px 15px; }
+.rotation-footer { justify-content: center; border-top: 1px solid #ddd; margin: 0 -5px -5px; padding: 10px 12px; }
+
+/* ----------------------------------------------------------语音captcha样式 */
+.voice-captcha-container {/* 蓝色提示框 */
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  margin-bottom: 10px; 
+}
+
+.recaptcha-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+#captcha-audio {
+  margin-top: 10px; 
+  margin-bottom: 10px; 
+}
+
+.input-submit-wrapper {
+  display: flex;
+  align-items: stretch;
+  height: 32px;
+  width: 100%;
+  margin-top: 10px; 
+}
+
+#voice-captcha-input {
+  flex-grow: 1;
+  height: 100%;
+  margin-right: 0;
+  border: 1px solid #ccc;
+  border-right: none;
+  padding: 0 5px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  box-sizing: border-box;
+}
+
+#submit-voice-captcha { /* 标准按钮样式 */
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shake {
+  animation: shake 0.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-5px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(5px);
+  }
+}
+
+/* Audio verification: same header and footer as the Wally card. */
+#voice-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); margin: auto; padding: 5px; border: 1px solid #d3d3d3; border-radius: 2px; background: white; box-shadow: 0 2px 7px #0000001a; text-align: left; }
+#voice-captcha .voice-captcha-container { margin: 0; padding: 18px 16px; border-radius: 0; background: #4285df; color: white; }
+#voice-captcha .voice-captcha-container span { display: block; font: 12px/1.5 Arial, sans-serif; }
+#voice-captcha .voice-captcha-container strong { display: block; margin: 1px 0 5px; font: 700 28px/1.1 Arial, sans-serif; }
+#voice-captcha-form { margin: 0; }
+.voice-challenge-main { padding: 20px 15px 16px; }
+#voice-captcha #captcha-audio { display: block; width: 100%; height: 44px; margin: 0 0 16px; }
+#voice-captcha #voice-captcha-input { display: block; box-sizing: border-box; width: 100%; height: 40px; padding: 8px; margin: 0; border: 1px solid #c6c6c6; border-radius: 1px; background: white; color: #111; font: 16px/1.3 Arial, sans-serif; }
+#voice-captcha #voice-captcha-input:focus { border-color: #4285f4; outline: 1px solid #4285f4; outline-offset: -1px; }
+#voice-status { margin: 0; color: #c1392b; font: 12px/1.4 Arial, sans-serif; }
+#voice-status:not(:empty) { margin-top: 10px; }
+#voice-captcha #submit-voice-captcha { display: block; width: auto; height: 36px; margin: 0; padding: 0 20px; border: 0; border-radius: 2px; background: #4285df; color: white; font: 600 12px/36px Arial, sans-serif; }
+#voice-captcha #submit-voice-captcha:hover { background: #3578cc; }
+#voice-captcha #submit-voice-captcha:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+
+/* ----------------------------------------------------------道德难题captcha样式 */
+.trolley-captcha-container {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  text-align: center;
+}
+
+.trolley-captcha-container img {
+  width: 410px; 
+  height: auto; 
+  background-color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+}
+
+.captcha-options {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.trolleyOption {
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 0;
+  box-sizing: border-box;
+  width: 49%; 
+  text-align: center;
+}
+
+.trolleyOption:hover {
+  background-color: #2a80b9; /* 鼠标悬停改变颜色 */
+}
+
+/* ----------------------------------------------------------数学captcha样式 */
+.math-captcha-container {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+#math-captcha-input {
+  flex-grow: 1;
+  height: 100%;
+  margin-right: 0;
+  border: 1px solid #ccc;
+  border-right: none;
+  padding: 0 5px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  box-sizing: border-box;
+}
+
+#submit-math-captcha { 
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#rotation-status { min-height: 0; }
+#rotation-status:empty { display: none; }
+#rotate-captcha .rotation-footer { margin-top: 16px; }
+#math-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); margin: auto; padding: 5px; border: 1px solid #d3d3d3; border-radius: 2px; background: white; box-shadow: 0 2px 7px #0000001a; text-align: left; }
+#math-captcha .math-captcha-container { padding: 18px 16px; border-radius: 0; background: #4285df; color: white; }
+#math-captcha .math-captcha-container span { display: block; font: 12px/1.5 Arial, sans-serif; }
+#math-captcha .math-captcha-container strong { display: block; margin: 1px 0 5px; font: 700 28px/1.1 Arial, sans-serif; }
+#math-captcha-form { margin: 0; }
+.math-challenge-main { padding: 16px 15px; }
+.math-challenge-main img { display: block; width: 100%; height: auto; margin-bottom: 16px; }
+#math-captcha #math-captcha-input { display: block; box-sizing: border-box; width: 100%; height: 40px; padding: 8px; margin: 0; border: 1px solid #c6c6c6; border-radius: 1px; background: white; color: #111; font: 16px/1.3 Arial, sans-serif; }
+#math-captcha #math-captcha-input:focus { border-color: #4285f4; outline: 1px solid #4285f4; outline-offset: -1px; }
+#math-status { margin: 0; color: #c1392b; font: 12px/1.4 Arial, sans-serif; }
+#math-status:not(:empty) { margin-top: 10px; }
+#math-captcha #submit-math-captcha { display: block; width: auto; height: 36px; margin: 0; padding: 0 20px; border: 0; border-radius: 2px; background: #4285df; color: white; font: 600 12px/36px Arial, sans-serif; }
+#math-captcha #submit-math-captcha:hover { background: #3578cc; }
+#math-captcha #submit-math-captcha:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+
+/* ----------------------------------------------------------炸弹captcha样式 */
+.bomb-captcha-container {
+  background-color: #3498db;
+  color: white;
+  padding: 10px;
+  padding-top: 15px; 
+  padding-bottom: 15px; 
+  font-size: 18px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  text-align: center;
+}
+
+.bomb-wrapper img {
+  width: 600px; 
+  height: auto; 
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 0px;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.bombOption {
+  padding: 5px 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 23%;
+  text-align: center;
+  min-height: 40px;
+}
+
+#red-wire {
+  background-color: red;
+  color: white;
+}
+
+#yellow-wire {
+  background-color: rgb(255, 204, 0);
+  color: white;
+}
+
+#blue-wire {
+  background-color: blue;
+  color: white;
+}
+
+#green-wire {
+  background-color: green;
+  color: white;
+}
+
+.countdown {
+  text-align: center;
+  color: red;
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+/* Start menu only; removed as soon as the player starts. */
+body.menu-screen {
+  min-height: 100svh;
+  height: auto;
+  background-color: #101419;
+  isolation: isolate;
+}
+.menu-screen #background-image {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+}
+.menu-screen::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(8,12,18,.22), rgba(8,12,18,.72));
+}
+.menu-screen .content {
+  width: 100%;
+  min-height: 100svh;
+  height: auto;
+}
+.menu-screen .container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1000px;
+  padding: 48px 24px;
+}
+.menu-screen #game-title {
+  margin: 0 0 16px;
+  font-size: clamp(36px, 7vw, 76px);
+  line-height: 1.04;
+  font-weight: 700;
+  letter-spacing: -.045em;
+  text-wrap: balance;
+  text-shadow: 0 3px 28px rgba(0,0,0,.3);
+}
+.menu-screen #game-subtitle {
+  margin: 0 0 clamp(40px, 7vh, 68px);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+}
+.menu-screen #menu {
+  width: min(100%, 280px);
+  margin: 0 auto;
+  gap: 8px;
+}
+.menu-screen #menu button {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 52px;
+  margin: 0;
+  padding: 16px 24px;
+  border: 0;
+  border-radius: 2px;
+  background: rgba(10,15,22,.35);
+  color: #f5f7fa;
+  font: 600 14px/1.3 Arial, sans-serif;
+  letter-spacing: .2em;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background-color .2s, color .2s, transform .2s;
+}
+.menu-screen #menu button:not(:disabled):hover,
+.menu-screen #menu button:not(:disabled):focus-visible {
+  background: rgba(52,152,219,.75);
+  transform: translateX(4px);
+}
+.menu-screen #menu button:not(:disabled):focus-visible {
+  outline: 2px solid #9bd7ff;
+  outline-offset: 4px;
+}
+.menu-screen #menu button:not(:disabled):active {
+  transform: translateX(4px) scale(.98);
+}
+.menu-screen #menu .no-save {
+  color: #777e88;
+  background: rgba(10,15,22,.2);
+}
+.menu-screen #menu button:disabled { cursor: default; }
+
+/* Text challenge: original puzzle image inside a compact verification panel. */
+.verification-logo { display: block; }
+#text-captcha {
+  box-sizing: border-box;
+  width: min(360px, calc(100vw - 40px));
+  padding: 5px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #d3d3d3;
+  border-radius: 2px;
+  box-shadow: 0 2px 7px #0000001a;
+  color: #202020;
+  text-align: left;
+}
+#text-captcha-form { margin: 0; }
+.text-challenge-main { padding: 16px 15px; }
+#text-captcha #text-captcha-input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 8px;
+  border: 1px solid #c6c6c6;
+  border-radius: 1px;
+  background: #fff;
+  color: #111;
+  font: 16px/1.3 Arial, sans-serif;
+}
+#text-captcha #text-captcha-input:focus { border-color: #4285f4; outline: 1px solid #4285f4; outline-offset: -1px; }
+.text-challenge-main img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 0 16px;
+  object-fit: contain;
+}
+.text-challenge-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 5px -5px -5px;
+  padding: 10px 12px;
+  border-top: 1px solid #ddd;
+}
+.text-challenge-tools { display: flex; align-items: center; gap: 12px; color: #707070; }
+.challenge-tool, .challenge-tool svg { display: block; width: 22px; height: 22px; }
+.challenge-tool { cursor: default; }
+#text-captcha #submit-text-captcha {
+  box-sizing: border-box;
+  display: block;
+  flex: 0 0 auto;
+  width: auto;
+  height: 36px;
+  margin: 0;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 2px;
+  background: #4285df;
+  color: #fff;
+  font: 600 12px/36px Arial, sans-serif;
+  text-align: center;
+  cursor: pointer;
+}
+#text-captcha #submit-text-captcha:hover { background: #3578cc; }
+#text-captcha #submit-text-captcha:active { background: #2c68b5; }
+#text-captcha #submit-text-captcha:focus-visible { outline: 2px solid #245fbd; outline-offset: 3px; }
+/* Two-tier instructions: content determines the blue panel height. */
+.wally-heading,
+#rotate-captcha .rotate-captcha-container,
+#voice-captcha .voice-captcha-container,
+#math-captcha .math-captcha-container {
+  padding: 14px 16px;
+  height: auto;
+  min-height: 0;
+}
+.wally-heading strong,
+#rotate-captcha .rotate-captcha-container strong,
+#voice-captcha .voice-captcha-container strong,
+#math-captcha .math-captcha-container strong {
+  display: block;
+  margin: 0 0 6px;
+  font: 600 18px/1.3 Arial, sans-serif;
+}
+.wally-heading span,
+#rotate-captcha .rotate-captcha-container span,
+#voice-captcha .voice-captcha-container span,
+#math-captcha .math-captcha-container span {
+  display: block;
+  font: 400 12px/1.5 Arial, sans-serif;
+}
+#image-select-captcha #wally-img { width: 56px; height: 56px; }
+.challenge-error { margin: 0; color: #c1392b; font: 12px/1.4 Arial, sans-serif; }
+.challenge-error:empty, #trolley-status:empty { display: none; }
+.challenge-error:not(:empty) { padding: 8px 15px; }
+#trolley-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); margin: auto; }
+#trolley-captcha .trolley-captcha-container { padding: 5px; border: 1px solid #d3d3d3; border-radius: 2px; background: white; color: #202020; text-align: left; box-shadow: 0 2px 7px #0000001a; }
+.trolley-main { padding: 16px 15px 0; }
+#trolley-captcha .trolley-main img { width: 100%; height: auto; padding: 0; margin: 0; }
+#trolley-captcha .trolley-description { margin: 14px 0 16px; font: 13px/1.5 Arial, sans-serif; }
+#trolley-status { margin: 0; padding: 0 15px 14px; font: 12px/1.5 Arial, sans-serif; }
+#trolley-status.is-error { color: #c1392b; }
+#trolley-status.is-success { color: #238449; }
+#trolley-status.is-checking { color: #666; }
+#trolley-status.is-checking::before { content: ''; display: inline-block; width: 12px; height: 12px; margin-right: 7px; border: 2px solid #ddd; border-top-color: #4285df; border-radius: 50%; vertical-align: -3px; animation: trolley-spin .8s linear infinite; }
+@keyframes trolley-spin { to { transform: rotate(360deg); } }
+#trolley-captcha .captcha-options { gap: 10px; margin: 5px -5px -5px; padding: 10px 12px; border-top: 1px solid #ddd; }
+#trolley-captcha .trolleyOption { flex: 1; width: auto; margin: 0; height: 36px; padding: 0 8px; border: 0; border-radius: 2px; background: #4285df; color: white; font: 600 12px/36px Arial, sans-serif; }
+#trolley-captcha .trolleyOption:hover { background: #3578cc; }
+#trolley-captcha .trolleyOption:disabled { opacity: .55; cursor: wait; }
+#trolley-captcha .trolleyOption { min-width: 0; height: auto; min-height: 36px; padding: 9px 6px; font-size: 11px; line-height: 1.4; }
+#trolley-captcha .trolleyOption:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+#bomb-captcha { box-sizing: border-box; width: min(360px, calc(100vw - 40px)); padding: 5px; margin: auto; background: white; border: 1px solid #d3d3d3; border-radius: 2px; box-shadow: 0 2px 7px #0000001a; }
+#bomb-captcha .bomb-wrapper { position: relative; margin: 16px 15px 0; overflow: hidden; }
+#bomb-captcha .bomb-wrapper img { display: block; width: 100%; height: auto; margin: 0; }
+#bomb-captcha .bomb-wrapper::after { content: ''; position: absolute; inset: 0; background: #e52828; opacity: 0; pointer-events: none; }
+#bomb-captcha .wally-heading { text-align: left; }
+#bomb-captcha .wally-heading > div { width: 100%; }
+#bomb-captcha.is-urgent .bomb-wrapper::after { animation: bomb-alert .5s ease-in-out infinite; }
+#bomb-captcha.is-exploded .bomb-wrapper::after { animation: bomb-alert .4s steps(2, end) infinite; }
+#bomb-captcha.is-defused .bomb-wrapper::after { background: #20b665; opacity: .45; }
+@keyframes bomb-alert { 0%, 100% { opacity: .1; } 50% { opacity: .55; } }
+#bomb-captcha #countdown { display: flex; justify-content: center; gap: 4px; margin: 16px 0; color: #353a43; }
+#countdown svg { height: 42px; width: 23px; fill: currentColor; }
+#countdown svg.clock-colon { width: 9px; }
+#bomb-captcha.is-urgent #countdown, #bomb-captcha.is-exploded #countdown, #bomb-captcha.is-exploded #bomb-status { color: #c1392b; }
+#bomb-captcha.is-defused #countdown, #bomb-captcha.is-defused #bomb-status { color: #238449; }
+#bomb-status { margin: 0; padding: 0 15px 14px; text-align: center; font: 12px/1.5 Arial, sans-serif; }
+#bomb-status:empty { display: none; }
+#bomb-captcha .button-wrapper { gap: 7px; margin: 5px -5px -5px; padding: 10px 12px; border-top: 1px solid #ddd; }
+#bomb-captcha .bombOption { flex: 1; min-width: 0; width: auto; min-height: 36px; margin: 0; padding: 0 3px; border: 0; border-radius: 2px; font: 600 11px/36px Arial, sans-serif; }
+#bomb-captcha #red-wire { background: #c1392b; }
+#bomb-captcha #yellow-wire { background: #f2ca42; color: #332c12; }
+#bomb-captcha #blue-wire { background: #4285df; }
+#bomb-captcha #green-wire { background: #238449; }
+#bomb-captcha .bombOption:hover { filter: brightness(.9); }
+#bomb-captcha .bombOption:disabled { cursor: default; opacity: .65; }
+#bomb-captcha .bombOption:focus-visible { outline: 2px solid #245fbd; outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) {
+  #bomb-captcha.is-urgent .bomb-wrapper::after, #bomb-captcha.is-exploded .bomb-wrapper::after { animation: none; opacity: .4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-screen #menu button { transition: none; }
+}
