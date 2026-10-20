@@ -3847,22 +3847,24 @@ if(location.protocol==='file:'){
   var page = document.getElementById('project-page-humans');
   var frame = document.getElementById('humans-game');
   var gameURL = new URL('/game/game.html', location.protocol === 'file:' ? 'https://wangzeyu.vercel.app/' : location.href);
+  gameURL.searchParams.set('v', '20261020-full-canvas');
   var gate = document.getElementById('humans-game-gate');
   var launch = document.getElementById('humans-game-launch');
   var stage = frame.parentElement;
   function sizeGameViewport() {
     var available = stage.clientWidth;
     if (!available) return;
-    var viewportWidth = Math.max(400, available);
-    var scale = Math.min(1, available / viewportWidth);
-    var visibleHeight = stage.clientHeight;
-    // Set both the element and CSS sizes: Safari must use this actual viewport.
+    // A stable, complete canvas: scale width AND height together.
+    var viewportWidth = 800;
+    var viewportHeight = 600;
+    var scale = available / viewportWidth;
+    if (stage.classList.contains('is-playing')) stage.style.height = (viewportHeight * scale) + 'px';
     frame.setAttribute('width', String(viewportWidth));
-    frame.setAttribute('height', String(Math.ceil(visibleHeight / scale)));
+    frame.setAttribute('height', String(viewportHeight));
     frame.style.width = viewportWidth + 'px';
     frame.style.minWidth = viewportWidth + 'px';
     frame.style.maxWidth = viewportWidth + 'px';
-    frame.style.height = Math.ceil(visibleHeight / scale) + 'px';
+    frame.style.height = viewportHeight + 'px';
     frame.style.transform = 'scale(' + scale + ')';
   }
   if (window.ResizeObserver) new ResizeObserver(sizeGameViewport).observe(stage);
@@ -3872,6 +3874,7 @@ if(location.protocol==='file:'){
   function resetGame() {
     frame.removeAttribute('src');
     stage.classList.remove('is-playing');
+    stage.style.removeProperty('height');
     frame.hidden = true;
     gate.hidden = false;
   }
