@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
 <meta charset="UTF-8">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
@@ -1358,6 +1359,13 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 
 /* Scale a complete game viewport instead of cropping its sides on narrow embeds. */
 #humans-game {position:absolute;top:0;left:0;min-width:0;max-width:none;transform-origin:top left;}
+
+
+/* Keep the complete landscape cover visible before launching the game. */
+#project-page-humans .game-stage:not(.is-playing) {height:auto;aspect-ratio:16 / 9;}
+#project-page-humans .game-gate::before {inset:0;background-size:contain;background-repeat:no-repeat;}
+/* Suppress automatic iOS event/address link styling in experience text. */
+.work-company a[x-apple-data-detectors], .work-loc a[x-apple-data-detectors] {color:inherit !important;text-decoration:none !important;border:0 !important;pointer-events:none !important;}
 
 </style>
 </head>
@@ -3863,11 +3871,13 @@ if(location.protocol==='file:'){
 
   function resetGame() {
     frame.removeAttribute('src');
+    stage.classList.remove('is-playing');
     frame.hidden = true;
     gate.hidden = false;
   }
   launch.addEventListener('click', function() {
     if (page.style.display !== 'block' || frame.hasAttribute('src')) return;
+    stage.classList.add('is-playing');
     frame.hidden = false;
     sizeGameViewport();
     frame.src = gameURL.href;

@@ -926,3 +926,7 @@ body:not(.menu-screen) .container {padding:0;}
  .wally-heading > div {min-width:0;}
  .wally-heading .captcha-title {overflow-wrap:break-word;}
 }
+
+/* Preserve both edges of the background artwork on portrait screens. */
+#background-image {background-size:contain;background-attachment:scroll;background-repeat:no-repeat;}
+body {background-color:#101419;}
