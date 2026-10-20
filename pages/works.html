@@ -1355,6 +1355,10 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
  #project-page-humans .game-stage, #humans-game {height:760px;}
 }
 
+
+/* Scale a complete game viewport instead of cropping its sides on narrow embeds. */
+#humans-game {position:absolute;top:0;left:0;min-width:0;max-width:none;transform-origin:top left;}
+
 </style>
 </head>
 <body>
@@ -1693,6 +1697,11 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
     <!-- Interpreter & Event group -->
     <div class="works-collapse" id="works-collapse-interpreter" hidden>
       <div class="work-list">
+        <div class="work-item">
+          <div class="work-period">Oct. 2026</div>
+          <div><div class="work-role">Interpreter &amp; Backstage AV Assistant</div><div class="work-company">2026 Midea MBT APEX Club Summit</div><div class="work-loc">Milan, Italy</div></div>
+          <span class="work-tag">Interpreter &amp; Event</span>
+        </div>
         <div class="work-item">
           <div class="work-period">Sep. 2026</div>
           <div><div class="work-role">Interpreter &amp; Backstage AV Assistant</div><div class="work-company">2026 China Yulin Cashmere Milan Promotion Conference, Milan Fashion Week</div><div class="work-loc">Milan, Italy</div></div>
@@ -3832,6 +3841,26 @@ if(location.protocol==='file:'){
   var gameURL = new URL('/game/game.html', location.protocol === 'file:' ? 'https://wangzeyu.vercel.app/' : location.href);
   var gate = document.getElementById('humans-game-gate');
   var launch = document.getElementById('humans-game-launch');
+  var stage = frame.parentElement;
+  function sizeGameViewport() {
+    var available = stage.clientWidth;
+    if (!available) return;
+    var viewportWidth = Math.max(400, available);
+    var scale = Math.min(1, available / viewportWidth);
+    var visibleHeight = stage.clientHeight;
+    // Set both the element and CSS sizes: Safari must use this actual viewport.
+    frame.setAttribute('width', String(viewportWidth));
+    frame.setAttribute('height', String(Math.ceil(visibleHeight / scale)));
+    frame.style.width = viewportWidth + 'px';
+    frame.style.minWidth = viewportWidth + 'px';
+    frame.style.maxWidth = viewportWidth + 'px';
+    frame.style.height = Math.ceil(visibleHeight / scale) + 'px';
+    frame.style.transform = 'scale(' + scale + ')';
+  }
+  if (window.ResizeObserver) new ResizeObserver(sizeGameViewport).observe(stage);
+  window.addEventListener('resize', sizeGameViewport);
+  window.addEventListener('pageshow', sizeGameViewport);
+
   function resetGame() {
     frame.removeAttribute('src');
     frame.hidden = true;
@@ -3840,6 +3869,7 @@ if(location.protocol==='file:'){
   launch.addEventListener('click', function() {
     if (page.style.display !== 'block' || frame.hasAttribute('src')) return;
     frame.hidden = false;
+    sizeGameViewport();
     frame.src = gameURL.href;
     gate.hidden = true;
     frame.focus();
