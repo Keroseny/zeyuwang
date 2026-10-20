@@ -904,3 +904,25 @@ body.menu-screen {
 @media (prefers-reduced-motion: reduce) {
   .menu-screen #menu button { transition: none; }
 }
+
+/* Responsive containment for standalone and embedded play. */
+html {width:100%;min-width:0;overflow-x:hidden;}
+body {box-sizing:border-box;width:100%;min-width:0;min-height:100svh;height:auto;overflow-x:hidden;}
+.content {box-sizing:border-box;width:100%;min-width:0;min-height:100svh;height:auto;}
+.container {box-sizing:border-box;min-width:0;width:100%;max-width:100%;padding:20px;}
+body:not(.menu-screen) .content {padding:12px;}
+body:not(.menu-screen) .container {padding:0;}
+#text-captcha, #slider-captcha, #image-select-captcha, #rotate-captcha,
+#voice-captcha, #math-captcha, #trolley-captcha, #bomb-captcha {
+ box-sizing:border-box;width:min(360px,100%);max-width:100%;min-width:0;
+}
+.container img, .container audio {max-width:100%;}
+#text-captcha-input, #voice-captcha-input, #math-captcha-input {min-width:0;}
+@media(max-width:600px) {
+ .menu-screen .container {padding:32px 16px;}
+ .menu-screen #game-title {font-size:clamp(26px,8.5vw,44px);overflow-wrap:break-word;}
+ .menu-screen #game-subtitle {font-size:10px;letter-spacing:.13em;}
+ .wally-heading {min-width:0;}
+ .wally-heading > div {min-width:0;}
+ .wally-heading .captcha-title {overflow-wrap:break-word;}
+}

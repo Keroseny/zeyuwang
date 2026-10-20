@@ -1346,6 +1346,15 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 #project-page-humans .captcha-reveal.is-visible {opacity:1;transform:none;}
 @media(prefers-reduced-motion:reduce) {#project-page-humans .captcha-reveal {opacity:1;transform:none;transition:none;}}
 
+
+/* iOS iframes must be allowed to shrink to the gallery's available width. */
+#project-page-humans .game-stage {min-width:0;max-width:100%;}
+#humans-game {box-sizing:border-box;min-width:100%;max-width:100%;width:1px;}
+@media(max-width:600px) {
+ #project-page-humans .game-gallery {margin-left:0;margin-right:0;padding-left:.75rem;padding-right:.75rem;}
+ #project-page-humans .game-stage, #humans-game {height:760px;}
+}
+
 </style>
 </head>
 <body>
@@ -2994,16 +3003,21 @@ if(location.protocol==='file:'){
   var gl = canvas.getContext('webgl',{antialias:true,alpha:false}) || canvas.getContext('experimental-webgl',{antialias:true,alpha:false});
   if(!gl) return;
 
-  var W, H;
+  var W, H, renderPixelRatio = 1;
   function resize(){
-    var scale=Math.min(1,1600/window.innerWidth);
-    W = canvas.width = Math.round(window.innerWidth*scale);
-    H = canvas.height = Math.round(window.innerHeight*scale);
+    var cssWidth = Math.max(1, canvas.clientWidth || window.innerWidth);
+    var cssHeight = Math.max(1, canvas.clientHeight || window.innerHeight);
+    // Keep CSS-space particle size stable across initial load, resize and restore.
+    renderPixelRatio = Math.min(window.devicePixelRatio || 1, 2, 1600 / cssWidth);
+    W = canvas.width = Math.round(cssWidth * renderPixelRatio);
+    H = canvas.height = Math.round(cssHeight * renderPixelRatio);
     gl.viewport(0,0,W,H);
     if(typeof syncLoop==='function' && typeof raf==='number')refreshScene();
   }
   resize();
   window.addEventListener('resize', resize);
+  window.addEventListener('pageshow', resize);
+  if(window.visualViewport) window.visualViewport.addEventListener('resize', resize);
 
   // ── Shaders ───────────────────────────────────────────────
   var VS = [
@@ -3016,6 +3030,8 @@ if(location.protocol==='file:'){
     'uniform float uTime;',
     'uniform float uBreath;',
     'uniform float uFocusDepth;',
+    'uniform float uRenderPixelRatio;',
+    'uniform float uMobile;',
     'varying float vAlpha;',
     'varying float vBlur;',
     'void main(){',
@@ -3028,6 +3044,7 @@ if(location.protocol==='file:'){
     '  if(aFreed > 0.0) p = aDrift;',
     '  vec4 mv = uMVP * vec4(p, 1.0);',
     '  gl_PointSize = max(2.0, aSize * (400.0 / -mv.z));',
+    '  if(uMobile > 0.5) gl_PointSize = clamp(aSize * 0.23, 0.75, 1.15);',
     '  vBlur = 0.0;',
     '  if(aFreed > 0.0){',
     '    float depth = max(0.2, mv.w);',
@@ -3037,6 +3054,7 @@ if(location.protocol==='file:'){
     '    gl_PointSize = clamp(2.0*uFocusDepth/depth, 1.2, 3.4) + nearBlur*7.0 + farBlur*3.5;',
     '    vAlpha *= (1.0-nearBlur*0.65)*(1.0-farBlur*0.60);',
     '  }',
+    '  gl_PointSize *= uRenderPixelRatio;',
     '  gl_Position = mv;',
     '}'
   ].join('\n');
@@ -3075,6 +3093,8 @@ if(location.protocol==='file:'){
   var uTime  = gl.getUniformLocation(prog,'uTime');
   var uBreath= gl.getUniformLocation(prog,'uBreath');
   var uFocusDepth=gl.getUniformLocation(prog,'uFocusDepth');
+  var uRenderPixelRatio=gl.getUniformLocation(prog,'uRenderPixelRatio');
+  var uMobile=gl.getUniformLocation(prog,'uMobile');
 
   // ── Parse OBJ ────────────────────────────────────────────
   var N = 0;
@@ -3436,6 +3456,8 @@ if(location.protocol==='file:'){
     gl.uniform1f(uTime,t);
     gl.uniform1f(uBreath,breath);
     gl.uniform1f(uFocusDepth,-currentZ);
+    gl.uniform1f(uRenderPixelRatio,renderPixelRatio);
+    gl.uniform1f(uMobile,window.innerWidth <= 900 ? 1 : 0);
 
     if(N>0){
       gl.bindBuffer(gl.ARRAY_BUFFER,bufOrig);  gl.vertexAttribPointer(aOrig, 3,gl.FLOAT,false,0,0);
