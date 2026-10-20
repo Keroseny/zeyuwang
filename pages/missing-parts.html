@@ -1362,8 +1362,10 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 
 
 /* Keep the complete landscape cover visible before launching the game. */
-#project-page-humans .game-stage:not(.is-playing) {height:auto;aspect-ratio:16 / 9;}
-#project-page-humans .game-gate::before {inset:0;background-size:contain;background-repeat:no-repeat;}
+@media(max-width:600px) {
+ #project-page-humans .game-stage:not(.is-playing) {height:auto;aspect-ratio:16 / 9;}
+ #project-page-humans .game-gate::before {inset:0;background-size:contain;background-repeat:no-repeat;}
+}
 /* Suppress automatic iOS event/address link styling in experience text. */
 .work-company a[x-apple-data-detectors], .work-loc a[x-apple-data-detectors] {color:inherit !important;text-decoration:none !important;border:0 !important;pointer-events:none !important;}
 
@@ -3847,18 +3849,22 @@ if(location.protocol==='file:'){
   var page = document.getElementById('project-page-humans');
   var frame = document.getElementById('humans-game');
   var gameURL = new URL('/game/game.html', location.protocol === 'file:' ? 'https://wangzeyu.vercel.app/' : location.href);
-  gameURL.searchParams.set('v', '20261020-full-canvas');
+  gameURL.searchParams.set('v', '20261020-mobile-only');
   var gate = document.getElementById('humans-game-gate');
   var launch = document.getElementById('humans-game-launch');
   var stage = frame.parentElement;
   function sizeGameViewport() {
     var available = stage.clientWidth;
     if (!available) return;
-    // A stable, complete canvas: scale width AND height together.
-    var viewportWidth = 800;
-    var viewportHeight = 600;
-    var scale = available / viewportWidth;
+    // Only phones use the scaled canvas; desktop retains native-sized controls.
+    var mobile = window.matchMedia('(max-width:600px)').matches;
+    var viewportWidth = mobile ? 800 : available;
+    var viewportHeight = mobile ? 600 : 800;
+    var scale = mobile ? available / viewportWidth : 1;
     if (stage.classList.contains('is-playing')) stage.style.height = (viewportHeight * scale) + 'px';
+    try {
+      if (frame.contentDocument) frame.contentDocument.documentElement.classList.toggle('mobile-game-embed', mobile);
+    } catch (error) { /* The game is normally served from this same origin. */ }
     frame.setAttribute('width', String(viewportWidth));
     frame.setAttribute('height', String(viewportHeight));
     frame.style.width = viewportWidth + 'px';
@@ -3867,6 +3873,7 @@ if(location.protocol==='file:'){
     frame.style.height = viewportHeight + 'px';
     frame.style.transform = 'scale(' + scale + ')';
   }
+  frame.addEventListener('load', sizeGameViewport);
   if (window.ResizeObserver) new ResizeObserver(sizeGameViewport).observe(stage);
   window.addEventListener('resize', sizeGameViewport);
   window.addEventListener('pageshow', sizeGameViewport);
