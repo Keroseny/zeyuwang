@@ -1313,6 +1313,39 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 #project-page-humans [hidden] { display:none !important; }
 #humans-game { display:block; width:100%; height:800px; border:0; background:#101419; }
 @media(max-width:600px) { #humans-game, #project-page-humans .game-stage { height:760px; } }
+
+/* Project research follows the existing typography and divider language. */
+#project-page-humans .captcha-background {margin-top:1.2rem;}
+#project-page-humans .captcha-research {margin-top:2rem;border-top:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);}
+#project-page-humans .captcha-research summary {display:flex;align-items:center;justify-content:space-between;gap:1rem;list-style:none;cursor:pointer;padding:1.25rem 0;font-size:.85rem;font-weight:600;letter-spacing:.02em;color:rgba(255,255,255,.85);}
+#project-page-humans .captcha-research summary::-webkit-details-marker {display:none;}
+#project-page-humans .captcha-research summary::after {content:'+';font-size:1.3rem;font-weight:400;}
+#project-page-humans .captcha-research[open] summary::after {content:'−';}
+#project-page-humans .captcha-research summary:focus-visible {outline:2px solid currentColor;outline-offset:4px;}
+#project-page-humans .captcha-research-content {padding:.5rem 0 2rem;}
+#project-page-humans .captcha-research figcaption {font-size:.75rem;line-height:1.65;color:rgba(255,255,255,.45);}
+#project-page-humans .captcha-research-row {display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;margin-top:2.5rem;}
+#project-page-humans .captcha-research-row:first-of-type {margin-top:0;}
+#project-page-humans .captcha-research h3 {font-size:1rem;line-height:1.5;font-weight:600;color:rgba(255,255,255,.85);margin:0 0 .8rem;}
+#project-page-humans .captcha-research figure {margin:0;min-width:0;}
+#project-page-humans .captcha-research img {display:block;width:100%;height:auto;}
+#project-page-humans .captcha-research figcaption {margin-top:.65rem;}
+#project-page-humans .captcha-research-media {display:grid;gap:1.4rem;}
+#project-page-humans .captcha-research-pair {display:grid;grid-template-columns:1.5fr 1fr;gap:1rem;align-items:start;}
+#project-page-humans .captcha-references {padding-top:2rem;}
+#project-page-humans .captcha-references h2 {font-size:.85rem;font-weight:600;letter-spacing:.02em;margin:0 0 1.2rem;color:rgba(255,255,255,.85);}
+#project-page-humans .captcha-references ul {list-style:none;padding:0;margin:0;display:grid;gap:.65rem;}
+#project-page-humans .captcha-references a, #project-page-humans .captcha-research a {color:inherit;text-decoration:underline;text-decoration-color:rgba(255,255,255,.25);text-underline-offset:4px;}
+#project-page-humans .captcha-references a:hover, #project-page-humans .captcha-research a:hover {color:#fff;text-decoration-color:currentColor;}
+@media(max-width:700px) {#project-page-humans .captcha-research-row {grid-template-columns:minmax(0,1fr);gap:1.25rem;}}
+
+
+/* Research sections must not inherit the home page section padding. */
+#project-page-humans .captcha-research-row {padding:0;min-height:0;}
+#project-page-humans .captcha-reveal {opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.4,0,.2,1),transform .9s cubic-bezier(.4,0,.2,1);}
+#project-page-humans .captcha-reveal.is-visible {opacity:1;transform:none;}
+@media(prefers-reduced-motion:reduce) {#project-page-humans .captcha-reveal {opacity:1;transform:none;transition:none;}}
+
 </style>
 </head>
 <body>
@@ -1467,8 +1500,8 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
         <p class="bio-text slide-row" style="--row-delay:.19s;">Zeyu Wang (b. 1997, Taiyuan, China) is a visual and interaction designer based in Milan, Italy.</p>
         <p class="bio-text slide-row" style="--row-delay:.26s;">Working across visual art, new media, and live performance, his practice is rooted in spatial aesthetics, with a particular focus on liminal conditions and perceptual thresholds. Through generative systems, machine learning, and interactive visual environments, he investigates how technology mediates spatial experience and destabilizes the boundaries between observation, presence, and interpretation. His interdisciplinary approach informs the visual direction of collaborative projects and immersive spatial interventions.</p>
         <div class="cv-btns slide-row" style="--row-delay:.40s;">
-          <a href="https://drive.google.com/file/d/1e8aiBJkPIJ-4LBYpkR9dCBkaBgh0MrHA/view?usp=drivesdk" target="_blank" rel="noopener" class="cv-btn">view cv. (en)</a>
-          <a href="https://drive.google.com/file/d/1eicawKqJgqha-mxE1_YaGgGSriqjGRwg/view?usp=drivesdk" target="_blank" rel="noopener" class="cv-btn">view cv. (中文)</a>
+          <a href="https://drive.google.com/file/d/1zgbXHhjkjT26eOpqQCn5GrhiebYHVIfF/view?usp=drivesdk" target="_blank" rel="noopener" class="cv-btn">view cv. (en)</a>
+          <a href="https://drive.google.com/file/d/1UgrKWhRnjUP_5xNEZOlfjA7oggo36eBH/view?usp=drivesdk" target="_blank" rel="noopener" class="cv-btn">view cv. (中文)</a>
         </div>
       </div>
       <div class="bio-right slide-row" style="--row-delay:.47s;">
@@ -2041,8 +2074,28 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
     <div class="app-project-title">Humans vs. Machines</div>
     <dl class="project-facts"><div class="project-facts-basics"><div class="project-fact"><dt>Type</dt><dd>Web game · Course project</dd></div><div class="project-fact"><dt>Year</dt><dd>2023</dd></div><div class="project-fact"><dt>Location</dt><dd>Milan, Italy</dd></div></div><div class="project-facts-basics" style="margin-top:1.25rem;"><div class="project-fact"><dt>Institution</dt><dd>Accademia di Belle Arti di Brera</dd></div><div class="project-fact"><dt>Course</dt><dd>Progettazione Multimediale</dd></div><div class="project-fact"><dt>Professor</dt><dd>Loretta Borrelli</dd></div></div></dl>
     <p class="app-project-desc">I'm not a robot - you are a robot</p>
+    <p class="app-project-desc captcha-background">CAPTCHA tests are designed to distinguish humans from automated programs, placing people in the position of being judged by a machine. When deciphering text, selecting images and solving puzzles becomes increasingly confusing, a contradiction emerges: an interface intended to recognise humans can also become a barrier that keeps them out.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Humans vs. Machines is an interactive web game that turns CAPTCHA verification into an increasingly absurd obstacle course. Players navigate a series of CAPTCHA challenges involving image recognition, puzzles and transcription to prove they are human. The game they expect to access never arrives: the verification process is the game itself.</p>
     <p class="app-project-desc" style="margin-top:1.2rem;">Through frustration, humour and shifting rules, the project explores who holds control in interactions between humans and machines. What does it mean to prove our humanity when the machine sets the terms?</p>
+
+    <details class="captcha-research">
+      <summary>Research &amp; context</summary>
+      <div class="captcha-research-content">
+        <section class="captcha-research-row">
+          <div><h3>When verification becomes an obstacle</h3><p class="app-project-desc">CAPTCHA stands for Completely Automated Public Turing test to tell Computers and Humans Apart. Often described as a reverse Turing test, it asks a machine to judge whether a user is human. Distorted text, image selection and interactive puzzles turn this distinction into a task the user must perform.</p><p class="app-project-desc" style="margin-top:1.2rem;">The examples collected for this project reveal how uncertain that task can become. What counts as a smiling dog? Can a cloud be a horse? Social media posts turn failed verification into a shared joke, exposing the gap between a system's instructions and human interpretation.</p></div>
+          <div class="captcha-research-media"><figure><img src="https://wangzeyu.vercel.app/images/humans-vs-machines/research/captcha-confusion.png" width="749" height="712" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/humans-vs-machines/research/captcha-confusion.png';" alt="Social media post showing a difficult image-selection CAPTCHA" loading="lazy" decoding="async"><figcaption>A user questions a CAPTCHA they cannot interpret. Screenshot from the original project research; post by Jamie Sefton.</figcaption></figure><div class="captcha-research-pair"><figure><img src="https://wangzeyu.vercel.app/images/humans-vs-machines/research/smiling-dog.png" width="905" height="475" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/humans-vs-machines/research/smiling-dog.png';" alt="CAPTCHA asking users to select a smiling dog" loading="lazy" decoding="async"><figcaption>“Smiling dog” challenge shared by Jared baumann. Archived research screenshot.</figcaption></figure><figure><img src="https://wangzeyu.vercel.app/images/humans-vs-machines/research/cloud-horses.png" width="442" height="646" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/humans-vs-machines/research/cloud-horses.png';" alt="CAPTCHA asking users to identify clouds shaped like horses" loading="lazy" decoding="async"><figcaption>Clouds or horses? An ambiguous image-selection challenge from the research archive.</figcaption></figure></div></div>
+        </section>
+        <section class="captcha-research-row">
+          <div><h3>Learning to pass as human</h3><p class="app-project-desc">The research also encountered video tutorials explaining how to solve CAPTCHA challenges. Their existence suggests an absurd reversal: being human does not necessarily mean knowing how to pass as human. Users must learn how to interpret the machine's expectations before they can continue.</p></div>
+          <figure><img src="https://wangzeyu.vercel.app/images/humans-vs-machines/research/captcha-tutorials.png" width="904" height="571" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/humans-vs-machines/research/captcha-tutorials.png';" alt="YouTube search results showing CAPTCHA-solving tutorials" loading="lazy" decoding="async"><figcaption>CAPTCHA-solving tutorials collected in the original research. Screenshot of YouTube search results.</figcaption></figure>
+        </section>
+        <section class="captcha-research-row">
+          <div><h3>Who is helping whom?</h3><p class="app-project-desc">Early reCAPTCHA systems paired a known word with one that optical character recognition software could not reliably read. Users' responses helped transcribe scanned books while also serving as a verification task.</p><p class="app-project-desc" style="margin-top:1.2rem;">This double function became another starting point for the project: while the machine tests us, we may also be doing work for it. Verification becomes a site where human effort and machine authority overlap.</p></div>
+          <figure><img src="https://wangzeyu.vercel.app/images/humans-vs-machines/research/recaptcha-transcription.png" width="818" height="500" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/Keroseny/zeyuwang/main/images/humans-vs-machines/research/recaptcha-transcription.png';" alt="Diagram explaining known and unknown words in early reCAPTCHA transcription" loading="lazy" decoding="async"><figcaption>Early reCAPTCHA transcription mechanism. Frame collected from <a href="https://www.youtube.com/watch?v=ppM_7-uTH14" target="_blank" rel="noopener noreferrer">Worst CAPTCHA Ever</a>.</figcaption></figure>
+        </section>
+      </div>
+    </details>
+    <div class="captcha-references"><h2>Inspiration &amp; references</h2><ul class="app-project-desc"><li><a href="https://www.tecnobabele.com/come-funzionano-i-captcha-e-perche-sono-cosi-difficili/2019-11-30/" target="_blank" rel="noopener noreferrer">Come funzionano i CAPTCHA e perché sono così difficili?</a></li><li><a href="https://martin-thoma.com/captcha/" target="_blank" rel="noopener noreferrer">Tipi di captcha</a></li><li><a href="https://www.youtube.com/watch?v=ppM_7-uTH14" target="_blank" rel="noopener noreferrer">Worst CAPTCHA Ever</a></li><li><a href="https://www.youtube.com/watch?v=WqnXp6Saa8Y" target="_blank" rel="noopener noreferrer">Captcha</a></li><li><a href="https://codepen.io/oliviale/full/RwWdNRd" target="_blank" rel="noopener noreferrer">CAPTCHA Ideas</a></li></ul></div>
     <div class="project-page-divider"></div>
   </div>
   <div class="project-gallery reveal game-gallery">
@@ -3784,5 +3837,89 @@ if(location.protocol==='file:'){
   syncGame();
 })();
 </script>
+
+<script>
+/* Smooth disclosure with the same reveal timing as the home page. */
+(function () {
+  document.querySelectorAll('.captcha-research').forEach(function (details) {
+    var summary = details.querySelector('summary');
+    var content = details.querySelector('.captcha-research-content');
+    var items = Array.from(content.querySelectorAll('.captcha-research-row > div:first-child:not(.captcha-research-media), figure'));
+    var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var animation = null, fade = null;
+    var expanded = details.open;
+    items.forEach(function (item) { item.classList.add('captcha-reveal'); });
+    var observer = window.IntersectionObserver ? new IntersectionObserver(function (entries) {
+      var visible = entries.filter(function (entry) { return entry.isIntersecting; });
+      visible.sort(function (a,b) { return items.indexOf(a.target) - items.indexOf(b.target); });
+      visible.forEach(function (entry, index) {
+        entry.target.style.transitionDelay = Math.min(index, 3) * 120 + 'ms';
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.08 }) : null;
+    function resetReveal() {
+      if (observer) observer.disconnect();
+      items.forEach(function (item) {
+        item.classList.remove('is-visible');
+        item.style.transitionDelay = '';
+      });
+    }
+    function startReveal() {
+      requestAnimationFrame(function () { requestAnimationFrame(function () {
+        if (!expanded) return;
+        items.forEach(function (item) {
+          if (observer && !motion.matches) observer.observe(item);
+          else item.classList.add('is-visible');
+        });
+      }); });
+    }
+    function cancelAnimations() {
+      if (animation) { animation.cancel(); animation = null; }
+      if (fade) { fade.cancel(); fade = null; }
+      details.style.height = '';
+      details.style.overflow = '';
+    }
+    summary.setAttribute('aria-expanded', String(expanded));
+    if (expanded) startReveal();
+    summary.addEventListener('click', function (event) {
+      event.preventDefault();
+      var startHeight = details.getBoundingClientRect().height;
+      var startOpacity = parseFloat(getComputedStyle(content).opacity) || 0;
+      expanded = !expanded;
+      summary.setAttribute('aria-expanded', String(expanded));
+      cancelAnimations();
+      if (expanded) resetReveal();
+      if (motion.matches || !details.animate) {
+        details.open = expanded;
+        if (expanded) startReveal(); else resetReveal();
+        return;
+      }
+      details.open = true;
+      var endHeight = expanded ? details.getBoundingClientRect().height : summary.getBoundingClientRect().height + (details.offsetHeight - details.clientHeight);
+      details.style.overflow = 'hidden';
+      var nextAnimation = details.animate([
+        { height: startHeight + 'px' }, { height: endHeight + 'px' }
+      ], { duration: expanded ? 700 : 450, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'both' });
+      animation = nextAnimation;
+      if (expanded) startReveal();
+      else fade = content.animate([{opacity:startOpacity},{opacity:0}], {duration:250,fill:'both'});
+      nextAnimation.onfinish = function () {
+        if (animation !== nextAnimation) return;
+        details.open = expanded;
+        cancelAnimations();
+        if (!expanded) resetReveal();
+      };
+    });
+    window.addEventListener('resize', function () {
+      if (!animation) return;
+      cancelAnimations();
+      details.open = expanded;
+      if (expanded) startReveal(); else resetReveal();
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
