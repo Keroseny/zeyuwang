@@ -1382,16 +1382,19 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
 
 </style>
 <style>
-.mobile-bio-heading{display:contents}.bio-model-space{display:none}
+.bio-pin-track,.mobile-bio-heading{display:contents}.bio-model-space{display:none}
 #project-page-peepbox .project-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:4px}
 #project-page-peepbox .project-gallery img{margin:0;height:auto}
 #project-page-peepbox .gallery-video-fullrow{grid-column:1/-1}
 @media(max-width:900px){
  #project-page-peepbox .project-gallery{grid-template-columns:1fr}
  #about-page{background:rgba(0,0,0,var(--bio-shade,0))}
- #about-slide-0 .mobile-bio-heading{display:block;order:1;align-self:stretch;translate:0 var(--bio-pin,0px);z-index:1}
+ #about-slide-0 .bio-pin-track{display:block;order:1;width:100%}
+ #about-slide-0 .mobile-bio-heading{position:sticky;top:5.8rem;display:block;z-index:1;text-align:center}
+ #about-slide-0 .mobile-bio-heading h2,#about-slide-0 .mobile-bio-heading .bio-title,#about-slide-0 .about-bio .bio-text{text-align:center}
+ #about-slide-0 .mobile-bio-heading .slide-row{opacity:1;transform:none;transition:none}
  #about-slide-0 .bio-title{font-size:.7rem;font-weight:400;line-height:1.5;letter-spacing:.04em;color:rgba(255,255,255,.55);margin:0;text-align:left}
- #about-slide-0 .bio-model-space{display:block;order:3;height:var(--bio-gap,78svh);flex:none}
+ #about-slide-0 .bio-model-space{display:block;order:3;height:52vh;height:52svh;flex:none}
  #about-slide-0 .bio-text{font-size:.88rem;line-height:1.7;color:rgba(255,255,255,.6)}
  #about-slide-0 .bio-text:first-of-type{margin-top:1rem}
 }
@@ -1545,9 +1548,9 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
     <div class="about-slide-inner">
     <div class="slide-content">
       <div class="about-bio">
-      <div class="bio-left"><div class="mobile-bio-heading">
+      <div class="bio-left"><div class="bio-pin-track"><div class="mobile-bio-heading">
         <h2 class="slide-row" style="--row-delay:.05s;">Zeyu Wang</h2>
-        <p class="bio-title slide-row" style="--row-delay:.12s;">Visual &amp; Interaction Designer</p></div><div class="bio-model-space" aria-hidden="true"></div>
+        <p class="bio-title slide-row" style="--row-delay:.12s;">Visual &amp; Interaction Designer</p></div><div class="bio-model-space" aria-hidden="true"></div></div>
         <p class="bio-text slide-row" style="--row-delay:.19s;">Zeyu Wang (b. 1997, Taiyuan, China) is a visual and interaction designer based in Milan, Italy.</p>
         <p class="bio-text slide-row" style="--row-delay:.26s;">Working across visual art, new media, and live performance, his practice is rooted in spatial aesthetics, with a particular focus on liminal conditions and perceptual thresholds. Through generative systems, machine learning, and interactive visual environments, he investigates how technology mediates spatial experience and destabilizes the boundaries between observation, presence, and interpretation. His interdisciplinary approach informs the visual direction of collaborative projects and immersive spatial interventions.</p>
         <div class="cv-btns slide-row" style="--row-delay:.40s;">
@@ -4056,8 +4059,8 @@ if(location.protocol==='file:'){
 
 <script>
 (()=>{const page=document.querySelector('#about-page'),heading=page.querySelector('.mobile-bio-heading'),mq=matchMedia('(max-width:900px)');let gap=1,tick=0;
- function paint(){tick=0;if(!mq.matches)return;const y=Math.max(0,Math.min(page.scrollTop,gap));page.style.setProperty('--bio-pin',y+'px');page.style.setProperty('--bio-shade',String(.7*y/gap))}
- function measure(){if(!mq.matches||!page.clientHeight)return;const top=page.querySelector('#about-slide-0 .about-bio').getBoundingClientRect().top-page.getBoundingClientRect().top+page.scrollTop;gap=Math.max(1,page.clientHeight-top-heading.offsetHeight);page.style.setProperty('--bio-gap',gap+'px');paint()}
+ function paint(){tick=0;if(!mq.matches)return;const y=Math.max(0,Math.min(page.scrollTop,gap));page.style.setProperty('--bio-shade',String(.7*y/gap))}
+ function measure(){if(!mq.matches||!page.clientHeight)return;gap=Math.max(1,page.querySelector('.bio-model-space').offsetHeight);paint()}
  page.addEventListener('scroll',()=>{if(!tick)tick=requestAnimationFrame(paint)},{passive:true});new ResizeObserver(measure).observe(page);new ResizeObserver(measure).observe(heading);mq.addEventListener('change',measure);measure()})();
 </script></body>
 </html>
