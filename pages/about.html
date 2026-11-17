@@ -1406,6 +1406,13 @@ body.home-cloud-interactive #home-cloud-layer #hero-canvas {pointer-events:auto;
  #about-slide-0 .bio-text{font-size:.88rem;line-height:1.7;color:rgba(255,255,255,.6)}
  #about-slide-0 .bio-text:first-of-type{margin-top:1rem}
 }
+</style><style>
+@media(min-width:901px){
+ #project-page-peepbox .project-gallery,.project-gallery.lycosia-grid{display:block;columns:2;column-gap:4px}
+ [id^="project-page"] .project-gallery,.photography-grid{--image-gap:4px;column-gap:var(--image-gap)}
+ #project-page-peepbox .project-gallery img,[id^="project-page"] .project-gallery img,.photography-grid img,.project-gallery > .gallery-video-wrap,.project-gallery > .gallery-video-fullrow{margin-bottom:var(--image-gap)}
+ .project-gallery .gallery-video-fullrow .gallery-video-wrap{margin-bottom:0}
+}
 </style></head>
 <body>
 
@@ -3747,13 +3754,13 @@ if(location.protocol==='file:'){
       var rows=mobile?cards.length:Math.ceil(cards.length/2);
       grid.style.height=Math.max(0,rows*(rowHeight+gap)-gap)+'px';return;
     }
-    var top=0;
+    var top=0, verticalGap=gap;
     var wide=cards.filter(function(c){return c.classList.contains('art-wide');});
     var rest=cards.filter(function(c){return !c.classList.contains('art-wide');});
-    wide.forEach(function(c){put(c,0,top,width);top+=h(c,width)+gap;});
-    if(mobile){rest.forEach(function(c){put(c,0,top,width);top+=h(c,width)+gap;});grid.style.height=Math.max(0,top-gap)+'px';return;}
+    wide.forEach(function(c){put(c,0,top,width);top+=h(c,width)+verticalGap;});
+    if(mobile){rest.forEach(function(c){put(c,0,top,width);top+=h(c,width)+verticalGap;});grid.style.height=Math.max(0,top-gap)+'px';return;}
     // Find the closest column totals, including gutters, without cropping any image.
-    var heights=rest.map(function(c){return h(c,colWidth)+gap;});
+    var heights=rest.map(function(c){return h(c,colWidth)+verticalGap;});
     var total=heights.reduce(function(a,b){return a+b;},0), best=Infinity, mask=rest.length===1?1:0;
     for(var bits=1;bits<(1<<rest.length)-1;bits++){
       var left=0;for(var j=0;j<rest.length;j++)if(bits&(1<<j))left+=heights[j];
@@ -3761,7 +3768,7 @@ if(location.protocol==='file:'){
     }
     var bottoms=[top,top];
     rest.forEach(function(c,i){var col=(mask&(1<<i))?0:1;put(c,col*(colWidth+gap),bottoms[col],colWidth);bottoms[col]+=heights[i];});
-    grid.style.height=(Math.max.apply(null,bottoms)-gap)+'px';
+    grid.style.height=(Math.max.apply(null,bottoms)-verticalGap)+'px';
     });
   };
   grids.forEach(function(grid){var previousWidth=0;new ResizeObserver(function(){var w=grid.clientWidth;if(w!==previousWidth){previousWidth=w;layoutPhotography();}}).observe(grid);});
